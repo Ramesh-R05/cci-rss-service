@@ -1,7 +1,7 @@
 {
   "name": "rss-service",
   "version": "0.0.1",
-  "main": "stubs.js",
+  "main": "rssService.js",
   "repository": {
     "type": "git",
     "url": "https://bauer-au-deploy:Mention-Face-Wine-Scientist-4@bitbucket.org/bauermediaau/rss-service.git"
@@ -12,7 +12,7 @@
   "dependencies": {
     "aws-sdk": "^2.1.17",
     "body-parser": "1.x",
-    "express": "3.x",
+    "express": "4.x",
     "joi": "^6.0.8",
     "node-uuid": "^1.4.3"
   },
