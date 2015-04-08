@@ -4,14 +4,13 @@ var express = require('express'),
 
 var app = express();
 
-app.use(bodyParser.json);
+app.use(bodyParser.json());
 app.use(function(req, res, next) {
   console.log('[RSS SERVICE] ' + req.method + ': ' + req.url);
   next();
 });
 
 /* ---------- ROUTE APIS ---------- */
-
 app.use('/rss', rssRoutes); //all routes prefix with 'rss'
 
 /// catch 404 and forwarding to error handler
