@@ -14,7 +14,9 @@
     "body-parser": "1.x",
     "express": "4.x",
     "joi": "^6.0.8",
-    "node-uuid": "^1.4.3"
+    "node-uuid": "^1.4.3",
+    "solr-client": "^0.5.0",
+    "q": "^1.2.0"
   },
   "devDependencies": {
     "chai": "^2.1.1",

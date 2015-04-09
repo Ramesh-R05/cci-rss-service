@@ -3,7 +3,6 @@ var express = require('express'),
     rssRoutes = require('./routes/rss');
 
 var app = express();
-
 app.use(bodyParser.json());
 app.use(function(req, res, next) {
   console.log('[RSS SERVICE] ' + req.method + ': ' + req.url);
@@ -44,7 +43,7 @@ app.use(function(err, req, res, next) {
     });
 });
 
-app.listen(8080, function() {
+app.listen(8001, function() {
   console.log('[RSS SERVICE] started at port: 8080');
 }).on('error', function(err) {
   if(err.errno === 'EADDRINUSE') {
