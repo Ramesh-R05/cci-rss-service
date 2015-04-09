@@ -21,7 +21,7 @@ module.exports = {
         var client = solr.createClient(options);
         client.search('q=*%3A*&fq=nodeTypeAlias_t%3A"BauerArticle"&sort=pageDateCreated_dt+desc&rows=50', function(err, obj){
             if (!err) {
-                if (obj.response.numFound > 0) {
+                    if (obj.response.numFound > 0) {
                     deferred.resolve(obj.response.docs);
 
                 } else {
