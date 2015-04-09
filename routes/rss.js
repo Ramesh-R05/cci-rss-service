@@ -13,6 +13,4 @@ router.route('/aww').get(function(req, res) {
     });
 });
 
-
-
 module.exports = router;
