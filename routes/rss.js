@@ -5,7 +5,7 @@ var express = require('express'),
     solrHelper = require('../helpers/solrHelper');
 
 router.route('/aww').get(function(req, res) {
-    solrHelper.getSearchItems()
+    solrHelper.getSearchItems(req)
     .then(function(data){
         res.json({ documents: data });
     }, function(err) {
