@@ -2,7 +2,10 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     rssRoutes = require('./routes/rss');
 
+var PORT = 8001;
+
 var app = express();
+
 app.use(bodyParser.json());
 app.use(function(req, res, next) {
   console.log('[RSS SERVICE] ' + req.method + ': ' + req.url);
@@ -43,11 +46,11 @@ app.use(function(err, req, res, next) {
     });
 });
 
-app.listen(8001, function() {
-  console.log('[RSS SERVICE] started at port: 8080');
+app.listen(PORT, function() {
+  console.log('[RSS SERVICE] started at port: ' + PORT);
 }).on('error', function(err) {
   if(err.errno === 'EADDRINUSE') {
-    console.error('[RSS SERVICE] port 8080 already in use');
+    console.error('[RSS SERVICE] port ' + PORT + ' already in use');
   } else {
     throw err;
   }
