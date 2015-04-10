@@ -1,10 +1,10 @@
 'use strict';
 
 var nock = require('nock'),
-    proxyquire = require('proxyquire')
+    proxyquire = require('proxyquire');
 
 var urlHelperStub = {
-        getSolrRequestUrl: function() {
+        getSolrCoreFromRequest: function() {
             return 'aww-search';
         }
     },
