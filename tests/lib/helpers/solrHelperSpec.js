@@ -1,16 +1,17 @@
 'use strict';
 
-var nock = require('nock'),
-    proxyquire = require('proxyquire');
+var nock = require('nock');
+var proxyquire = require('proxyquire');
 
 var urlHelperStub = {
-        getSolrCoreFromRequest: function() {
-            return 'aww-search';
-        }
-    },
-    solrHelper = proxyquire('../../../lib/helpers/solrHelper', {
-        './urlHelper': urlHelperStub
-    });
+    getSolrCoreFromRequest: function() {
+        return 'aww-search';
+    }
+};
+
+var solrHelper = proxyquire('../../../lib/helpers/solrHelper', {
+    './urlHelper': urlHelperStub
+});
 
 describe('solrHelper', function() {
 

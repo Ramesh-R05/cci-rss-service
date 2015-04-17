@@ -1,7 +1,7 @@
 'use strict';
 
-var urlHelper = require('../../../lib/helpers/urlHelper'),
-    shared = require('mocha-shared');
+var urlHelper = require('../../../lib/helpers/urlHelper');
+var shared = require('mocha-shared');
 
 describe('urlHelper', function() {
     var request = {

@@ -1,6 +1,6 @@
-var express = require('express'),
-    bodyParser = require('body-parser'),
-    rssRoutes = require('./lib/routes/rss');
+var express = require('express');
+var bodyParser = require('body-parser');
+var rssRoutes = require('./lib/routes/rss');
 
 var PORT = 8001;
 
