@@ -7,19 +7,19 @@ describe('urlHelper', function() {
     var request = {
             originalUrl: '/rss/aww'
         },
-        expectedResult= 'aww-search';
+        expectedResult= 'aww';
 
-    shared.behaviour('retrieve solr core from request', function(req) {
-        it("should return solr core equal to '" + expectedResult + "'", function() {
-            var actualResult = urlHelper.getSolrCoreFromRequest(req);
+    shared.behaviour('retrieve site name from request', function(req) {
+        it("should return site name equal to '" + expectedResult + "'", function() {
+            var actualResult = urlHelper.getSiteNameFromRequest(req);
             expect(actualResult).to.equal(expectedResult);
         });
     });
 
-    describe('getSolrCoreFromRequest', function() {
+    describe('getSiteNameFromRequest', function() {
 
         describe('when Request does not end with /', function() {
-            shared.behavior('retrieve solr core from request', request);
+            shared.behavior('retrieve site name from request', request);
         });
 
         describe('when Request ends with /', function() {
@@ -28,7 +28,7 @@ describe('urlHelper', function() {
                 request.originalUrl += '/';
             });
 
-            shared.behavior('retrieve solr core from request', request);
+            shared.behavior('retrieve site name from request', request);
         });
     });
 });

@@ -3,6 +3,7 @@ var sinon = require('sinon');
 var sinonChai = require('sinon-chai');
 chai.config.includeStack = true;
 chai.use(sinonChai);
+global.config = require('config');
 global.expect = chai.expect;
 global.should = chai.should();
 global.AssertionError = chai.AssertionError;

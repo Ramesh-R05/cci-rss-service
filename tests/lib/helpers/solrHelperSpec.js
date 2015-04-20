@@ -37,7 +37,7 @@ describe('solrHelper', function() {
             });
 
             it('should return items from a deferred promise', function() {
-                var promise = solrHelper.getSearchItems({});
+                var promise = solrHelper.getSearchItems({originalUrl: '/rss/aww'});
                 promise.then(function(data) {
                     expect(data).to.eql(solrResult.docs);
                     done();
@@ -69,7 +69,7 @@ describe('solrHelper', function() {
             });
 
             it('should return items from a deferred promise', function() {
-                var promise = solrHelper.getSearchItems({});
+                var promise = solrHelper.getSearchItems({originalUrl: '/rss/aww'});
                 promise.then(function(data) {
                     expect(data).to.be.null;
                     done();
@@ -89,7 +89,7 @@ describe('solrHelper', function() {
             });
 
             it ('should return an error', function() {
-                var promise = solrHelper.getSearchItems({});
+                var promise = solrHelper.getSearchItems({originalUrl: '/rss/aww'});
                 promise.then(function(data) {
                     assert.ok(false, 'deferred promise should not have data');
                     done();
