@@ -1,10 +1,10 @@
 {
-  "solr-host": {
-    "default": "solr-cluster01.digital.uat.local"
-  },
-  "rss-channel": {
-    "aww": {
-      "site_url": "http://uat.aww.wn.bauer-media.net.au"
+  "solr": {
+    "host": {
+      "default": "solr-cluster01.digital.uat.local"
     }
+  },
+  "rss": {
+    "aww": "http://uat.aww.wn.bauer-media.net.au"
   }
 }

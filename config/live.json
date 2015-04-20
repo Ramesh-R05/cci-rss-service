@@ -2,9 +2,7 @@
   "solr-host": {
     "aww": "solr.aww.wn.live.local"
   },
-  "rss-channel": {
-    "aww": {
-      "site_url": "http://www.aww.com.au"
-    }
+  "rss": {
+    "aww": "http://www.aww.com.au"
   }
 }

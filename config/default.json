@@ -1,25 +1,22 @@
 {
-  "solr-host": {
-    "default": "solr-cluster01.digital.dev.local"
-  },
-  "solr-port": 80,
-  "solr-path": "/solr",
-  "solr-core": {
-    "aww": "aww-search"
-  },
-  "solr-query": {
-    "aww": {
-      "nodeType": "BauerArticle",
-      "sortField": "pageDateCreated_dt"
+  "solr": {
+    "host": {
+      "default": "solr-cluster01.digital.dev.local"
     },
-    "limit": 50
-  },
-  "rss-channel": {
-    "aww": {
-      "title": "Recipes, Celebrity News, Diet, Living, Family, Food Recipes : Australian Women's Weekly",
-      "site_url": "http://dev.aww.wn.bauer-media.net.au",
-      "description": "Food Recipes, Latest Recipe Collections, Celebrity News, Diet, Living, Family, Parenting, Relationships, Style - Australian Women’s Weekly.",
-      "ttl": 60
+    "port": 80,
+    "path": "/solr",
+    "core": {
+      "aww": "aww-search"
+    },
+    "query": {
+      "aww": {
+        "nodeType": "BauerArticle",
+        "sortField": "pageDateCreated_dt"
+      },
+      "limit": 50
     }
+  },
+  "rss": {
+    "aww": "http://dev.aww.wn.bauer-media.net.au"
   }
 }
