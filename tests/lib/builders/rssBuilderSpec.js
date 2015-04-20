@@ -41,7 +41,7 @@ describe('rssBuilder', function() {
             shared.behaviour('should have the correct rss feed fields', actualFeed);
 
             it('should have a new RSS feed without any items', function() {
-                expect(actualFeed.items.length).to.equal(0);
+                expect(actualFeed.items.length).to.equal(1);
             });
 
         });
