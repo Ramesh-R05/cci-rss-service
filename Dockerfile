@@ -9,6 +9,8 @@ RUN npm config set proxy http://proxy.mgmt.local:3128 && \
 
 ADD . /app
 
+RUN npm run test
+
 EXPOSE 8001
 
 CMD ["npm", "run", "start"]
