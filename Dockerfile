@@ -3,11 +3,13 @@ FROM node:0.12
 ADD package.json /tmp/package.json
 WORKDIR /tmp
 
-RUN npm config set proxy http://proxy.mgmt.local:3128 && \
-    npm config set https-proxy http://proxy.mgmt.local:3128 && \
+RUN npm config set proxy http://sydproxy.acp.net:8080 && \
+    npm config set https-proxy http://sydproxy.acp.net:8080 && \
     npm install
 
-COPY /tmp/node_modules /app/
+RUN mkdir /app
+
+RUN cp -r node_modules /app
 
 ADD . /app
 WORKDIR /app
