@@ -1,6 +1,8 @@
 {
-  "solr-host": {
-    "aww": "solr.aww.wn.live.local"
+  "solr": {
+    "host": {
+      "aww": "solr-cluster01.digital.uat.local"
+    }
   },
   "rss": {
     "aww": "http://www.aww.com.au"
