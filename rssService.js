@@ -19,7 +19,7 @@ app.use('/rss', rssRoutes); //all routes prefix with 'rss'
 
 /* ---------- AWS LOAD BALANCER ---------- */
 app.get('/api/verifysite', function(req, res) {
-    res.sendStatus(200);
+    res.json({hi: 'Matt'});
 });
 
 /// catch 404 and forwarding to error handler
