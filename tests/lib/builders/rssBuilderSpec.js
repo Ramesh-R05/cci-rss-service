@@ -11,7 +11,7 @@ describe('rssBuilder', function() {
         pageTitle_t: 'Item Title',
         pageMetaDescription_t: 'Item Short Teaser Summary',
         contentImageUrl_t: 'http://what.image.com'
-    }
+    };
 
     shared.behaviour('should have the correct rss feed fields', function(actualFeedOptions) {
         var expectedResult = {
