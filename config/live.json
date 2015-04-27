@@ -1,7 +1,7 @@
 {
   "solr": {
     "host": {
-      "aww": "solr-cluster01.digital.uat.local"
+      "default": "solr-cluster02.digital.live.local"
     }
   },
   "rss": {
