@@ -1,22 +1,163 @@
 {
   "solr": {
-    "host": {
-      "default": "solr-cluster01.digital.dev.local"
-    },
+    "host": "solr-cluster01.digital.dev.local",
     "port": 80,
     "path": "/solr",
-    "core": {
-      "aww": "aww-search"
+    "core": "{{site}}-search"
+  },
+
+  "queries": {
+
+    "channel": {
+
+      "default": {
+        "q": "*:*",
+        "fq": "nodeTypeAlias_t:\"Homepage\"",
+        "rows": "1"
+      }
     },
-    "query": {
-      "aww": {
-        "nodeType": "BauerArticle",
-        "sortField": "pageDateCreated_dt"
+
+    "item": {
+
+      "default": {
+        "q": "*:*",
+        "fq": "nodeTypeAlias_t:(BauerArticle OR Article)",
+        "sort": "pageDateCreated_dt desc",
+        "rows": "50"
       },
-      "limit": 50
+
+      "campaigns": {
+        "q": "contentCampaign_t:*",
+        "fq": "nodeTypeAlias_t:(BauerArticle OR Article)",
+        "sort": "pageDateCreated_dt desc",
+        "rows": "50"
+      }
     }
   },
-  "rss": {
-    "aww": "http://dev.aww.wn.bauer-media.net.au"
+
+
+  "mappings": {
+
+    "channel": {
+
+      "default": {
+        "title": {
+          "map": [ "pageTitle_t" ]
+        },
+        "site_url": {
+          "map": [ "siteUrl_t" ]
+        },
+        "description": {
+          "map": [ "pageMetaDescription_t" ]
+        },
+        "copyright": {
+          "map": "mapCopyright"
+        },
+        "ttl": {
+          "map": 60
+        }
+      },
+
+      "campaign": {
+        "custom_namespaces": {
+          "mapObject": {
+            "mvcf": {
+              "map": "http://www.bauer-media.com.au"
+            }
+          }
+        }
+      }
+    },
+
+    "item": {
+
+      "default": {
+        "title": {
+          "map": [ "pageTitle_t", "contentTitle_t", "nodeName_t" ]
+        },
+        "description": {
+          "map": [ "pageMetaDescription_t", "contentSummary_t" ]
+        },
+        "url": {
+          "map": "mapItemUrl(siteUrl_t, url_t)"
+        },
+        "enclosure": {
+          "mapObject": {
+            "url": {
+              "map": [ "contentImageUrl_t" ],
+              "format": "%s?width=800"
+            },
+            "type": {
+              "map": "mapMimeType(contentImageUrl_t)"
+            }
+          }
+        }
+      },
+
+      "campaigns": {
+        "custom_elements": {
+          "mapArray": {
+            "mvcf:is_bauer_native": {
+              "map": false
+            },
+            "mvcf:is_bauer_advertorial": {
+              "map": false
+            }
+          }
+        }
+      }
+
+    }
+
+  },
+
+
+  "routes": {
+
+    "default": {
+      "path": "/",
+      "data": [
+        {
+          "key": "channel",
+          "query": "channel.default"
+        },
+        {
+          "key": "items",
+          "query": "item.default"
+        }
+      ]
+    },
+
+    "campaigns": {
+      "path": "/campaigns",
+      "data": [
+        {
+          "key": "channel",
+          "query": "channel.default",
+          "mappings": [ "channel.default", "channel.campaigns" ]
+        },
+        {
+          "key": "items",
+          "query": "item.campaigns",
+          "mappings": [ "item.default", "item.campaigns" ]
+        }
+      ]
+    }
+
+  },
+
+
+  "sites": {
+
+    "food": {
+      "queries": {
+        "item": {
+          "default": {
+            "fq": "nodeTypeAlias_t:(FoodArticle)"
+          }
+        }
+      }
+    }
+
   }
 }
