@@ -3,7 +3,7 @@
     "host": "solr-cluster01.digital.dev.local",
     "port": 80,
     "path": "/solr",
-    "core": "{{site}}-search"
+    "core": "aww-search"
   },
 
   "queries": {
@@ -26,7 +26,7 @@
         "rows": "50"
       },
 
-      "campaigns": {
+      "sponsors": {
         "q": "contentCampaign_t:*",
         "fq": "nodeTypeAlias_t:(BauerArticle OR Article)",
         "sort": "pageDateCreated_dt desc",
@@ -35,7 +35,6 @@
     }
   },
 
-
   "mappings": {
 
     "channel": {
@@ -43,6 +42,9 @@
       "default": {
         "title": {
           "map": [ "pageTitle_t" ]
+        },
+        "feed_url": {
+          "map": "siteUrl_t"
         },
         "site_url": {
           "map": [ "siteUrl_t" ]
@@ -54,15 +56,15 @@
           "map": "mapCopyright"
         },
         "ttl": {
-          "map": 60
+          "value": 60
         }
       },
 
-      "campaign": {
+      "sponsors": {
         "custom_namespaces": {
           "mapObject": {
             "mvcf": {
-              "map": "http://www.bauer-media.com.au"
+              "value": "http://feed.aww.com.au/ns/mvcf"
             }
           }
         }
@@ -94,14 +96,17 @@
         }
       },
 
-      "campaigns": {
+      "sponsors": {
+        "categories": {
+            "mapArray": [ "mapCampaignSponsor(contentCampaign_t)" ]
+        },
         "custom_elements": {
-          "mapArray": {
+          "mapObjectArray": {
             "mvcf:is_bauer_native": {
-              "map": false
+              "map": "mapCampaignType(contentCampaign_t, native)"
             },
             "mvcf:is_bauer_advertorial": {
-              "map": false
+              "map": "mapCampaignType(contentCampaign_t, advertorial)"
             }
           }
         }
@@ -110,7 +115,6 @@
     }
 
   },
-
 
   "routes": {
 
@@ -128,24 +132,23 @@
       ]
     },
 
-    "campaigns": {
-      "path": "/campaigns",
+    "sponsors": {
+      "path": "/sponsors",
       "data": [
         {
           "key": "channel",
           "query": "channel.default",
-          "mappings": [ "channel.default", "channel.campaigns" ]
+          "mappings": [ "channel.default", "channel.sponsors" ]
         },
         {
           "key": "items",
-          "query": "item.campaigns",
-          "mappings": [ "item.default", "item.campaigns" ]
+          "query": "item.sponsors",
+          "mappings": [ "item.default", "item.sponsors" ]
         }
       ]
     }
 
   },
-
 
   "sites": {
 

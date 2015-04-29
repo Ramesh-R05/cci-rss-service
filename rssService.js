@@ -60,10 +60,10 @@ app.use(function(err, req, res, next) {
 });
 
 app.listen(PORT, function() {
-  console.log('started at port: ' + PORT);
+  console.log('Started at port: ' + PORT);
 }).on('error', function(err) {
   if(err.errno === 'EADDRINUSE') {
-    console.error('port ' + PORT + ' already in use');
+    console.error('Port ' + PORT + ' already in use');
   } else {
     throw err;
   }
