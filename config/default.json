@@ -44,7 +44,7 @@
           "map": [ "pageTitle_t" ]
         },
         "feed_url": {
-          "map": "siteUrl_t"
+          "map": "mapFeedUrl(__request)"
         },
         "site_url": {
           "map": [ "siteUrl_t" ]
