@@ -3,7 +3,7 @@
     "host": "solr-cluster01.digital.dev.local",
     "port": 80,
     "path": "/solr",
-    "core": "aww-search"
+    "core": "{{site}}-search"
   },
 
   "queries": {
@@ -30,8 +30,16 @@
         "q": "contentCampaign_t:*",
         "fq": "nodeTypeAlias_t:(BauerArticle OR Article)",
         "sort": "pageDateCreated_dt desc",
+        "rows": "500"
+      },
+
+      "recipes": {
+        "q": "*:*",
+        "fq": "nodeTypeAlias_t:(Recipe)",
+        "sort": "pageDateCreated_dt desc",
         "rows": "50"
       }
+
     }
   },
 
@@ -41,16 +49,16 @@
 
       "default": {
         "title": {
-          "map": [ "pageTitle_t" ]
+          "map": "pageTitle_t"
         },
         "feed_url": {
           "map": "mapFeedUrl(__request)"
         },
         "site_url": {
-          "map": [ "siteUrl_t" ]
+          "map": "siteUrl_t"
         },
         "description": {
-          "map": [ "pageMetaDescription_t" ]
+          "map": "pageMetaDescription_t"
         },
         "copyright": {
           "map": "mapCopyright"
@@ -78,7 +86,7 @@
           "map": [ "pageTitle_t", "contentTitle_t", "nodeName_t" ]
         },
         "description": {
-          "map": [ "pageMetaDescription_t", "contentSummary_t" ]
+          "map": "pageMetaDescription_t"
         },
         "url": {
           "map": "mapItemUrl(siteUrl_t, url_t)"
@@ -86,7 +94,7 @@
         "enclosure": {
           "mapObject": {
             "url": {
-              "map": [ "contentImageUrl_t" ],
+              "map": "contentImageUrl_t",
               "format": "%s?width=800"
             },
             "type": {
@@ -98,7 +106,7 @@
 
       "sponsors": {
         "categories": {
-            "mapArray": [ "mapCampaignSponsor(contentCampaign_t)" ]
+          "mapArray": [ "mapCampaignSponsor(contentCampaign_t)" ]
         },
         "custom_elements": {
           "mapObjectArray": {
@@ -146,6 +154,22 @@
           "mappings": [ "item.default", "item.sponsors" ]
         }
       ]
+    },
+
+    "recipes": {
+      "path": "/recipes",
+      "data": [
+        {
+          "key": "channel",
+          "query": "channel.default",
+          "mappings": [ "channel.default" ]
+        },
+        {
+          "key": "items",
+          "query": "item.recipes",
+          "mappings": [ "item.default" ]
+        }
+      ]
     }
 
   },
@@ -156,7 +180,23 @@
       "queries": {
         "item": {
           "default": {
-            "fq": "nodeTypeAlias_t:(FoodArticle)"
+            "fq": "nodeTypeAlias_t:(FoodArticle OR FoodStudioArticle OR Article)"
+          },
+          "sponsors": { 
+            "fq": "nodeTypeAlias_t:(FoodArticle OR FoodStudioArticle OR Article)"
+          }
+        }
+      }
+    },
+
+    "food-nz": {
+      "queries": {
+        "item": {
+          "default": {
+            "fq": "nodeTypeAlias_t:(FoodArticle OR FoodStudioArticle OR Article)"
+          },
+          "sponsors": { 
+            "fq": "nodeTypeAlias_t:(FoodArticle OR FoodStudioArticle OR Article)"
           }
         }
       }
