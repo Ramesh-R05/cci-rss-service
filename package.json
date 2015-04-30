@@ -22,7 +22,8 @@
     "rss": "^1.1.1",
     "solr-client": "^0.5.0",
     "q": "^1.2.0",
-    "node-cache":  "^2.1.1"
+    "node-cache": "^2.1.1",
+    "@bxm/rss-builder": "^1.1.2"
   },
   "devDependencies": {
     "chai": "^2.1.1",
