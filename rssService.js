@@ -22,6 +22,11 @@ app.get('/api/verifysite', function(req, res) {
     res.json({hi: 'Matt'});
 });
 
+/* ---------- Version information ---------- */
+app.get('/version', function(req, res) {
+    res.json(require('./version'));
+});
+
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {
     var err = new Error('Not Found');
