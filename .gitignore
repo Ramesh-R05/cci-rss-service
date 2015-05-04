@@ -3,3 +3,4 @@ app.log
 node_modules/
 coverage/
 run.bat
+npm-debug.log

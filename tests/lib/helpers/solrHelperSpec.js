@@ -2,7 +2,7 @@
 
 var nock = require('nock');
 var proxyquire = require('proxyquire');
-
+/*
 var urlHelperStub = {
     getSiteNameFromRequest: function() {
         return 'aww';
@@ -173,3 +173,4 @@ describe('solrHelper', function() {
     });
 
 });
+*/
