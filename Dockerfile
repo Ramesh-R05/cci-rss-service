@@ -14,4 +14,4 @@ WORKDIR /app
 
 EXPOSE 8001
 
-CMD npm run start > logs/app.log
+CMD npm run start > /var/log/app.log
