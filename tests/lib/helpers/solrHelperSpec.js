@@ -1,176 +1,80 @@
-'use strict';
+﻿var solrHelper = require('../../../lib/helpers/solrHelper');
+var configHelper = require('../../../lib/helpers/configHelper');
+var solrQueries = require('../mocks/solrQueries');
 
-var nock = require('nock');
-var proxyquire = require('proxyquire');
-/*
-var urlHelperStub = {
-    getSiteNameFromRequest: function() {
-        return 'aww';
-    }
-};
+solrQueries.mock('aww');
 
-var solrHelper = proxyquire('../../../lib/helpers/solrHelper', {
-    './urlHelper': urlHelperStub
-});
+describe('solrHelper', function () {
 
-describe('solrHelper', function() {
+    var testProps = {
+        site: 'aww',
+        route: {
+            "path": "/",
+            "data": [
+              {
+                  "key": "channel",
+                  "query": "channel.default"
+              },
+              {
+                  "key": "items",
+                  "query": "item.default"
+              }
+            ]
+        }
+    };
 
-    describe('getSearchItems', function() {
-        var solrItemsResult = {
-            responseHeader: {
-                status: 0,
-                QTime: 2
-            },
-            response: {
-                numFound: 1,
-                start: 0,
-                docs: 'hello world!'
-            }
-        };
+    testProps.config = configHelper.config(testProps.site, testProps);
 
-        describe('when searching for homepage data', function() {
+    describe('loadData', function () {
 
-            before(function() {
-                nock('http://solr-cluster01.digital.dev.local')
-                    .get('/solr/aww-search/select?q=*%3A*&fq=nodeTypeAlias_t%3A"BauerArticle"&sort=pageDateCreated_dt+desc&rows=50&wt=json')
-                    .reply(200, JSON.stringify(solrItemsResult));
+        describe('when: properties set', function () {
+
+            it('should return an array of data sources', function () {
+
+                var actual = solrHelper.loadData(testProps);
+                return actual.then(function (data) {
+                    expect(data.length).to.equal(2);
+                    expect(data[0].key).to.equal('channel');
+                    expect(data[0].data).to.exist.and.not.be.empty;
+                    expect(data[0].mappings).to.exist.and.not.be.empty;
+                    expect(data[1].key).to.equal('items');
+                    expect(data[1].data).to.exist.and.not.be.empty;
+                    expect(data[1].mappings).to.exist.and.not.be.empty;
+                })
+
             });
 
-            describe('and received successful response from solr', function() {
-
-                describe('and with valid data', function() {
-
-                    before(function() {
-                        nock('http://solr-cluster01.digital.dev.local')
-                            .get('/solr/aww-search/select?q=*%3A*&fq=nodeTypeAlias_t%3A"Homepage"&wt=json')
-                            .reply(200, JSON.stringify(solrItemsResult));
-                    });
-
-                    it('should return successful header data from a deferred proomise', function() {
-                        var promise = solrHelper.getSearchItems({originalUrl: '/rss/aww'});
-                        promise.then(function(data) {
-                            expect(data[0]).to.equal(solrItemsResult.response.docs)
-                        }, function(err) {
-                            assert.ok(false, 'deferred promise for header data should not have error');
-                        }).done();
-                    });
-
-                });
-
-                describe('and with no valid data', function() {
-
-                    before(function() {
-                        solrItemsResult.response = {
-                            numFound: 0,
-                            start: 0,
-                            docs: []
-                        };
-
-                        nock('http://solr-cluster01.digital.dev.local')
-                            .get('/solr/aww-search/select?q=*%3A*&fq=nodeTypeAlias_t%3A"Homepage"&wt=json')
-                            .reply(200, JSON.stringify(solrItemsResult));
-                    });
-
-                    it('should return error header data from a deferred promise', function() {
-                        var promise = solrHelper.getSearchItems({originalUrl: '/rss/aww'});
-                        promise.then(function(data) {
-                            assert.ok(false, 'deferred promise for header data should not have data');
-                        }, function(err) {
-                            expect(err).to.not.be.null;
-                        }).done();
-                    });
-                });
-            });
-
-            describe('and received unsuccesful response from solr', function() {
-
-                before(function() {
-                    nock('http://solr-cluster01.digital.dev.local')
-                        .get('/solr/aww-search/select?q=*%3A*&fq=nodeTypeAlias_t%3A"Homepage"&wt=json')
-                        .reply(400);
-                });
-
-                it('should return error header data from a deferred promise', function() {
-                    var promise = solrHelper.getSearchItems({originalUrl: '/rss/aww'});
-                    promise.then(function(data) {
-                        assert.ok(false, 'deferred promise for header data should not have data');
-                    }, function(err) {
-                        expect(err).to.not.be.null;
-                    }).done();
-                });
-            });
         });
 
-        describe('when searching for items data', function() {
+        describe('when: properties not set', function () {
 
-            before(function() {
-                nock('http://solr-cluster01.digital.dev.local')
-                    .get('/solr/aww-search/select?q=*%3A*&fq=nodeTypeAlias_t%3AHomepage&wt=json')
-                    .reply(200, JSON.stringify(solrItemsResult));
+            it('should throw an error', function () {
+                expect(solrHelper.loadData.bind(solrHelper, null)).to.throw(Error);
             });
 
-            describe('and received successful response from solr', function() {
+        });
 
-                describe('with valid items', function() {
+        describe('when: null query configuration', function () {
 
-                    before(function() {
-                        nock('http://solr-cluster01.digital.dev.local')
-                            .get('/solr/aww-search/select?q=*%3A*&fq=nodeTypeAlias_t%3A"Homepage"&wt=json')
-                            .reply(200, JSON.stringify(solrItemsResult));
-                    });
+            var originalVal = testProps.config.queries.channel.default;
 
-                    //shared.behaviour('return successful result items from a deferred promise', solrItemsResult.response.docs);
-                    it('should return successful items data from a deferred proomise', function() {
-                        var promise = solrHelper.getSearchItems({originalUrl: '/rss/aww'});
-                        promise.then(function(data) {
-                            expect(data[1]).to.equal(solrItemsResult.response.docs)
-                        }, function(err) {
-                            assert.ok(false, 'deferred promise for header data should not have error');
-                        }).done();
-                    });
-                });
+            before(function () {
+                testProps.config.queries.channel.default = null;
+            });
 
-                describe('with no items', function() {
+            after(function () {
+                testProps.config.queries.channel.default = originalVal;
+            });
 
-                    before(function() {
-                        solrItemsResult.response.numFound = 0;
-                        solrItemsResult.response.docs = [];
-
-                        nock('http://solr-cluster01.digital.dev.local')
-                            .get('/solr/aww-search/select?q=*%3A*&fq=nodeTypeAlias_t%3A"BauerArticle"&sort=pageDateCreated_dt+desc&rows=50&wt=json')
-                            .reply(200, JSON.stringify(solrItemsResult));
-                    });
-
-                    it('should return successful items data from a deferred proomise', function() {
-                        var promise = solrHelper.getSearchItems({originalUrl: '/rss/aww'});
-                        promise.then(function(data) {
-                            expect(data[1]).to.be.null;
-                        }, function(err) {
-                            assert.ok(false, 'deferred promise for header data should not have error');
-                        }).done();
-                    });
+            it('should throw an error', function () {
+                var actual = solrHelper.loadData(testProps);
+                return actual.catch(function (err) {
+                    expect(err.toLowerCase()).to.have.string('query configuration not found for key:')
                 });
             });
 
-            describe('and received unsuccesful response from Solr', function() {
-                before(function() {
-                    nock('http://solr-cluster01.digital.dev.local')
-                        .get('/solr/aww-search/select?q=*%3A*&fq=nodeTypeAlias_t%3A"BauerArticle"&sort=pageDateCreated_dt+desc&rows=50&wt=json')
-                        .reply(400);
-                });
-
-                it('should return error items data from a deferred promise', function() {
-                    var promise = solrHelper.getSearchItems({originalUrl: '/rss/aww'});
-                    promise.then(function(data) {
-                        assert.ok(false, 'deferred promise for items data should not have data');
-                    }, function(err) {
-                        expect(err).to.not.be.null;
-                    }).done();
-                });
-            });
         });
 
     });
 
 });
-*/
