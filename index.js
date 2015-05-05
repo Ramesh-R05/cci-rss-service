@@ -6,7 +6,7 @@ global.config = require('config');
 
 var version = require('./version');
 
-var PORT = 8001;
+var PORT = process.env.PORT || 8001;
 
 var app = express();
 
