@@ -56,19 +56,21 @@ describe('mappingHelper', function () {
             var channelData;
             var itemsData;
 
-            for (var i = 0; i < actual.length; i++)
-            {
-                var src = actual[i];
+            before(function () {
 
-                if(src.key === 'channel' && !channelData)
-                {
-                    channelData = src.data;
+                for (var i = 0; i < actual.length; i++) {
+                    var src = actual[i];
+
+                    if (src.key === 'channel' && !channelData) {
+                        channelData = src.data;
+                    }
+
+                    if (src.key === 'items' && !itemsData) {
+                        itemsData = src.data;
+                    }
                 }
 
-                if (src.key === 'items' && !itemsData) {
-                    itemsData = src.data;
-                }
-            }
+            });
 
             it('should return channel data', function () {
 
@@ -84,116 +86,91 @@ describe('mappingHelper', function () {
 
             });
 
-            if(channelData && channelData.length > 0)
-            {
-                var channel = channelData[0];
 
-                describe('when: channel data returned', function () {
+            describe('when: channel data returned', function () {
 
-                    it('should have a channel title', function () {
-                        expect(channel.title).to.equal(testProps.solrData[0].data[0].pageTitle_t);
-                    })
+                var channel;
 
-                    it('should have a channel feed url', function () {
-                        var expectedFeedUrl = 'http://www.example.com/rss/some-feed';
-                        expect(channel.feed_url).to.equal(expectedFeedUrl);
-                    });
-
-                    it('should have a channel site url', function () {
-                        expect(channel.site_url).to.equal(testProps.solrData[0].data[0].siteUrl_t);
-                    });
-
-                    it('should have a channel description', function () {
-                        expect(channel.description).to.equal(testProps.solrData[0].data[0].pageMetaDescription_t);
-                    });
-
-                    it('should have a channel copyright', function () {
-                        expect(channel.copyright.length).to.be.above(0);
-                    });
-
-                    it('should have a channel ttl', function () {
-                        expect(channel.ttl).to.be.above(0);
-                    });
-
-                    it('should have a channel custom namespace', function () {
-                        expect(channel.custom_namespaces).to.exist;
-                        expect(channel.custom_namespaces).to.not.be.empty;
-                    });
-
+                before(function () {
+                    channel = channelData[0];
                 });
-            }
 
-            if(itemsData && itemsData.length > 0)
-            {
-                var item = itemsData[0];
+                it('should have a channel title', function () {
+                    expect(channel.title).to.equal(testProps.solrData[0].data[0].pageTitle_t);
+                })
 
-                describe('when: items data returned', function () {
-
-                    it('should have an item title', function () {
-
-                        if (testProps.solrData[1].data[0].pageTitle_t !== '') {
-                            expect(item.title).to.equal(testProps.solrData[1].data[0].pageTitle_t);
-                        }
-                        else {
-                            if (testProps.solrData[1].data[0].contentTitle_t !== '') {
-                                expect(item.title).to.equal(testProps.solrData[1].data[0].contentTitle_t);
-                            }
-                            else {
-                                expect(item.title).to.equal(testProps.solrData[1].data[0].nodeName_t);
-                            }
-                        }
-
-                    });
-
-                    it('should have an item description', function () {
-                        expect(item.description).to.equal(testProps.solrData[1].data[0].pageMetaDescription_t);
-                    });
-
-                    it('should have an item url', function () {
-                        var expectedItemUrl = 'http://www.example.com/test/some-page';
-                        expect(item.url).to.equal(expectedItemUrl);
-                    });
-
-                    if (testProps.solrData[1].data[0].contentImageUrl_t) {
-                        it('should have an item enclosure', function () {
-                            var expectedEnclosureUrl = testProps.solrData[1].data[0].contentImageUrl_t + '?width=800';
-                            expect(item.enclosure).to.exist;
-                            expect(item.enclosure.url).to.equal(expectedEnclosureUrl)
-                            expect(item.enclosure.type).to.equal('image/jpeg');
-                        });
-                    }
-
-                    if (testProps.solrData[1].data[0].contentCampaign_t) {
-
-                        it('should have an item category', function () {
-                            expect(item.categories).to.exist;
-                            expect(item.categories.length).to.be.above(0);
-                            expect(item.categories[0].toLowerCase()).to.equal('kellogs');
-                        });
-
-                        it('should have an item custom element', function () {
-                            expect(item.custom_elements).to.exist;
-                            expect(item.custom_elements.length).to.be.above(0);
-                            for(var i = 0; i < item.custom_elements.length; i++)
-                            {
-                                var el = item.custom_elements[i];
-                                for(var j in el)
-                                {
-                                    if (j === 'mvcf:is_bauer_native')
-                                    {
-                                        expect(el[j]).to.be.true;
-                                    }
-
-                                    if (j === 'mvcf:is_bauer_advertorial') {
-                                        expect(el[j]).to.be.false;
-                                    }
-                                }
-                            }
-                        });
-                    }
-
+                it('should have a channel feed url', function () {
+                    var expectedFeedUrl = 'http://www.example.com/rss/some-feed';
+                    expect(channel.feed_url).to.equal(expectedFeedUrl);
                 });
-            }
+
+                it('should have a channel site url', function () {
+                    expect(channel.site_url).to.equal(testProps.solrData[0].data[0].siteUrl_t);
+                });
+
+                it('should have a channel description', function () {
+                    expect(channel.description).to.equal(testProps.solrData[0].data[0].pageMetaDescription_t);
+                });
+
+                it('should have a channel copyright', function () {
+                    expect(channel.copyright.length).to.be.above(0);
+                });
+
+                it('should have a channel ttl', function () {
+                    expect(channel.ttl).to.be.above(0);
+                });
+
+                it('should have a channel custom namespace', function () {
+                    expect(channel.custom_namespaces).to.exist;
+                    expect(channel.custom_namespaces).to.not.be.empty;
+                });
+
+            });
+
+
+            describe('when: items data returned', function () {
+
+                var item;
+
+                before(function () {
+                    item = itemsData[0];
+                });
+
+                it('should have an item title', function () {
+                    expect(item.title).to.equal(testProps.solrData[1].data[0].nodeName_t);
+                });
+
+                it('should have an item description', function () {
+                    expect(item.description).to.equal(testProps.solrData[1].data[0].pageMetaDescription_t);
+                });
+
+                it('should have an item url', function () {
+                    var expectedItemUrl = 'http://www.example.com/test/some-page';
+                    expect(item.url).to.equal(expectedItemUrl);
+                });
+
+                it('should have an item enclosure', function () {
+                    var expectedEnclosureUrl = testProps.solrData[1].data[0].contentImageUrl_t + '?width=800';
+                    expect(item.enclosure).to.exist;
+                    expect(item.enclosure.url).to.equal(expectedEnclosureUrl)
+                    expect(item.enclosure.type).to.equal('image/jpeg');
+                });
+
+
+                it('should have an item category', function () {
+                    expect(item.categories).to.exist;
+                    expect(item.categories.length).to.be.above(0);
+                    expect(item.categories[0].toLowerCase()).to.equal('kellogs');
+                });
+
+                it('should have an item custom elements', function () {
+                    expect(item.custom_elements).to.exist;
+                    expect(item.custom_elements.length).to.be.above(0);
+                    expect(item.custom_elements[0]['mvcf:is_bauer_native']).to.be.true;
+                    expect(item.custom_elements[1]['mvcf:is_bauer_advertorial']).to.be.false;
+                });
+
+            });
 
         });
 

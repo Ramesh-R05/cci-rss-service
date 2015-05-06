@@ -29,10 +29,10 @@ describe('solrHelper', function () {
 
         describe('when: properties set', function () {
 
-            it('should return an array of data sources', function () {
+            it('should return an array of data sources', function (done) {
 
                 var actual = solrHelper.loadData(testProps);
-                return actual.then(function (data) {
+                actual.then(function (data) {
                     expect(data.length).to.equal(2);
                     expect(data[0].key).to.equal('channel');
                     expect(data[0].data).to.exist.and.not.be.empty;
@@ -40,6 +40,7 @@ describe('solrHelper', function () {
                     expect(data[1].key).to.equal('items');
                     expect(data[1].data).to.exist.and.not.be.empty;
                     expect(data[1].mappings).to.exist.and.not.be.empty;
+                    done();
                 })
 
             });
@@ -66,10 +67,11 @@ describe('solrHelper', function () {
                 testProps.config.queries.channel.default = originalVal;
             });
 
-            it('should throw an error', function () {
+            it('should throw an error', function (done) {
                 var actual = solrHelper.loadData(testProps);
-                return actual.catch(function (err) {
-                    expect(err.toLowerCase()).to.have.string('query configuration not found for key:')
+                actual.catch(function (err) {
+                    expect(err.toLowerCase()).to.have.string('query configuration not found for key:');
+                    done();
                 });
             });
 

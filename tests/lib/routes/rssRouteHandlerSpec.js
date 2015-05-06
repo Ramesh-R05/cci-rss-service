@@ -91,12 +91,13 @@ describe('rssRouteHandler', function () {
             var req = createMockRequest('/aww', null, null);
             var res = createMockResponse();
 
-            it('should return default xml content', function () {
+            it('should return default xml content', function (done) {
                 var promise = rssRouteHandler.route(req, res);
-                return promise.finally(function () {
+                promise.finally(function () {
                     expect(res.code).to.equal(200);
                     expect(res.get('Content-Type')).to.equal('text/xml');
                     expect(res.content.length).to.be.above(0);
+                    done();
                 })
             });
 
@@ -107,12 +108,13 @@ describe('rssRouteHandler', function () {
                 var req = createMockRequest('/food', null, null);
                 var res = createMockResponse();
 
-                it('should return default xml content', function () {
+                it('should return default xml content', function (done) {
                     var promise = rssRouteHandler.route(req, res);
-                    return promise.finally(function () {
+                    promise.finally(function () {
                         expect(res.code).to.equal(200);
                         expect(res.get('Content-Type')).to.equal('text/xml');
                         expect(res.content.length).to.be.above(0);
+                        done();
                     })
                 });
             });
@@ -126,13 +128,14 @@ describe('rssRouteHandler', function () {
             var req = createMockRequest('/aww/sponsors', null, null);
             var res = createMockResponse();
 
-            it('should return sponsor xml content', function () {
+            it('should return sponsor xml content', function (done) {
                 var promise = rssRouteHandler.route(req, res);
-                return promise.finally(function () {
+                promise.finally(function () {
                     expect(res.code).to.equal(200);
                     expect(res.get('Content-Type')).to.equal('text/xml');
                     expect(res.content.length).to.be.above(0);
-                    expect(res.content).to.have.string('xmlns:mvcf="http://feed.aww.com.au/ns/mvcf"')
+                    expect(res.content).to.have.string('xmlns:mvcf="http://feed.aww.com.au/ns/mvcf"');
+                    done();
                 })
             });
 
@@ -143,10 +146,11 @@ describe('rssRouteHandler', function () {
             var req = createMockRequest('/invalid', null, null);
             var res = createMockResponse();
 
-            it('should return 500 status', function () {
+            it('should return 500 status', function (done) {
                 var promise = rssRouteHandler.route(req, res);
-                return promise.catch(function (err) {
+                promise.catch(function (err) {
                     expect(res.code).to.equal(500);
+                    done();
                 })
             });
 
