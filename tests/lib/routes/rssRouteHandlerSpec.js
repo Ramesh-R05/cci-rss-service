@@ -4,11 +4,15 @@ var configHelper = require('../../../lib/helpers/configHelper');
 
 describe('rssRouteHandler', function () {
 
-    var createMockRequest = function (path, query, settings) {
+    var createMockRequest = function (site, routePath, query, settings) {
         return {
-            path: path,
+            path: '/' + site + '/' + routePath,
             query: query || {},
             settings: settings || {},
+            params: [
+                site,
+                routePath
+            ],
             get: function (key) {
                 return this.settings[key];
             }
@@ -37,9 +41,9 @@ describe('rssRouteHandler', function () {
 
     describe('route', function () {
 
-        describe('when: route path = \'/\'', function () {
+        describe('when: site not in path', function () {
 
-            var req = createMockRequest('/', null, null);
+            var req = createMockRequest('','', null, null);
             var res = createMockResponse();
 
             it('should return 404 status', function () {
@@ -50,7 +54,7 @@ describe('rssRouteHandler', function () {
 
         describe('when: invalid route path', function () {
 
-            var req = createMockRequest('/aww/invalid', null, null);
+            var req = createMockRequest('aww','invalid', null, null);
             var res = createMockResponse();
 
             it('should return 404 status', function () {
@@ -74,7 +78,7 @@ describe('rssRouteHandler', function () {
                 config.queries = originalVal;
             });
             
-            var req = createMockRequest('/aww', null, null);
+            var req = createMockRequest('aww', '', null, null);
             var res = createMockResponse();
 
             it('should return 500 status', function () {
@@ -88,7 +92,7 @@ describe('rssRouteHandler', function () {
 
             solrQueries.mock('aww');
 
-            var req = createMockRequest('/aww', null, null);
+            var req = createMockRequest('aww', '', null, null);
             var res = createMockResponse();
 
             it('should return default xml content', function (done) {
@@ -105,7 +109,7 @@ describe('rssRouteHandler', function () {
 
                 solrQueries.mock('food');
 
-                var req = createMockRequest('/food', null, null);
+                var req = createMockRequest('food', '', null, null);
                 var res = createMockResponse();
 
                 it('should return default xml content', function (done) {
@@ -125,7 +129,7 @@ describe('rssRouteHandler', function () {
 
             solrQueries.mock('aww');
 
-            var req = createMockRequest('/aww/sponsors', null, null);
+            var req = createMockRequest('aww', 'sponsors', null, null);
             var res = createMockResponse();
 
             it('should return sponsor xml content', function (done) {
@@ -143,7 +147,7 @@ describe('rssRouteHandler', function () {
 
         describe('when: invalid site', function () {
 
-            var req = createMockRequest('/invalid', null, null);
+            var req = createMockRequest('invalid', '', null, null);
             var res = createMockResponse();
 
             it('should return 500 status', function (done) {

@@ -51,25 +51,14 @@ describe('mappingHelper', function () {
 
         describe('when: solr data set', function () {
 
-            var actual = mappingHelper.mapSolrData(testProps);
-
+            var actual;
             var channelData;
             var itemsData;
 
             before(function () {
-
-                for (var i = 0; i < actual.length; i++) {
-                    var src = actual[i];
-
-                    if (src.key === 'channel' && !channelData) {
-                        channelData = src.data;
-                    }
-
-                    if (src.key === 'items' && !itemsData) {
-                        itemsData = src.data;
-                    }
-                }
-
+                actual = mappingHelper.mapSolrData(testProps);
+                channelData = actual[0].data;
+                itemsData = actual[1].data;
             });
 
             it('should return channel data', function () {
