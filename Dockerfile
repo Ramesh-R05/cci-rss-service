@@ -5,6 +5,8 @@ WORKDIR /tmp
 
 RUN npm config set proxy http://proxy.mgmt.local:3128 && \
     npm config set https-proxy http://proxy.mgmt.local:3128 && \
+    npm config set registry http://npm.digital.mgmt.local:8080 && \
+    npm config set @bxm/registry http://npm.digital.mgmt.local:8080 && \
     npm install --production && \
     mkdir /app && \
     cp -r node_modules /app
