@@ -1,3 +1,4 @@
+require('@bxm/logger')('RSS SERVICE', process.env.NODE_ENV);
 var express = require('express');
 var bodyParser = require('body-parser');
 var rssRoutes = require('./lib/routes/rss');
@@ -9,7 +10,7 @@ var app = express();
 
 app.use(bodyParser.json());
 app.use(function(req, res, next) {
-  console.log('[RSS SERVICE] ' + req.method + ': ' + req.url);
+  console.log(req.method + ': ' + req.url);
   next();
 });
 
@@ -59,10 +60,10 @@ app.use(function(err, req, res, next) {
 });
 
 app.listen(PORT, function() {
-  console.log('[RSS SERVICE] started at port: ' + PORT);
+  console.log('started at port: ' + PORT);
 }).on('error', function(err) {
   if(err.errno === 'EADDRINUSE') {
-    console.error('[RSS SERVICE] port ' + PORT + ' already in use');
+    console.error('port ' + PORT + ' already in use');
   } else {
     throw err;
   }
