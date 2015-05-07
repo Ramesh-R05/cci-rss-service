@@ -20,11 +20,6 @@ app.use(function(req, res, next) {
 app.use('/rss', rssRoutes); //all routes prefix with 'rss'
 
 
-/* ---------- AWS LOAD BALANCER ---------- */
-app.get('/api/verifysite', function(req, res) {
-    res.json({ status: 'OK', build: version.buildNumber });
-});
-
 /* ---------- Version information ---------- */
 app.get('/version', function(req, res) {
     res.json(version);
