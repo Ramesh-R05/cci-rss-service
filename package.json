@@ -1,13 +1,13 @@
 {
   "name": "rss-service",
   "version": "0.0.1",
-  "main": "rssService.js",
+  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "https://bauer-au-deploy:Mention-Face-Wine-Scientist-4@bitbucket.org/bauermediaau/rss-service.git"
   },
   "scripts": {
-    "start": "node rssService.js",
+    "start": "node index.js",
     "test": "node ./node_modules/istanbul/lib/cli cover --root ./lib --include-all-sources --dir ./coverage --report cobertura --report html --hook-run-in-context ./node_modules/mocha/bin/_mocha -- --ui bdd tests/test-setup.js tests/**/*.js"
   },
   "dependencies": {
@@ -21,7 +21,8 @@
     "node-uuid": "^1.4.3",
     "rss": "^1.1.1",
     "solr-client": "^0.5.0",
-    "q": "^1.2.0"
+    "q": "^1.2.0",
+    "@bxm/rss-builder": "^1.1.2"
   },
   "devDependencies": {
     "chai": "^2.1.1",
@@ -31,6 +32,7 @@
     "nock": "^1.5.0",
     "proxyquire": "^1.4.0",
     "sinon": "^1.13.0",
-    "sinon-chai": "^2.7.0"
+    "sinon-chai": "^2.7.0",
+    "chai-as-promised": "^5.0.0"
   }
 }

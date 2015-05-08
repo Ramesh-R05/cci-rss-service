@@ -1,10 +1,5 @@
 {
   "solr": {
-    "host": {
-      "default": "solr-cluster02.digital.live.local"
-    }
-  },
-  "rss": {
-    "aww": "http://www.aww.com.au"
+    "host": "solr-cluster02.digital.live.local"
   }
 }

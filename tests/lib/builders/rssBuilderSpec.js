@@ -1,120 +1,237 @@
 var builder = require('../../../lib/builders/rssBuilder');
-var shared = require('mocha-shared');
 
-describe('rssBuilder', function() {
-    var defaultChannelData = {
-        pageTitle_t: "Recipes, Celebrity News, Diet, Living, Family, Food Recipes : Australian Women's Weekly",
-        siteUrl_t: 'http://www.aww.com.au/',
-        pageMetaDescription_t: "Food Recipes, Latest Recipe Collections, Celebrity News, Diet, Living, Family, Parenting, Relationships, Style - Australian Women’s Weekly."
-    };
-    var defaultItemData = {
-        pageTitle_t: 'Item Title',
-        pageMetaDescription_t: 'Item Short Teaser Summary',
-        contentImageUrl_t: 'http://what.image.com'
-    };
+describe('rssBuilder', function () {
 
-    shared.behaviour('should have the correct rss feed fields', function(actualFeedOptions) {
-        var expectedResult = {
-            title: "Recipes, Celebrity News, Diet, Living, Family, Food Recipes : Australian Women's Weekly",
-            site_url: 'http://www.aww.com.au/',
-            description: "Food Recipes, Latest Recipe Collections, Celebrity News, Diet, Living, Family, Parenting, Relationships, Style - Australian Women’s Weekly.",
-            copyright: (new Date()).getFullYear() + ' BAUER MEDIA PTY LIMITED',
-            ttl: 60
-        };
+    var testData = [
+        {
+            key: 'channel',
+            data: [
+                {
+                    title: 'Donec magna purus',
+                    feed_url: 'http://www.example.com/rss/some-feed',
+                    site_url: 'http://www.aww.com.au',
+                    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                    copyright: '2015 Bauer Media Pty Ltd',
+                    ttl: 60,
+                    custom_namespaces: {
+                        mvcf: 'http://feed.aww.com.au/ns/mvcf'
+                    }
+                }
+            ]
+        },
+        {
+            key: 'items',
+            data: [
+                {
+                    title: 'Donec blandit eget ex feugiat',
+                    description: 'Morbi tortor eros, blandit id libero eu, accumsan facilisis leo.',
+                    url: 'http://www.example.com/test/some-page',
+                    enclosure: {
+                        url: 'http://www.example.com/images/test.jpg?width=800',
+                        type: 'image/jpeg'
+                    },
+                    categories: ['Kellogs'],
+                    custom_elements: [
+                        {
+                            "mvcf: is_bauer_native": true
+                        },
+                        {
+                            "mvcf:is_bauer_advertorial": false
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
 
-        it('should have title set to: ' + expectedResult.title, function() {
-            expect(actualFeedOptions.title).to.be.equal(expectedResult.title);
-        });
+    describe('buildFeed', function () {
 
-        it('should have site URL set to: ' + expectedResult.site_url, function() {
-            expect(actualFeedOptions.site_url).to.be.equal(expectedResult.site_url);
-        });
+        var actual = builder.buildFeed(testData);
 
-        it('should have description set to: ' + expectedResult.description, function() {
-            expect(actualFeedOptions.description).to.be.equal(expectedResult.description);
-        });
+        describe('when: channel data set', function () {
 
-        it('should have copyright set to: ' + expectedResult.copyright, function() {
-            expect(actualFeedOptions.copyright).to.be.equal(expectedResult.copyright);
-        });
+            it('should have a title', function () {
+                expect(actual.title).to.equal(testData[0].data[0].title);
+            });
 
-        it('should have ttl set to: ' + expectedResult.ttl, function() {
-            expect(actualFeedOptions.ttl).to.be.equal(expectedResult.ttl);
-        });
-    });
+            it('should have a feed url', function () {
+                expect(actual.feed_url).to.equal(testData[0].data[0].feed_url);
+            });
 
-    describe('buildShortRssFeed', function() {
-        var data = [
-            defaultChannelData,
-            [defaultItemData]
-        ];
+            it('should have a site url', function () {
+                expect(actual.site_url).to.equal(testData[0].data[0].site_url);
+            });
 
-        describe('the channel data', function() {
-            var actualFeed = builder.buildShortRssFeed(data);
-            shared.behaviour('should have the correct rss feed fields', actualFeed);
-        });
+            it('should have a description', function () {
+                expect(actual.description).to.equal(testData[0].data[0].description);
+            });
 
-        describe('the items data', function() {
-            describe('when there are no items for the feed', function() {
+            it('should have a copyright', function () {
+                expect(actual.copyright).to.equal(testData[0].data[0].copyright);
+            });
 
-                before(function() {
-                    data[1] = null;
+            it('should have a ttl', function () {
+                expect(actual.ttl).to.equal(testData[0].data[0].ttl);
+            });
+
+
+            describe('if custom namespace data exists', function () {
+                it('should have a custom namespace', function () {
+                    expect(actual.custom_namespaces).to.exist.and.to.not.be.empty;
+                });
+            })
+
+            describe('if custom namespace data does not exist', function () {
+
+                var originalVal = testData[0].data[0].custom_namespaces;
+
+                before(function () {
+                    delete testData[0].data[0].custom_namespaces;
                 });
 
-                after(function() {
-                    data[1] = [defaultItemData]
+                after(function () {
+                    testData[0].data[0].custom_namespace = originalVal;
                 });
 
-                var actualFeed = builder.buildShortRssFeed(data);
-                shared.behaviour('should have the correct rss feed fields', actualFeed);
+                it('should not have a custom namespace', function () {
+                    var result = builder.buildFeed(testData);
+                    expect(result.custom_namespaces).to.be.empty;
+                });
 
-                it('should have a new RSS feed without any items', function() {
-                    actualFeed = builder.buildShortRssFeed(data);
-                    expect(actualFeed.items.length).to.equal(0);
+            })
+            
+
+        })
+
+        describe('when: channel data not set', function () {
+
+            it('should throw an error', function () {
+                expect(builder.buildFeed.bind(builder,[])).to.throw(Error);
+            });
+        })
+
+        describe('when: items data set', function () {
+
+            var item = actual.items[0];
+
+            it('should have feed items', function () {
+                expect(actual.items).to.exist.and.to.not.be.empty;
+            });
+
+            it('should have an item title', function () {
+                expect(item.title).to.equal(testData[1].data[0].title);
+            });
+
+            it('should have an item description', function () {
+                expect(item.description).to.equal(testData[1].data[0].description);
+            });
+
+            it('should have an item url', function () {
+                expect(item.url).to.equal(testData[1].data[0].url);
+            });
+
+
+            describe('if enclosure data exists', function () {
+
+                it('should have an item enclosure', function () {
+                    expect(item.enclosure).to.exist;
+                    expect(item.enclosure.url).to.equal(testData[1].data[0].enclosure.url);
+                    expect(item.enclosure.type).to.equal(testData[1].data[0].enclosure.type);
                 });
 
             });
 
-            describe('when there are items for the feed', function() {
-                var actualFeed = builder.buildShortRssFeed(data);
-                var expectedItems = data[1];
+            describe('if enclosure data does not exist', function () {
 
-                shared.behaviour('should have the correct rss feed fields', actualFeed);
+                var originalVal = testData[1].data[0].enclosure;
 
-                it('should have a new RSS feed with an item', function() {
-                    expect(actualFeed.items.length).to.equal(expectedItems.length);
+                before(function () {
+                    delete testData[1].data[0].enclosure;
                 });
 
-                it('should have item title set to: ' + expectedItems[0].pageTitle_t, function() {
-                    expect(actualFeed.items[0].title).to.be.equal(expectedItems[0].pageTitle_t);
+                after(function () {
+                    testData[1].data[0].enclosure = originalVal;
                 });
 
-                it('should have item description set to: ' + expectedItems[0].pageMetaDescription_t, function() {
-                    expect(actualFeed.items[0].description).to.be.equal(expectedItems[0].pageMetaDescription_t);
+                it('should not have an item enclosure', function () {
+                    var result = builder.buildFeed(testData);
+                    expect(result.items[0].enclosure).to.be.false;
                 });
 
-                it('should have item enclosure url set to: ' + expectedItems[0].contentImageUrl_t, function() {
-                    expect(actualFeed.items[0].enclosure.url).to.be.equal(expectedItems[0].contentImageUrl_t + '?width=800');
+            });
+
+            describe('if category data exists', function () {
+                it('should have an item category', function () {
+                    expect(item.categories).to.exist;
+                    expect(item.categories.length).to.be.above(0);
+                    expect(item.categories[0]).to.equal('Kellogs');
+                });
+            });
+
+            describe('if category data does not exist', function () {
+
+                var originalVal = testData[1].data[0].categories;
+
+                before(function () {
+                    delete testData[1].data[0].categories;
                 });
 
-                describe('and when item has no image url', function() {
-                    before(function() {
-                        expectedItems[0].contentImageUrl_t = null;
-                    });
+                after(function () {
+                    testData[1].data[0].categories = originalVal;
+                });
 
-                    after(function() {
-                        expectedItems[0]. contentImageUrl_t = 'http://what.image.com'
-                    });
+                it('should not have item categories', function () {
+                    var result = builder.buildFeed(testData);
+                    expect(result.items[0].categories).to.exist.and.be.empty;
+                });
 
-                    it ('should have no item enclosure', function() {
-                        var feed = builder.buildShortRssFeed(data);
-                        expect(feed.items[0].enclosure).to.be.falsy;
-                    });
+            });
+
+            describe('if custom element data exists', function () {
+                it('should have item custom elements', function () {
+                    expect(item.custom_elements).to.exist.and.to.not.be.empty;
                 })
-
             });
+
+            describe('if custom element data does not exist', function () {
+
+                var originalVal = testData[1].data[0].custom_elements;
+
+                before(function () {
+                    delete testData[1].data[0].custom_elements;
+                });
+
+                after(function () {
+                    testData[1].data[0].custom_elements = originalVal;
+                });
+
+                it('should not have item custom elements', function () {
+                    var result = builder.buildFeed(testData);
+                    expect(result.items[0].custom_elements).to.exist.and.to.be.empty;
+                })
+            });
+
         });
 
+        describe('when: items data not set', function () {
+
+            var originalVal = testData[1].data;
+
+            before(function () {
+
+                testData[1].data = [];
+            });
+
+            after(function () {
+                testData[1].data = originalVal;
+            });
+
+            it('should contain no feed items', function () {
+                var result = builder.buildFeed(testData);
+                expect(result.items).to.be.empty;
+            });
+
+        });
 
     });
 

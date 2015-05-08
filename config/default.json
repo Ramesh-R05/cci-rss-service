@@ -1,22 +1,206 @@
 {
   "solr": {
-    "host": {
-      "default": "solr-cluster01.digital.dev.local"
-    },
+    "host": "solr-cluster01.digital.dev.local",
     "port": 80,
     "path": "/solr",
-    "core": {
-      "aww": "aww-search"
+    "core": "{{site}}-search"
+  },
+
+  "queries": {
+
+    "channel": {
+
+      "default": {
+        "q": "*:*",
+        "fq": "nodeTypeAlias_t:\"Homepage\"",
+        "rows": "1"
+      }
     },
-    "query": {
-      "aww": {
-        "nodeType": "BauerArticle",
-        "sortField": "pageDateCreated_dt"
+
+    "item": {
+
+      "default": {
+        "q": "*:*",
+        "fq": "nodeTypeAlias_t:(BauerArticle OR Article)",
+        "sort": "pageDateCreated_dt desc",
+        "rows": "50"
       },
-      "limit": 50
+
+      "sponsored": {
+        "q": "contentCampaign_t:*",
+        "fq": "nodeTypeAlias_t:(BauerArticle OR Article)",
+        "sort": "pageDateCreated_dt desc",
+        "rows": "500"
+      },
+
+      "recipes": {
+        "q": "*:*",
+        "fq": "nodeTypeAlias_t:(Recipe)",
+        "sort": "pageDateCreated_dt desc",
+        "rows": "50"
+      }
+
     }
   },
-  "rss": {
-    "aww": "http://dev.aww.wn.bauer-media.net.au"
+
+  "mappings": {
+
+    "channel": {
+
+      "default": {
+        "title": {
+          "map": "pageTitle_t"
+        },
+        "feed_url": {
+          "map": "mapFeedUrl(__request)"
+        },
+        "site_url": {
+          "map": "siteUrl_t"
+        },
+        "description": {
+          "map": "pageMetaDescription_t"
+        },
+        "copyright": {
+          "map": "mapCopyright"
+        },
+        "ttl": {
+          "value": 60
+        }
+      },
+
+      "sponsored": {
+        "custom_namespaces": {
+          "mapObject": {
+            "mvcf": {
+              "value": "http://feed.aww.com.au/ns/mvcf"
+            }
+          }
+        }
+      }
+    },
+
+    "item": {
+
+      "default": {
+        "title": {
+          "map": [ "pageTitle_t", "contentTitle_t", "nodeName_t" ]
+        },
+        "description": {
+          "map": "pageMetaDescription_t"
+        },
+        "url": {
+          "map": "mapItemUrl(siteUrl_t, url_t)"
+        },
+        "enclosure": {
+          "mapObject": {
+            "url": {
+              "map": "contentImageUrl_t",
+              "format": "%s?width=800"
+            },
+            "type": {
+              "map": "mapMimeType(contentImageUrl_t)"
+            }
+          }
+        }
+      },
+
+      "sponsored": {
+        "categories": {
+          "mapArray": [ "mapCampaignSponsor(contentCampaign_t)" ]
+        },
+        "custom_elements": {
+          "mapObjectArray": {
+            "mvcf:is_bauer_native": {
+              "map": "mapCampaignType(contentCampaign_t, native)"
+            },
+            "mvcf:is_bauer_advertorial": {
+              "map": "mapCampaignType(contentCampaign_t, advertorial)"
+            }
+          }
+        }
+      }
+
+    }
+
+  },
+
+  "routes": {
+
+    "default": {
+      "path": "/",
+      "data": [
+        {
+          "key": "channel",
+          "query": "channel.default"
+        },
+        {
+          "key": "items",
+          "query": "item.default"
+        }
+      ]
+    },
+
+    "sponsored": {
+      "path": "/sponsored",
+      "data": [
+        {
+          "key": "channel",
+          "query": "channel.default",
+          "mappings": [ "channel.default", "channel.sponsored" ]
+        },
+        {
+          "key": "items",
+          "query": "item.sponsored",
+          "mappings": [ "item.default", "item.sponsored" ]
+        }
+      ]
+    },
+
+    "recipes": {
+      "path": "/recipes",
+      "data": [
+        {
+          "key": "channel",
+          "query": "channel.default",
+          "mappings": [ "channel.default" ]
+        },
+        {
+          "key": "items",
+          "query": "item.recipes",
+          "mappings": [ "item.default" ]
+        }
+      ]
+    }
+
+  },
+
+  "sites": {
+
+    "food": {
+      "queries": {
+        "item": {
+          "default": {
+            "fq": "nodeTypeAlias_t:(FoodArticle OR FoodStudioArticle OR Article)"
+          },
+          "sponsored": { 
+            "fq": "nodeTypeAlias_t:(FoodArticle OR FoodStudioArticle OR Article)"
+          }
+        }
+      }
+    },
+
+    "food-nz": {
+      "queries": {
+        "item": {
+          "default": {
+            "fq": "nodeTypeAlias_t:(FoodArticle OR FoodStudioArticle OR Article)"
+          },
+          "sponsored": { 
+            "fq": "nodeTypeAlias_t:(FoodArticle OR FoodStudioArticle OR Article)"
+          }
+        }
+      }
+    }
+
   }
 }

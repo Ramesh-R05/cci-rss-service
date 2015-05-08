@@ -4,7 +4,9 @@ var bodyParser = require('body-parser');
 var rssRoutes = require('./lib/routes/rss');
 global.config = require('config');
 
-var PORT = 8001;
+var version = require('./version');
+
+var PORT = process.env.PORT || 8001;
 
 var app = express();
 
@@ -18,14 +20,9 @@ app.use(function(req, res, next) {
 app.use('/rss', rssRoutes); //all routes prefix with 'rss'
 
 
-/* ---------- AWS LOAD BALANCER ---------- */
-app.get('/api/verifysite', function(req, res) {
-    res.json({hi: 'Matt'});
-});
-
 /* ---------- Version information ---------- */
 app.get('/version', function(req, res) {
-    res.json(require('./version'));
+    res.json(version);
 });
 
 /// catch 404 and forwarding to error handler
@@ -39,7 +36,7 @@ app.use(function(req, res, next) {
 
 // development error handler
 // will print stacktrace
-if (app.get('env') === 'development') {
+if (app.get('env') === 'dev') {
     app.use(function(err, req, res, next) {
         res.status(err.status || 500);
         res.render('error', {
@@ -60,10 +57,10 @@ app.use(function(err, req, res, next) {
 });
 
 app.listen(PORT, function() {
-  console.log('started at port: ' + PORT);
+  console.log('Started at port: ' + PORT);
 }).on('error', function(err) {
   if(err.errno === 'EADDRINUSE') {
-    console.error('port ' + PORT + ' already in use');
+    console.error('Port ' + PORT + ' already in use');
   } else {
     throw err;
   }
