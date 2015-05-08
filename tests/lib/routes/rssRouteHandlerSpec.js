@@ -129,10 +129,10 @@ describe('rssRouteHandler', function () {
 
             solrQueries.mock('aww');
 
-            var req = createMockRequest('aww', 'sponsors', null, null);
+            var req = createMockRequest('aww', 'sponsored', null, null);
             var res = createMockResponse();
 
-            it('should return sponsor xml content', function (done) {
+            it('should return sponsored xml content', function (done) {
                 var promise = rssRouteHandler.route(req, res);
                 promise.finally(function () {
                     expect(res.code).to.equal(200);

@@ -17,7 +17,7 @@ describe('mappingHelper', function () {
         solrData: [
             {
                 key: 'channel',
-                mappings: ["channel.default", "channel.sponsors"],
+                mappings: ["channel.default", "channel.sponsored"],
                 data: [
                     {
                         pageTitle_t: 'Donec magna purus',
@@ -28,7 +28,7 @@ describe('mappingHelper', function () {
             },
             {
                 key: 'items',
-                mappings: ["item.default", "item.sponsors"],
+                mappings: ["item.default", "item.sponsored"],
                 data: [
                     {
                         pageTitle_t: '',

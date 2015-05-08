@@ -26,7 +26,7 @@
         "rows": "50"
       },
 
-      "sponsors": {
+      "sponsored": {
         "q": "contentCampaign_t:*",
         "fq": "nodeTypeAlias_t:(BauerArticle OR Article)",
         "sort": "pageDateCreated_dt desc",
@@ -68,7 +68,7 @@
         }
       },
 
-      "sponsors": {
+      "sponsored": {
         "custom_namespaces": {
           "mapObject": {
             "mvcf": {
@@ -104,7 +104,7 @@
         }
       },
 
-      "sponsors": {
+      "sponsored": {
         "categories": {
           "mapArray": [ "mapCampaignSponsor(contentCampaign_t)" ]
         },
@@ -140,18 +140,18 @@
       ]
     },
 
-    "sponsors": {
-      "path": "/sponsors",
+    "sponsored": {
+      "path": "/sponsored",
       "data": [
         {
           "key": "channel",
           "query": "channel.default",
-          "mappings": [ "channel.default", "channel.sponsors" ]
+          "mappings": [ "channel.default", "channel.sponsored" ]
         },
         {
           "key": "items",
-          "query": "item.sponsors",
-          "mappings": [ "item.default", "item.sponsors" ]
+          "query": "item.sponsored",
+          "mappings": [ "item.default", "item.sponsored" ]
         }
       ]
     },
@@ -182,7 +182,7 @@
           "default": {
             "fq": "nodeTypeAlias_t:(FoodArticle OR FoodStudioArticle OR Article)"
           },
-          "sponsors": { 
+          "sponsored": { 
             "fq": "nodeTypeAlias_t:(FoodArticle OR FoodStudioArticle OR Article)"
           }
         }
@@ -195,7 +195,7 @@
           "default": {
             "fq": "nodeTypeAlias_t:(FoodArticle OR FoodStudioArticle OR Article)"
           },
-          "sponsors": { 
+          "sponsored": { 
             "fq": "nodeTypeAlias_t:(FoodArticle OR FoodStudioArticle OR Article)"
           }
         }

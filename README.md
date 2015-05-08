@@ -14,7 +14,7 @@ A simple feed of the most recent articles.  Returns the content title, url, desc
 
 ###Sponsored Articles
 
-**/rss/{site}/sponsors**
+**/rss/{site}/sponsored**
 
 Returns articles that have a campaign assigned to it. Includes all content details from the shortened teaser feed with additional campaign specific data.
 
