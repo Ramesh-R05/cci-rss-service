@@ -49,7 +49,8 @@
 
       "default": {
         "title": {
-          "map": "pageTitle_t"
+          "map": [ "pageTitle_t", "contentTitle_t" ],
+          "after": [ "sanitise" ]
         },
         "feed_url": {
           "map": "mapFeedUrl(__request)"
@@ -58,7 +59,8 @@
           "map": "siteUrl_t"
         },
         "description": {
-          "map": "pageMetaDescription_t"
+          "map": [ "pageMetaDescription_t", "contentSummary_t" ],
+          "after": [ "sanitise" ]
         },
         "copyright": {
           "map": "mapCopyright"
@@ -84,10 +86,12 @@
 
       "default": {
         "title": {
-          "map": ["pageTitle_t", "contentTitle_t", "nodeName_t"]
+          "map": [ "pageTitle_t", "contentTitle_t", "nodeName_t" ],
+          "after": [ "sanitise" ]
         },
         "description": {
-          "map": "pageMetaDescription_t"
+          "map": [ "pageMetaDescription_t", "contentSummary_t" ],
+          "after": [ "sanitise" ]
         },
         "url": {
           "map": "mapItemUrl(siteUrl_t, url_t)"
@@ -121,7 +125,7 @@
 
       "sponsored": {
         "categories": {
-          "mapArray": ["mapCampaignSponsor(contentCampaign_t)"]
+          "mapArray": [ "mapCampaignSponsor(contentCampaign_t)" ]
         },
         "custom_elements": {
           "mapObjectArray": {

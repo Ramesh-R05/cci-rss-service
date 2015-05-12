@@ -24,7 +24,8 @@
     "q": "^1.2.0",
     "@bxm/rss-builder": "^1.1.2",
     "marked": "^0.3.3",
-    "remove-markdown": "^0.0.2"
+    "remove-markdown": "^0.0.2",
+    "striptags":  "^2.0.2"
   },
   "devDependencies": {
     "chai": "^2.1.1",
