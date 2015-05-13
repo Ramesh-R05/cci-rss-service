@@ -52,16 +52,28 @@
           "map": [ "pageTitle_t", "contentTitle_t" ]
         },
         "feed_url": {
-          "map": "mapFeedUrl(__request)"
+          "map": {
+            "fn": "mapFeedUrl",
+            "params": [
+              "@__request"
+            ]
+          }
         },
         "site_url": {
           "map": "siteUrl_t"
         },
         "description": {
-          "map": [ "pageMetaDescription_t", "contentSummary_t" ]
+          "map": [ "pageMetaDescription_t", "contentSummary_t" ],
+          "afterMap": [
+            {
+              "fn": "sanitise"
+            }
+          ]
         },
         "copyright": {
-          "map": "mapCopyright"
+          "map": {
+            "fn": "mapCopyright"
+          }
         },
         "ttl": {
           "value": 60
@@ -88,19 +100,41 @@
         },
         "description": {
           "map": [ "pageMetaDescription_t", "contentSummary_t" ],
-          "after": [ "sanitize" ]
+          "afterMap": [
+            {
+              "fn": "sanitise"
+            }
+          ]
         },
         "url": {
-          "map": "mapItemUrl(siteUrl_t, url_t)"
+          "map": {
+            "fn": "mapItemUrl",
+            "params": [
+              "@siteUrl_t",
+              "@url_t"
+            ]
+          }
         },
         "enclosure": {
           "mapObject": {
             "url": {
               "map": "contentImageUrl_t",
-              "format": "%s?width=800"
+              "afterMap": [
+                {
+                  "fn": "format",
+                  "params": [
+                    "%s?width=800"
+                  ]
+                }
+              ]
             },
             "type": {
-              "map": "mapMimeType(contentImageUrl_t)"
+              "map": {
+                "fn": "mapMimeType",
+                "params": [
+                  "@contentImageUrl_t"
+                ]
+              }
             }
           }
         }
@@ -112,7 +146,19 @@
             "content:encoded": {
               "mapObject": {
                 "_cdata": {
-                  "map": "mapFullContent(mapItemUrl(siteUrl_t, url_t), contentBody_t)"
+                  "map": {
+                    "fn": "mapFullContent",
+                    "params": [
+                      {
+                        "fn": "mapItemUrl",
+                        "params": [
+                          "@siteUrl_t",
+                          "@url_t"
+                        ]
+                      },
+                      "@contentBody_t"
+                    ]
+                  }
                 }
               }
             }
@@ -122,15 +168,34 @@
 
       "sponsored": {
         "categories": {
-          "mapArray": [ "mapCampaignSponsor(contentCampaign_t)" ]
+          "mapArray": [
+            {
+              "fn": "mapCampaignSponsor",
+              "params": [
+                "@contentCampaign_t"
+              ]
+            }
+          ]
         },
         "custom_elements": {
           "mapObjectArray": {
             "mvcf:is_bauer_native": {
-              "map": "mapCampaignType(contentCampaign_t, native)"
+              "map": {
+                "fn": "mapCampaignType",
+                "params": [
+                  "@contentCampaign_t",
+                  "native"
+                ]
+              }
             },
             "mvcf:is_bauer_advertorial": {
-              "map": "mapCampaignType(contentCampaign_t, advertorial)"
+              "map": {
+                "fn": "mapCampaignType",
+                "params": [
+                  "@contentCampaign_t",
+                  "advertorial"
+                ]
+              }
             }
           }
         }

@@ -131,13 +131,13 @@ describe('utils', function () {
 
             before(function () {
                 testConfig = {
-                    fn: 'formatString',
+                    fn: 'format',
                     params: [
                         '(%s)',
                         {
                             fn: 'sanitise',
                             params: [
-                                "{{b.x}}"
+                                "@b.x"
                             ]
                         }
                     ]
@@ -184,9 +184,9 @@ describe('utils', function () {
                         scope: 'testScope2',
                         params: [
                             'Lorem',
-                            ['ipsum', '{{c}}'],
+                            ['ipsum', '@c'],
                             {
-                                x: '{{d}}',
+                                x: '@d',
                                 y: 1,
                                 z: 'amet.'
                             }
@@ -312,7 +312,7 @@ describe('utils', function () {
                         fn: 'test',
                         params: [
                             'x',
-                            '{{a}}'
+                            '@a'
                         ]
                     }
 

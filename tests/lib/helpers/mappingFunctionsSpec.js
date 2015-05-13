@@ -4,7 +4,7 @@ describe('mappingFunctions', function () {
 
     var testCampaignData = '[{ "campaignType": "Native", "sponsor": "Kellogs" }]';
 
-    describe('formatString', function () {
+    describe('format', function () {
 
         var testFormat = '[%s]';
         var testInput = 'test';
@@ -13,7 +13,7 @@ describe('mappingFunctions', function () {
         describe('when: is valid format string', function () {
 
             it('should return formatted input value', function () {
-                expect(mappingFunctions.formatString(testFormat, testInput)).to.equal(expectedResult);
+                expect(mappingFunctions.format(testFormat, testInput)).to.equal(expectedResult);
             });
 
         });
