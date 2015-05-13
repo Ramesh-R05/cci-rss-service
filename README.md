@@ -12,6 +12,12 @@ The following feeds are currently supported:
 
 A simple feed of the most recent articles.  Returns the content title, url, description and image only.
 
+###Full Content
+
+**/rss/{site}/full-content**
+
+The most recent articles with full content body included for each feed item.
+
 ###Sponsored Articles
 
 **/rss/{site}/sponsored**

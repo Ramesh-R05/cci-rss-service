@@ -138,7 +138,7 @@ describe('rssRouteHandler', function () {
                     expect(res.code).to.equal(200);
                     expect(res.get('Content-Type')).to.equal('text/xml');
                     expect(res.content.length).to.be.above(0);
-                    expect(res.content).to.have.string('xmlns:mvcf="http://feed.aww.com.au/ns/mvcf"');
+                    expect(res.content).to.have.string('xmlns:mvcf="http://feed.aww.com.au/ns/mvcf/"');
                     done();
                 })
             });

@@ -72,18 +72,19 @@
         "custom_namespaces": {
           "mapObject": {
             "mvcf": {
-              "value": "http://feed.aww.com.au/ns/mvcf"
+              "value": "http://feed.aww.com.au/ns/mvcf/"
             }
           }
         }
       }
+
     },
 
     "item": {
 
       "default": {
         "title": {
-          "map": [ "pageTitle_t", "contentTitle_t", "nodeName_t" ]
+          "map": ["pageTitle_t", "contentTitle_t", "nodeName_t"]
         },
         "description": {
           "map": "pageMetaDescription_t"
@@ -104,9 +105,23 @@
         }
       },
 
+      "fullcontent": {
+        "custom_elements": {
+          "mapObjectArray": {
+            "content:encoded": {
+              "mapObject": {
+                "_cdata": {
+                  "map": "mapFullContent(mapItemUrl(siteUrl_t, url_t), contentBody_t)"
+                }
+              }
+            }
+          }
+        }
+      },
+
       "sponsored": {
         "categories": {
-          "mapArray": [ "mapCampaignSponsor(contentCampaign_t)" ]
+          "mapArray": ["mapCampaignSponsor(contentCampaign_t)"]
         },
         "custom_elements": {
           "mapObjectArray": {
@@ -128,48 +143,52 @@
 
     "default": {
       "path": "/",
-      "data": [
-        {
-          "key": "channel",
-          "query": "channel.default"
-        },
-        {
-          "key": "items",
-          "query": "item.default"
-        }
-      ]
+      "data": [{
+        "key": "channel",
+        "query": "channel.default"
+      }, {
+        "key": "items",
+        "query": "item.default"
+      }]
+    },
+
+    "fullcontent": {
+      "path": "/full-content",
+      "data": [{
+        "key": "channel",
+        "query": "channel.default",
+        "mappings": ["channel.default"]
+      }, {
+        "key": "items",
+        "query": "item.default",
+        "mappings": ["item.default", "item.fullcontent"]
+      }]
     },
 
     "sponsored": {
       "path": "/sponsored",
-      "data": [
-        {
-          "key": "channel",
-          "query": "channel.default",
-          "mappings": [ "channel.default", "channel.sponsored" ]
-        },
-        {
-          "key": "items",
-          "query": "item.sponsored",
-          "mappings": [ "item.default", "item.sponsored" ]
-        }
-      ]
+      "data": [{
+        "key": "channel",
+        "query": "channel.default",
+        "mappings": ["channel.default", "channel.sponsored"]
+      }, {
+        "key": "items",
+        "query": "item.sponsored",
+        "mappings": ["item.default", "item.sponsored"]
+      }]
     },
 
     "recipes": {
       "path": "/recipes",
-      "data": [
-        {
-          "key": "channel",
-          "query": "channel.default",
-          "mappings": [ "channel.default" ]
-        },
-        {
-          "key": "items",
-          "query": "item.recipes",
-          "mappings": [ "item.default" ]
-        }
-      ]
+      "data": [{
+        "key": "channel",
+        "query": "channel.default",
+        "mappings": ["channel.default"]
+      }, {
+        "key": "items",
+        "query": "item.recipes",
+        "mappings": ["item.default"]
+      }]
     }
 
   },
@@ -182,7 +201,7 @@
           "default": {
             "fq": "nodeTypeAlias_t:(FoodArticle OR FoodStudioArticle OR Article)"
           },
-          "sponsored": { 
+          "sponsored": {
             "fq": "nodeTypeAlias_t:(FoodArticle OR FoodStudioArticle OR Article)"
           }
         }
@@ -195,7 +214,7 @@
           "default": {
             "fq": "nodeTypeAlias_t:(FoodArticle OR FoodStudioArticle OR Article)"
           },
-          "sponsored": { 
+          "sponsored": {
             "fq": "nodeTypeAlias_t:(FoodArticle OR FoodStudioArticle OR Article)"
           }
         }
