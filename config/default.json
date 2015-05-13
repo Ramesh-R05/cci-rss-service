@@ -49,8 +49,7 @@
 
       "default": {
         "title": {
-          "map": [ "pageTitle_t", "contentTitle_t" ],
-          "after": [ "sanitise" ]
+          "map": [ "pageTitle_t", "contentTitle_t" ]
         },
         "feed_url": {
           "map": "mapFeedUrl(__request)"
@@ -59,8 +58,7 @@
           "map": "siteUrl_t"
         },
         "description": {
-          "map": [ "pageMetaDescription_t", "contentSummary_t" ],
-          "after": [ "sanitise" ]
+          "map": [ "pageMetaDescription_t", "contentSummary_t" ]
         },
         "copyright": {
           "map": "mapCopyright"
@@ -86,12 +84,11 @@
 
       "default": {
         "title": {
-          "map": [ "pageTitle_t", "contentTitle_t", "nodeName_t" ],
-          "after": [ "sanitise" ]
+          "map": [ "pageTitle_t", "contentTitle_t", "nodeName_t" ]
         },
         "description": {
           "map": [ "pageMetaDescription_t", "contentSummary_t" ],
-          "after": [ "sanitise" ]
+          "after": [ "sanitize" ]
         },
         "url": {
           "map": "mapItemUrl(siteUrl_t, url_t)"
