@@ -209,52 +209,70 @@
 
     "default": {
       "path": "/",
-      "data": [{
-        "key": "channel",
-        "query": "channel.default"
-      }, {
-        "key": "items",
-        "query": "item.default"
-      }]
+      "data": [
+        {
+          "key": "channel",
+          "query": "channel.default"
+        },
+        {
+          "key": "items",
+          "query": "item.default"
+        }
+      ]
     },
 
     "fullcontent": {
       "path": "/full-content",
-      "data": [{
-        "key": "channel",
-        "query": "channel.default",
-        "mappings": ["channel.default"]
-      }, {
-        "key": "items",
-        "query": "item.default",
-        "mappings": ["item.default", "item.fullcontent"]
-      }]
+      "data": [
+        {
+          "key": "channel",
+          "query": "channel.default",
+          "mappings": [ "channel.default" ]
+        },
+        {
+          "key": "items",
+          "query": "item.default",
+          "mappings": [ "item.default", "item.fullcontent" ]
+        }
+      ]
     },
 
     "sponsored": {
       "path": "/sponsored",
-      "data": [{
-        "key": "channel",
-        "query": "channel.default",
-        "mappings": ["channel.default", "channel.sponsored"]
-      }, {
-        "key": "items",
-        "query": "item.sponsored",
-        "mappings": ["item.default", "item.sponsored"]
-      }]
+      "data": [
+        {
+          "key": "channel",
+          "query": "channel.default",
+          "mappings": [ "channel.default", "channel.sponsored" ]
+        },
+        {
+          "key": "items",
+          "query": "item.sponsored",
+          "mappings": [ "item.default", "item.sponsored" ]
+        }
+      ],
+      "dataReceived": {
+        "fn": "onSponsoredDataReceived",
+        "params": [ 
+          "contentCampaign_t"
+        ]
+      }
     },
 
     "recipes": {
       "path": "/recipes",
-      "data": [{
-        "key": "channel",
-        "query": "channel.default",
-        "mappings": ["channel.default"]
-      }, {
-        "key": "items",
-        "query": "item.recipes",
-        "mappings": ["item.default"]
-      }]
+      "data": [
+        {
+          "key": "channel",
+          "query": "channel.default",
+          "mappings": [ "channel.default" ]
+        },
+        {
+          "key": "items",
+          "query": "item.recipes",
+          "mappings": [ "item.default" ]
+        }
+      ]
     }
 
   },

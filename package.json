@@ -26,7 +26,8 @@
     "marked": "^0.3.3",
     "remove-markdown": "^0.0.2",
     "striptags": "^2.0.2",
-    "mustache":  "^2.0.0"
+    "mustache": "^2.0.0",
+    "underscore": "^1.8.3"
   },
   "devDependencies": {
     "chai": "^2.1.1",
