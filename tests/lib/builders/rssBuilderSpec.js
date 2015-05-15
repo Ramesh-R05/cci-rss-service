@@ -83,9 +83,10 @@ describe('rssBuilder', function () {
 
             describe('if custom namespace data does not exist', function () {
 
-                var originalVal = testData[0].data[0].custom_namespaces;
+                var originalVal;
 
                 before(function () {
+                    originalVal = testData[0].data[0].custom_namespaces;
                     delete testData[0].data[0].custom_namespaces;
                 });
 
@@ -143,9 +144,10 @@ describe('rssBuilder', function () {
 
             describe('if enclosure data does not exist', function () {
 
-                var originalVal = testData[1].data[0].enclosure;
+                var originalVal;
 
                 before(function () {
+                    originalVal = testData[1].data[0].enclosure;
                     delete testData[1].data[0].enclosure;
                 });
 
@@ -170,9 +172,10 @@ describe('rssBuilder', function () {
 
             describe('if category data does not exist', function () {
 
-                var originalVal = testData[1].data[0].categories;
+                var originalVal;
 
                 before(function () {
+                    originalVal = testData[1].data[0].categories;
                     delete testData[1].data[0].categories;
                 });
 
@@ -195,9 +198,10 @@ describe('rssBuilder', function () {
 
             describe('if custom element data does not exist', function () {
 
-                var originalVal = testData[1].data[0].custom_elements;
+                var originalVal;
 
                 before(function () {
+                    originalVal = testData[1].data[0].custom_elements;
                     delete testData[1].data[0].custom_elements;
                 });
 
@@ -215,10 +219,10 @@ describe('rssBuilder', function () {
 
         describe('when: items data not set', function () {
 
-            var originalVal = testData[1].data;
+            var originalVal;
 
             before(function () {
-
+                originalVal = testData[1].data;
                 testData[1].data = [];
             });
 

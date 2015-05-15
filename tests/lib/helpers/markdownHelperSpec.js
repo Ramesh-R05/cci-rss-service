@@ -96,9 +96,10 @@ describe('markdownHelper', function () {
 
         describe('when: content not set', function () {
 
-            var originalVal = input.url;
+            var originalVal;
 
             before(function () {
+                originalVal = input.url;
                 input.url = '';
             });
 

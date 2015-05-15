@@ -57,9 +57,10 @@ describe('solrHelper', function () {
 
         describe('when: null query configuration', function () {
 
-            var originalVal = testProps.config.queries.channel.default;
+            var originalVal;
 
             before(function () {
+                originalVal = testProps.config.queries.channel.default;
                 testProps.config.queries.channel.default = null;
             });
 

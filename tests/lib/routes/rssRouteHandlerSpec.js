@@ -66,11 +66,15 @@ describe('rssRouteHandler', function () {
 
         describe('when: application error thrown', function () {
 
-            var config = configHelper.config('aww', { site: 'aww' });
+            var req = createMockRequest('aww', '', null, null);
+            var res = createMockResponse();
 
-            var originalVal = config.queries;
+            var config;
+            var originalVal;
 
             before(function () {
+                config = configHelper.config('aww', { site: 'aww' });
+                originalVal = config.queries;
                 delete config.queries;
             });
 
@@ -78,9 +82,6 @@ describe('rssRouteHandler', function () {
                 config.queries = originalVal;
             });
             
-            var req = createMockRequest('aww', '', null, null);
-            var res = createMockResponse();
-
             it('should return 500 status', function () {
                 rssRouteHandler.route(req, res);
                 expect(res.code).to.equal(500);
