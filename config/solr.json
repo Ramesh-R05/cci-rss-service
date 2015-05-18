@@ -1,0 +1,6 @@
+﻿{
+  "host": "solr01.digital.dev.local",
+  "port": 80,
+  "path": "/solr",
+  "core": "{{site}}-search"
+}

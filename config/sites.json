@@ -1,0 +1,29 @@
+﻿{
+
+  "food": {
+    "queries": {
+      "item": {
+        "default": {
+          "fq": "nodeTypeAlias_t:(FoodArticle OR FoodStudioArticle OR Article)"
+        },
+        "sponsored": {
+          "fq": "nodeTypeAlias_t:(FoodArticle OR FoodStudioArticle OR Article)"
+        }
+      }
+    }
+  },
+
+  "food-nz": {
+    "queries": {
+      "item": {
+        "default": {
+          "fq": "nodeTypeAlias_t:(FoodArticle OR FoodStudioArticle OR Article)"
+        },
+        "sponsored": {
+          "fq": "nodeTypeAlias_t:(FoodArticle OR FoodStudioArticle OR Article)"
+        }
+      }
+    }
+  }
+
+}

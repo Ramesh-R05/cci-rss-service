@@ -1,0 +1,160 @@
+﻿{
+  "channel": {
+
+    "default": {
+      "title": {
+        "map": [ "pageTitle_t", "contentTitle_t" ]
+      },
+      "feed_url": {
+        "map": {
+          "fn": "mapFeedUrl",
+          "params": [
+            "@__request"
+          ]
+        }
+      },
+      "site_url": {
+        "map": "siteUrl_t"
+      },
+      "description": {
+        "map": [ "pageMetaDescription_t", "contentSummary_t" ],
+        "afterMap": [
+          {
+            "fn": "sanitise"
+          }
+        ]
+      },
+      "copyright": {
+        "map": {
+          "fn": "mapCopyright"
+        }
+      },
+      "ttl": {
+        "value": 60
+      }
+    },
+
+    "sponsored": {
+      "custom_namespaces": {
+        "mapObject": {
+          "mvcf": {
+            "value": "http://feed.aww.com.au/ns/mvcf/"
+          }
+        }
+      }
+
+    }
+  },
+
+  "item": {
+
+    "default": {
+      "title": {
+        "map": [ "pageTitle_t", "contentTitle_t", "nodeName_t" ]
+      },
+      "description": {
+        "map": [ "pageMetaDescription_t", "contentSummary_t" ],
+        "afterMap": [
+          {
+            "fn": "sanitise"
+          }
+        ]
+      },
+      "url": {
+        "map": {
+          "fn": "mapItemUrl",
+          "params": [
+            "@siteUrl_t",
+            "@url_t"
+          ]
+        }
+      },
+      "enclosure": {
+        "mapObject": {
+          "url": {
+            "map": "contentImageUrl_t",
+            "afterMap": [
+              {
+                "fn": "format",
+                "params": [
+                  "%s?width=800"
+                ]
+              }
+            ]
+          },
+          "type": {
+            "map": {
+              "fn": "mapMimeType",
+              "params": [
+                "@contentImageUrl_t"
+              ]
+            }
+          }
+        }
+      }
+    },
+
+    "fullcontent": {
+      "custom_elements": {
+        "mapObjectArray": {
+          "content:encoded": {
+            "mapObject": {
+              "_cdata": {
+                "map": {
+                  "fn": "mapFullContent",
+                  "params": [
+                    {
+                      "fn": "mapItemUrl",
+                      "params": [
+                        "@siteUrl_t",
+                        "@url_t"
+                      ]
+                    },
+                    "@contentBody_t"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "sponsored": {
+      "categories": {
+        "mapArray": [
+          {
+            "fn": "mapCampaignSponsor",
+            "params": [
+              "@contentCampaign_t"
+            ]
+          }
+        ]
+      },
+      "custom_elements": {
+        "mapObjectArray": {
+          "mvcf:is_bauer_native": {
+            "map": {
+              "fn": "mapCampaignType",
+              "params": [
+                "@contentCampaign_t",
+                "native"
+              ]
+            }
+          },
+          "mvcf:is_bauer_advertorial": {
+            "map": {
+              "fn": "mapCampaignType",
+              "params": [
+                "@contentCampaign_t",
+                "advertorial"
+              ]
+            }
+          }
+        }
+      }
+    }
+
+  }
+
+}
