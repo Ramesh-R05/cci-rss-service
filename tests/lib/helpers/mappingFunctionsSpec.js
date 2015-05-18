@@ -4,7 +4,30 @@ describe('mappingFunctions', function () {
 
     var testCampaignData = '[{ "campaignType": "Native", "sponsor": "Kellogs" }]';
 
-    describe('formatString', function () {
+    describe('sanitise', function () {
+
+        var testInput = '<strong>Lorem</strong> **ipsum** <a href="#">dolor</a> [sit](http://www.example.com) amet.';
+        var expectedResult = 'Lorem ipsum dolor sit amet.';
+
+        describe('when: input string set', function () {
+
+            it('should remove all html tags and markdown from the input string', function () {
+                expect(mappingFunctions.sanitise(testInput)).to.equal(expectedResult);
+            });
+
+        });
+
+        describe('when: no input string set', function () {
+
+            it('should return an empty string', function () {
+                expect(mappingFunctions.sanitise(null)).to.equal('');
+            });
+
+        });
+
+    });
+
+    describe('format', function () {
 
         var testFormat = '[%s]';
         var testInput = 'test';
@@ -13,9 +36,15 @@ describe('mappingFunctions', function () {
         describe('when: is valid format string', function () {
 
             it('should return formatted input value', function () {
-                expect(mappingFunctions.formatString(testFormat, testInput)).to.equal(expectedResult);
+                expect(mappingFunctions.format(testFormat, testInput)).to.equal(expectedResult);
             });
 
+        });
+
+        describe('when: no input value set', function () {
+            it('should return an empty string', function () {
+                expect(mappingFunctions.format(testFormat, null)).to.equal('');
+            });
         });
 
     });
@@ -221,9 +250,10 @@ describe('mappingFunctions', function () {
 
             describe('and when: item content not set', function () {
 
-                var originalVal = input[2].content;
+                var originalVal;
 
                 before(function () {
+                    originalVal = input[2].content;
                     input[2].content = '';
                 });
 
@@ -239,9 +269,10 @@ describe('mappingFunctions', function () {
 
             describe('and when: item video id not set', function () {
 
-                var originalVal = input[4].content.properties.videoConfiguration.brightcoveId;
+                var originalVal;
 
                 before(function () {
+                    originalVal = input[4].content.properties.videoConfiguration.brightcoveId;
                     input[4].content.properties.videoConfiguration.brightcoveId = '';
                 });
 

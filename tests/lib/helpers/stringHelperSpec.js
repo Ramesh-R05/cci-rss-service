@@ -107,67 +107,51 @@ describe('stringHelper', function () {
 
     });
 
-    describe('parseFunction', function () {
+    describe('stripHtml', function () {
 
-        var fnStrNoParams = 'fnA';
-        var fnStrWithParams = 'fnA(x, y)';
-        var fnStrWithFunctionParam = 'fnA(x, fnB(y, z))';
-        var fnStrWithEscapedParam = 'fnA(x, \\(y\\))';
+        var testInput;
+        var expectedResult;
 
-        describe('when: no parameters', function () {
+        describe('when: input string contains html and no allowed tags are set', function () {
 
-            it('should have an empty parameter list', function () {
+            before(function () {
+                testInput = '<strong>Lorem</strong> ipsum <a href="http://www.example.com">dolor</a>.';
+                expectedResult = 'Lorem ipsum dolor.';
+            });
 
-                var actual = stringHelper.parseFunction(fnStrNoParams);
+            it('should remove all html from the input string', function () {
+                expect(stringHelper.stripHtml(testInput)).to.equal(expectedResult);
+            });
 
-                expect(actual.name).to.equal('fnA');
-                expect(actual.params.length).to.equal(0);
+            describe('and when: allowed tags are set', function () {
 
+                before(function () {
+                    expectedResult = 'Lorem ipsum <a href="http://www.example.com">dolor</a>.'
+                });
+
+                it('should remove all other html tags from the input string', function () {
+                    expect(stringHelper.stripHtml(testInput, ['a'])).to.equal(expectedResult);
+                });
             });
 
         });
 
-        describe('when: parameters exist', function () {
+    });
 
-            it('should contain a list of parameters', function () {
+    describe('stripMarkdown', function () {
 
-                var actual = stringHelper.parseFunction(fnStrWithParams);
+        var testInput;
+        var expectedResult;
 
-                expect(actual.name).to.equal('fnA');
-                expect(actual.params.length).to.equal(2);
-                expect(actual.params[0]).to.equal('x');
-                expect(actual.params[1]).to.equal('y');
+        describe('when: input string contains markdown', function () {
 
+            before(function () {
+                testInput = '**Lorem** ipsum [dolor](http://www.example.com).';
+                expectedResult = 'Lorem ipsum dolor.';
             });
 
-        });
-
-        describe('when: function parameters exist', function () {
-
-            it('should have function string as a parameter', function () {
-
-                var actual = stringHelper.parseFunction(fnStrWithFunctionParam);
-
-                expect(actual.name).to.equal('fnA');
-                expect(actual.params.length).to.equal(2);
-                expect(actual.params[0]).to.equal('x');
-                expect(actual.params[1]).to.equal('fnB(y, z)');
-
-            });
-
-        });
-
-        describe('when: parameters exist with escaped cheracters', function () {
-
-            it('should include escaped characters in parameter', function () {
-
-                var actual = stringHelper.parseFunction(fnStrWithEscapedParam);
-
-                expect(actual.name).to.equal('fnA');
-                expect(actual.params.length).to.equal(2);
-                expect(actual.params[0]).to.equal('x');
-                expect(actual.params[1]).to.equal('(y)');
-
+            it('should remove all markdown from the input string', function () {
+                expect(stringHelper.stripMarkdown(testInput)).to.equal(expectedResult);
             });
 
         });

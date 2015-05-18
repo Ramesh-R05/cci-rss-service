@@ -1,0 +1,36 @@
+﻿{
+  "channel": {
+
+    "default": {
+      "q": "*:*",
+      "fq": "nodeTypeAlias_t:\"Homepage\"",
+      "rows": "1"
+    }
+
+  },
+
+  "item": {
+
+    "default": {
+      "q": "*:*",
+      "fq": "nodeTypeAlias_t:(BauerArticle OR Article)",
+      "sort": "pageDateCreated_dt desc",
+      "rows": "50"
+    },
+
+    "sponsored": {
+      "q": "contentCampaign_t:*",
+      "fq": "nodeTypeAlias_t:(BauerArticle OR Article)",
+      "sort": "pageDateCreated_dt desc",
+      "rows": "500"
+    },
+
+    "recipes": {
+      "q": "*:*",
+      "fq": "nodeTypeAlias_t:(Recipe)",
+      "sort": "pageDateCreated_dt desc",
+      "rows": "50"
+    }
+
+  }
+}
