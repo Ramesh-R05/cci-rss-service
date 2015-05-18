@@ -318,4 +318,97 @@ describe('mappingFunctions', function () {
 
     });
 
+    describe('mapTags', function () {
+
+        var input;
+
+        describe('when: tag groups set', function () {
+
+            before(function () {
+                input = [
+                    [ 'food:Meal:Dessert', 'food:Dish type:Cake' ],
+                    [ 'food:Difficulty:Moderate' ]
+                ];
+            });
+
+            it('should return a list containing the lowercase tag name from all groups', function () {
+                var actual = mappingFunctions.mapTags(input);
+                expect(actual.length).to.equal(3);
+                expect(actual[2]).to.equal('moderate');
+                console.log('Tags: ' + JSON.stringify(actual));
+            });
+
+            describe('and when: tag group contains an empty tag', function () {
+
+                before(function () {
+                    input = [['food:Meal:Dessert', '', 'food:Difficulty:Moderate']];
+                });
+
+                it('should not include the empty tag', function () {
+                    var actual = mappingFunctions.mapTags(input);
+                    expect(actual.length).to.equal(2);
+                    expect(actual[0]).to.equal('dessert');
+                    expect(actual[1]).to.equal('moderate');
+                });
+            });
+
+            describe('and when: tag group is not an array', function () {
+
+                before(function () {
+                    input = [
+                        ['food:Meal:Dessert'  ],
+                        'food:Dish type:Cake', 
+                        ['food:Difficulty:Moderate']
+                    ];
+                });
+
+                it('should ignore the tag group', function () {
+                    var actual = mappingFunctions.mapTags(input);
+                    expect(actual.length).to.equal(2);
+                    expect(actual[0]).to.equal('dessert');
+                    expect(actual[1]).to.equal('moderate');
+                });
+            });
+
+            describe('and when: tag contains invalid characters', function () {
+
+                before(function () {
+                    input = [['food:Meal:[{"Dessert"}]']]
+                });
+
+                it('should strip invalid characters from the tag', function () {
+                    var actual = mappingFunctions.mapTags(input);
+                    expect(actual.length).to.equal(1);
+                    expect(actual[0]).to.equal('dessert');
+                });
+            });
+
+            describe('and when: tag contains all invalid characters', function () {
+
+                before(function () {
+                    input = [['food:Meal:[{""}]']]
+                });
+
+                it('should ignore the tag', function () {
+                    var actual = mappingFunctions.mapTags(input);
+                    expect(actual).to.exist.and.be.empty;
+                });
+            });
+
+        });
+
+        describe('when: tag groups not set', function () {
+
+            before(function () {
+                input = [];
+            });
+
+            it('should return an empty array', function () {
+                var actual = mappingFunctions.mapTags(input);
+                expect(actual).to.exist.and.to.be.empty;
+            });
+        });
+
+    });
+
 });
