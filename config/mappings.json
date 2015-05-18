@@ -153,6 +153,20 @@
           }
         }
       }
+    },
+
+    "recipes": { 
+      "categories": {
+        "map": {
+          "fn": "mapTags",
+          "params": [
+            [
+              "@contentTags_ss",
+              "@bauerTags_ss"
+            ]
+          ]
+        }
+      }
     }
 
   }

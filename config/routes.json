@@ -62,7 +62,7 @@
       {
         "key": "items",
         "query": "item.recipes",
-        "mappings": [ "item.default" ]
+        "mappings": [ "item.default", "item.recipes" ]
       }
     ]
   }
