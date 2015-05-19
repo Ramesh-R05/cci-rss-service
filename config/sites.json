@@ -1,6 +1,9 @@
 ﻿{
 
   "food": {
+    "solr": {
+      "host": "solr01.digital.live.local"
+    },
     "queries": {
       "item": {
         "default": {

@@ -36,30 +36,32 @@ var emptySolrResponse = {
     }
 };
 
-var mock = function (site) {
+var mock = function (site, solrHost) {
 
-    nock('http://solr01.digital.dev.local')
+    var host = 'http://' + (solrHost ? solrHost : 'solr01.digital.dev.local');
+
+    nock(host)
     .get(util.format('/solr/%s-search/select?q=*%3A*&fq=nodeTypeAlias_t%3A%22Homepage%22&rows=1&wt=json', site))
     .reply(200, JSON.stringify(solrChannelResult));
 
-    nock('http://solr01.digital.dev.local')
+    nock(host)
     .get(util.format('/solr/%s-search/select?q=*%3A*&fq=nodeTypeAlias_t%3A%28BauerArticle%20OR%20Article%29&sort=pageDateCreated_dt%20desc&rows=50&wt=json', site))
     .reply(200, JSON.stringify(solrItemsResult));
 
-    nock('http://solr01.digital.dev.local')
+    nock(host)
     .get(util.format('/solr/%s-search/select?q=*%3A*&fq=nodeTypeAlias_t%3A%28FoodArticle%20OR%20FoodStudioArticle%20OR%20Article%29&sort=pageDateCreated_dt%20desc&rows=50&wt=json', site))
     .reply(200, JSON.stringify(solrItemsResult));
 
-    nock('http://solr01.digital.dev.local')
+    nock(host)
     .get(util.format('/solr/%s-search/select?q=contentCampaign_t%3A*&fq=nodeTypeAlias_t%3A%28BauerArticle%20OR%20Article%29&sort=pageDateCreated_dt%20desc&rows=500&wt=json', site))
     .reply(200, JSON.stringify(solrItemsResult));
 
 
-    nock('http://solr01.digital.dev.local')
+    nock(host)
     .get('/solr/invalid-search/select?q=*%3A*&fq=nodeTypeAlias_t%3A%22Homepage%22&rows=1&wt=json')
     .reply(404, '');
 
-    nock('http://solr01.digital.dev.local')
+    nock(host)
     .get('/solr/invalid-search/select?q=*%3A*&fq=nodeTypeAlias_t%3A%28BauerArticle%20OR%20Article%29&sort=pageDateCreated_dt%20desc&rows=50&wt=json')
     .reply(404, '');
 }
