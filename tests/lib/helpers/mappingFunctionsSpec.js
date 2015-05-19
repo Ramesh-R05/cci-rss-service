@@ -449,4 +449,70 @@ describe('mappingFunctions', function () {
         });
     });
 
+    describe('mapRecipeIngredients', function () {
+
+        var input = [
+            {
+                heading: 'Test heading',
+                ingredients: [
+                    {
+                        quantity: "800",
+                        measure: "gram",
+                        food: "trimmed pork shoulder"
+                    },
+                    {
+                        quantity: "2",
+                        measure: "tablespoons",
+                        food: "olive oil"
+                    },
+                    {
+                        quantity: "1",
+                        measure: "",
+                        food: "brown onion, chopped"
+                    },
+                    {
+                        quantity: "1",
+                        measure: "clove",
+                        food: "garlic"
+                    },
+                    {
+                        quantity: "",
+                        measure: "",
+                        food: "salt and pepper to taste"
+                    }
+                ]
+            }
+        ];
+
+        describe('when: ingredients data set', function () {
+
+            it('should return correctly formatted ingredients html', function () {
+                var actual = mappingFunctions.mapRecipeIngredients(JSON.stringify(input));
+                expect(actual).to.have.string('<h3>Test heading</h3>');
+                expect(actual).to.have.string('<li>800 grams trimmed pork shoulder</li>');
+                expect(actual).to.have.string('<li>2 tablespoons olive oil</li>');
+                expect(actual).to.have.string('<li>1 brown onion, chopped</li>');
+                expect(actual).to.have.string('<li>1 clove garlic</li>');
+                expect(actual).to.have.string('<li>salt and pepper to taste</li>');
+            });
+        });
+
+        describe('when: ingredients data not set', function () {
+
+            it('should return an empty string', function () {
+                var actual = mappingFunctions.mapRecipeIngredients('[]');
+                expect(actual).to.be.empty;
+            });
+        });
+
+        describe('when: invalid json', function () {
+
+            it('should return an empty string', function () {
+                var actual = mappingFunctions.mapRecipeIngredients('BAD JSON');
+                expect(actual).to.be.empty;
+            });
+        });
+
+    });
+
 });
