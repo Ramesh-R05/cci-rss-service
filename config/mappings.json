@@ -8,9 +8,7 @@
       "feed_url": {
         "map": {
           "fn": "mapFeedUrl",
-          "params": [
-            "@__request"
-          ]
+          "params": [ "@__request" ]
         }
       },
       "site_url": {
@@ -63,10 +61,7 @@
       "url": {
         "map": {
           "fn": "mapItemUrl",
-          "params": [
-            "@siteUrl_t",
-            "@url_t"
-          ]
+          "params": [ "@siteUrl_t", "@url_t" ]
         }
       },
       "enclosure": {
@@ -76,18 +71,14 @@
             "afterMap": [
               {
                 "fn": "format",
-                "params": [
-                  "%s?width=800"
-                ]
+                "params": [ "%s?width=800" ]
               }
             ]
           },
           "type": {
             "map": {
               "fn": "mapMimeType",
-              "params": [
-                "@contentImageUrl_t"
-              ]
+              "params": [ "@contentImageUrl_t" ]
             }
           }
         }
@@ -105,10 +96,7 @@
                   "params": [
                     {
                       "fn": "mapItemUrl",
-                      "params": [
-                        "@siteUrl_t",
-                        "@url_t"
-                      ]
+                      "params": [ "@siteUrl_t", "@url_t" ]
                     },
                     "@contentBody_t"
                   ]
@@ -125,9 +113,7 @@
         "mapArray": [
           {
             "fn": "mapCampaignSponsor",
-            "params": [
-              "@contentCampaign_t"
-            ]
+            "params": [ "@contentCampaign_t" ]
           }
         ]
       },
@@ -136,35 +122,48 @@
           "mvcf:is_bauer_native": {
             "map": {
               "fn": "mapCampaignType",
-              "params": [
-                "@contentCampaign_t",
-                "native"
-              ]
+              "params": [ "@contentCampaign_t", "native" ]
             }
           },
           "mvcf:is_bauer_advertorial": {
             "map": {
               "fn": "mapCampaignType",
-              "params": [
-                "@contentCampaign_t",
-                "advertorial"
-              ]
+              "params": [ "@contentCampaign_t", "advertorial" ]
             }
           }
         }
       }
     },
 
-    "recipes": { 
+    "recipes": {
       "categories": {
         "map": {
           "fn": "mapTags",
-          "params": [
-            [
-              "@contentTags_ss",
-              "@bauerTags_ss"
-            ]
-          ]
+          "params": [[ "@contentTags_ss", "@bauerTags_ss" ]]
+        }
+      }
+    },
+
+    "recipes_fullcontent": {
+      "custom_elements": {
+        "mapObjectArray": {
+          "content:encoded": {
+            "mapObject": {
+              "_cdata": {
+                "map": {
+                  "fn": "mapRecipeContent",
+                  "params": [
+                    [
+                      {
+                        "fn": "mapRecipeIngredients",
+                        "params": [ "@recipeIngredients_t" ]
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          }
         }
       }
     }

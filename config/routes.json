@@ -65,6 +65,22 @@
         "mappings": [ "item.default", "item.recipes" ]
       }
     ]
+  },
+
+  "recipes_fullcontent": {
+    "path": "/recipes/full-content",
+    "data": [
+      {
+        "key": "channel",
+        "query": "channel.default",
+        "mappings": [ "channel.default" ]
+      },
+      {
+        "key": "items",
+        "query": "item.recipes",
+        "mappings": [ "item.default", "item.recipes", "item.recipes_fullcontent" ]
+      }
+    ]
   }
 
 }

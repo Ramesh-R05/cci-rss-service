@@ -1,9 +1,6 @@
 ﻿{
 
   "food": {
-    "solr": {
-      "host": "solr01.digital.live.local"
-    },
     "queries": {
       "item": {
         "default": {
@@ -13,6 +10,12 @@
           "fq": "nodeTypeAlias_t:(FoodArticle OR FoodStudioArticle OR Article)"
         }
       }
+    }
+  },
+
+  "food_live": {
+    "solr": {
+      "host": "solr01.digital.live.local"
     }
   },
 

@@ -108,7 +108,7 @@ describe('rssRouteHandler', function () {
 
             describe('and when: site = \'food\'', function () {
 
-                solrQueries.mock('food', 'solr01.digital.live.local');
+                solrQueries.mock('food');
 
                 var req = createMockRequest('food', '', null, null);
                 var res = createMockResponse();

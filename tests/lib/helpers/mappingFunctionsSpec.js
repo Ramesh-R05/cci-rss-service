@@ -335,7 +335,6 @@ describe('mappingFunctions', function () {
                 var actual = mappingFunctions.mapTags(input);
                 expect(actual.length).to.equal(3);
                 expect(actual[2]).to.equal('moderate');
-                console.log('Tags: ' + JSON.stringify(actual));
             });
 
             describe('and when: tag group contains an empty tag', function () {
@@ -409,6 +408,45 @@ describe('mappingFunctions', function () {
             });
         });
 
+    });
+
+    describe('mapRecipeContent', function () {
+
+        var input;
+
+        describe("when: recipe content items set", function () {
+
+            before(function () {
+                input = ['<p>Lorem</p>', '<p>ipsum</p>', '<p>dolor</p>'];
+            });
+
+            it('should append each content item to a string', function () {
+                var actual = mappingFunctions.mapRecipeContent(input);
+                expect(actual).to.equal('<p>Lorem</p><p>ipsum</p><p>dolor</p>');
+            });
+
+            describe('and when: empty content items exist', function () {
+
+                before(function () {
+                    input = ['<p>Lorem</p>', '', '<p>dolor</p>']
+                });
+
+                it('should ignore the empty items', function () {
+                    var actual = mappingFunctions.mapRecipeContent(input);
+                    expect(actual).to.equal('<p>Lorem</p><p>dolor</p>');
+                });
+            });
+
+        });
+
+        describe("when: recipe content items not set", function () {
+
+            it('should return an empty string', function () {
+                var actual = mappingFunctions.mapRecipeContent(null);
+                expect(actual).to.be.empty;
+            });
+
+        });
     });
 
 });

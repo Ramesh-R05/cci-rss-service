@@ -39,6 +39,31 @@ describe('configHelper', function () {
 
         });
 
+        describe('when: site specific environment overrides are set', function () {
+
+            before(function () {
+                configHelper.clearCache();
+                configHelper.setEnvironment('test');
+                config.sites.food_test = {
+                    "solr": {
+                        "host": "solr01.digital.test.local"
+                    }
+                };
+            });
+
+            after(function () {
+                configHelper.clearCache();
+                configHelper.setEnvironment(null);
+                delete config.sites.food_test;
+            });
+
+            it('should apply site environment config overrides', function () {
+                var actual = configHelper.config('food', { site: 'food' });
+                expect(actual.solr.host).to.equal('solr01.digital.test.local');
+            });
+
+        });
+
     });
 
 });
