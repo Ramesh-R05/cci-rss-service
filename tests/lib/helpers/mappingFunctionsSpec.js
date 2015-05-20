@@ -453,7 +453,7 @@ describe('mappingFunctions', function () {
 
         var input = [
             {
-                heading: 'Test heading',
+                heading: 'Test heading 1',
                 ingredients: [
                     {
                         quantity: "800",
@@ -464,7 +464,16 @@ describe('mappingFunctions', function () {
                         quantity: "2",
                         measure: "tablespoons",
                         food: "olive oil"
-                    },
+                    }
+                ]
+            },
+            {
+                heading: 'Test heading 2',
+                ingredients: []
+            },
+            {
+                heading: 'Test heading 3',
+                ingredients: [
                     {
                         quantity: "1",
                         measure: "",
@@ -488,9 +497,11 @@ describe('mappingFunctions', function () {
 
             it('should return correctly formatted ingredients html', function () {
                 var actual = mappingFunctions.mapRecipeIngredients(JSON.stringify(input));
-                expect(actual).to.have.string('<h3>Test heading</h3>');
+                expect(actual).to.have.string('<h3>Test heading 1</h3>');
                 expect(actual).to.have.string('<li>800 grams trimmed pork shoulder</li>');
                 expect(actual).to.have.string('<li>2 tablespoons olive oil</li>');
+                expect(actual).to.not.have.string('<h3>Test heading 2</h3>');
+                expect(actual).to.have.string('<h3>Test heading 3</h3>');
                 expect(actual).to.have.string('<li>1 brown onion, chopped</li>');
                 expect(actual).to.have.string('<li>1 clove garlic</li>');
                 expect(actual).to.have.string('<li>salt and pepper to taste</li>');
@@ -513,6 +524,324 @@ describe('mappingFunctions', function () {
             });
         });
 
+    });
+
+    describe('mapRecipeCookingMethod', function () {
+
+        var input = [
+            {
+                heading: 'Test heading 1',
+                methods: [
+                    {
+                        method: 'Preheat oven to 160°C.'
+                    },
+                    {
+                        method: 'Season pork. Heat oil in a large heavy-based saucepan over high heat.'
+                    }
+                ]
+            },
+            {
+                heading: 'Test heading 2',
+                methods: []
+            },
+            {
+                heading: 'Test heading 3',
+                methods: [
+                    {
+                        method: 'Heat oil in a large saucepan on medium-high.'
+                    }
+                ]
+            }
+        ];
+
+        describe('when: cooking method data set', function () {
+
+            it('should return correctly formatted cooking method html', function () {
+                var actual = mappingFunctions.mapRecipeCookingMethod(JSON.stringify(input));
+                expect(actual).to.have.string('<h3>Test heading 1</h3>');
+                expect(actual).to.have.string('<li>Preheat oven to 160°C.</li>');
+                expect(actual).to.have.string('<li>Season pork. Heat oil in a large heavy-based saucepan over high heat.</li>');
+                expect(actual).to.not.have.string('<h3>Test heading 2</h3>')
+                expect(actual).to.have.string('<h3>Test heading 3</h3>');
+                expect(actual).to.have.string('<li>Heat oil in a large saucepan on medium-high.</li>');
+            });
+
+        });
+
+        describe('when: cooking method data not set', function () {
+
+            it('should return an empty string', function () {
+                var actual = mappingFunctions.mapRecipeCookingMethod('[]');
+                expect(actual).to.be.empty;
+            });
+        });
+
+        describe('when: invalid json', function () {
+
+            it('should return an empty string', function () {
+                var actual = mappingFunctions.mapRecipeCookingMethod('BAD JSON');
+                expect(actual).to.be.empty;
+            });
+        });
+    });
+
+    describe('mapRecipeServings', function () {
+
+        var input;
+
+        describe('when: input data is set', function () {
+
+            before(function () {
+                input = {
+                    serves: '4',
+                    yieldQuantity: '2',
+                    yieldMeasure: 'Cup'
+                };
+            });
+
+            it('should correctly format the input', function () {
+                var actual = mappingFunctions.mapRecipeServings(JSON.stringify(input));
+                expect(actual).to.have.string('Serves: 4');
+                expect(actual).to.have.string('Makes: 2 cups');
+            });
+
+            describe('and when: no serves value set', function () {
+
+                before(function () {
+                    input = {
+                        yieldQuantity: '3',
+                        yieldMeasure: 'Litres'
+                    }
+                });
+
+                it('should not include serves in the output', function () {
+                    var actual = mappingFunctions.mapRecipeServings(JSON.stringify(input));
+                    expect(actual).to.have.string('Makes: 3 litres');
+                    expect(actual).to.not.have.string('Serves:');
+                });
+            });
+
+            describe('and when: no yield quantity is set', function () {
+
+                before(function () {
+                    input = {
+                        serves: '4',
+                        yieldMeasure: 'Cup'
+                    }
+                });
+
+                it('should not include a yield in the output', function () {
+                    var actual = mappingFunctions.mapRecipeServings(JSON.stringify(input));
+                    expect(actual).to.have.string('Serves: 4');
+                    expect(actual).to.not.have.string('Makes:');
+                });
+            });
+
+            describe('and when: yield measure is not set', function () {
+
+                before(function () {
+                    input = {
+                        yieldQuantity: '2'
+                    }
+                });
+
+                it('should not include any yield measure', function () {
+                    var actual = mappingFunctions.mapRecipeServings(JSON.stringify(input));
+                    expect(actual).to.have.string('Makes: 2</');
+                })
+            });
+
+            describe('and when: yield measure = \'Item\'', function () {
+
+                before(function () {
+                    input = {
+                        yieldQuantity: '2',
+                        yieldMeadure: 'Item'
+                    }
+                });
+
+                it('should not include any yield measure', function () {
+                    var actual = mappingFunctions.mapRecipeServings(JSON.stringify(input));
+                    expect(actual).to.have.string('Makes: 2</');
+                })
+            });
+
+        });
+
+        describe('when: invalid json', function () {
+
+            it('should return an empty string', function () {
+                var actual = mappingFunctions.mapRecipeServings('BAD JSON');
+                expect(actual).to.be.empty;
+            });
+
+        });
+
+    });
+
+    describe('mapRecipeCookingTime', function () {
+
+        var input = {
+            times: [
+                {
+                    id: 'preparation',
+                    minutes: 15.0,
+                },
+                {
+                    id: 'cooking',
+                    minutes: 60.0,
+                    label: '(plus cooling)'
+                },
+                {
+                    id: 'marinating',
+                    minutes: 90.0,
+                },
+                {
+                    id: 'resting',
+                    minutes: 0.0,
+                },
+                {
+                    id: 'party',
+                    minutes: 480.0,
+                },
+                {
+                    id: 'work',
+                    minutes: 61.0,
+                },
+                {
+                    id: 'lunch',
+                    minutes: 120.167
+                },
+                {
+                    id: 'business',
+                    minutes: 60.0167
+                }
+            ]
+        };
+
+        describe('when: input data is set', function () {
+
+            it('should correctly format the input', function () {
+                var actual = mappingFunctions.mapRecipeCookingTime(JSON.stringify(input));
+                expect(actual).to.have.string('Preparation time: 15 minutes');
+                expect(actual).to.have.string('Cooking time: 1 hour (plus cooling)');
+                expect(actual).to.have.string('Marinating time: 1 hour 30 minutes');
+                expect(actual).to.not.have.string('Resting time:');
+                expect(actual).to.have.string('Party time: 8 hours');
+                expect(actual).to.have.string('Work time: 1 hour 1 minute');
+                expect(actual).to.have.string('Lunch time: 2 hours 10 seconds');
+                expect(actual).to.have.string('Business time: 1 hour 1 second')
+            });
+
+        });
+
+        describe('when: input data contains no time values', function () {
+            it('should return an empty string', function () {
+                var actual = mappingFunctions.mapRecipeCookingTime('{}');
+                expect(actual).to.be.empty;
+            });
+        });
+
+        describe('when: invalid json', function () {
+            it('should return an empty string', function () {
+                var actual = mappingFunctions.mapRecipeCookingTime('BAD JSON');
+                expect(actual).to.be.empty;
+            });
+
+        });
+
+    });
+
+    describe('mapRecipeImage', function () {
+
+        describe('when: image url is set', function () {
+            it('should correctly format the input', function () {
+                var actual = mappingFunctions.mapRecipeImage('http://www.example.com/test.jpg');
+                expect(actual).to.have.string('<img src="http://www.example.com/test.jpg?width=800" />')
+            });
+
+            describe('and when: an image width is set', function () {
+                it('should use the width value instead of the default', function () {
+                    var actual = mappingFunctions.mapRecipeImage('http://www.example.com/test.jpg', 400);
+                    expect(actual).to.have.string('<img src="http://www.example.com/test.jpg?width=400" />')
+                });
+            });
+        });
+
+        describe('when: image url is empty', function () {
+            it('should return an empty string', function () {
+                var actual = mappingFunctions.mapRecipeImage('');
+                expect(actual).to.be.empty;
+            });
+        });
+
+    });
+
+    describe('mapRecipeTips', function () {
+
+        describe('when input data is set', function () {
+
+            var input = 'Lorem ipsum.\nDolor sit amet.';
+
+            it('should correctly format the input', function () {
+                var actual = mappingFunctions.mapRecipeTips(input);
+                expect(actual).to.have.string('<h3>Tips</h3>');
+                expect(actual).to.have.string('<p>Lorem ipsum.</p>');
+                expect(actual).to.have.string('<p>Dolor sit amet.</p>');
+            });
+        });
+
+        describe('when: input data is empty', function () {
+            it('should return an empty string', function () {
+                var actual = mappingFunctions.mapRecipeTips('');
+                expect(actual).to.be.empty;
+            });
+        });
+
+    });
+
+    describe('mapRecipeSource', function () {
+
+        describe('when: valid input data is set', function () {
+            it('should correctly format the input', function () {
+                var actual = mappingFunctions.mapRecipeSource('Taste');
+                expect(actual).to.have.string('Recipe by: Taste');
+            });
+        });
+
+        describe('when: input data is an excluded source', function () {
+            it('should return an empty string', function () {
+                var actual1 = mappingFunctions.mapRecipeSource('Commercial');
+                var actual2 = mappingFunctions.mapRecipeSource('Supplied');
+                expect(actual1).to.be.empty;
+                expect(actual2).to.be.empty;
+            });
+        });
+
+        describe('when: input data is empty', function () {
+            it('should return an empty string', function () {
+                var actual = mappingFunctions.mapRecipeSource('');
+                expect(actual).to.be.empty;
+            });
+        });
+
+    });
+
+    describe('mapRecipeProperty', function () {
+
+        describe('when: input data and label are set', function () {
+            it('should correctly format the input', function () {
+                var actual = mappingFunctions.mapRecipeProperty('Test', 'Lorem ipsum');
+                expect(actual).to.have.string('Test: Lorem ipsum');
+            });
+        });
+
+        describe('when: input data is empty', function () {
+            it('should return an empty string', function () {
+                var actual = mappingFunctions.mapRecipeProperty('Test', '');
+                expect(actual).to.be.empty;
+            });
+        });
     });
 
 });

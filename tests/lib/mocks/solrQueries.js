@@ -24,7 +24,13 @@ var solrItemsResult = {
                 siteUrl_t: 'http://www.example.com',
                 url_t: '/test/some-page',
                 contentImageUrl_t: 'http://www.example.com/images/test.jpg',
-                contentCampaign_t: '[{ "campaignType": "Native", "sponsor": "Kellogs" }]'
+                contentCampaign_t: '[{ "campaignType": "Native", "sponsor": "Kellogs" }]',
+                contentBody_t: '[{ "type": "paragraph",  "label": "Paragraph", "content": "Aenean mauris elit, congue quis leo sit amet." }]',
+                contentTags_ss: [
+	                "food:Cuisine:Italian",
+	                "food:Number of ingredients:6 or more ingredients",
+                ],
+                recipeIngredients_t: '[{"heading":"Balsamic honey pulled-pork buns","ingredients":[{"quantity":"800","measure":"gram","food":"trimmed pork shoulder"},{"quantity":"2","measure":"tablespoon","food":"olive oil"},{"quantity":"1","measure":"","food":"brown onion, chopped"},{"quantity":"4","measure":"clove","food":"garlic, peeled"},{"quantity":"4","measure":"","food":"sprigs fresh thyme"},{"quantity":"2","measure":"","food":"sprigs fresh rosemary"},{"quantity":"2","measure":"cup","food":"(500ml) chicken stock"},{"quantity":"1","measure":"cup","food":"(250ml) water"},{"quantity":"4","measure":"","food":"brioche buns, sliced"}]}]'
             }
         ]
     }
@@ -46,6 +52,10 @@ var mock = function (site, solrHost) {
 
     nock(host)
     .get(util.format('/solr/%s-search/select?q=*%3A*&fq=nodeTypeAlias_t%3A%28BauerArticle%20OR%20Article%29&sort=pageDateCreated_dt%20desc&rows=50&wt=json', site))
+    .reply(200, JSON.stringify(solrItemsResult));
+
+    nock(host)
+    .get(util.format('/solr/%s-search/select?q=*%3A*&fq=nodeTypeAlias_t%3A%28Recipe%29&sort=pageDateCreated_dt%20desc&rows=50&wt=json', site))
     .reply(200, JSON.stringify(solrItemsResult));
 
     nock(host)
