@@ -24,6 +24,18 @@ The most recent articles with full content body included for each feed item.
 
 Returns articles that have a campaign assigned to it. Includes all content details from the shortened teaser feed with additional campaign specific data.
 
+###Recipes
+
+**/rss/{site}/recipes**
+
+A simple feed of the most recent recipes. Returns the content title, url, description, image and recipe tags only.
+
+###Recipes - Full Content
+
+**/rss/{site}/recipes/full-content**
+
+The most recent recipes with full content details included for each feed item.
+
 **Note:** In the RSS feed paths above **{site}** should be replaced with the website's Solr core prefix (e.g. aww, food, wd).
 
 ##Running the app
