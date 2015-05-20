@@ -139,7 +139,7 @@
       "categories": {
         "map": {
           "fn": "mapTags",
-          "params": [[ "@contentTags_ss", "@bauerTags_ss" ]]
+          "params": [ [ "@contentTags_ss", "@bauerTags_ss" ] ]
         }
       }
     },
@@ -155,8 +155,32 @@
                   "params": [
                     [
                       {
+                        "fn": "mapRecipeImage",
+                        "params": [ "@contentImageUrl_t" ]
+                      },
+                      {
+                        "fn": "mapRecipeServings",
+                        "params": [ "@recipeServings_t" ]
+                      },
+                      {
+                        "fn": "mapRecipeCookingTime",
+                        "params": [ "@recipeCookingTime_t" ]
+                      },
+                      {
                         "fn": "mapRecipeIngredients",
                         "params": [ "@recipeIngredients_t" ]
+                      },
+                      {
+                        "fn": "mapRecipeCookingMethod",
+                        "params": [ "@recipeCookingMethod_t" ]
+                      },
+                      {
+                        "fn": "mapRecipeTips",
+                        "params": [ "@recipeTips_t" ]
+                      },
+                      {
+                        "fn": "mapRecipeSource",
+                        "params": [ "@recipeSource_s" ]
                       }
                     ]
                   ]
