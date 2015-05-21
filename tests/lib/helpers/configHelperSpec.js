@@ -43,7 +43,6 @@ describe('configHelper', function () {
 
             before(function () {
                 configHelper.clearCache();
-                process.env.NODE_ENV = 'test';
                 config.sites.food_test = {
                     "solr": {
                         "host": "solr01.digital.test.local"
@@ -53,12 +52,11 @@ describe('configHelper', function () {
 
             after(function () {
                 configHelper.clearCache();
-                process.env.NODE_ENV = null;
                 delete config.sites.food_test;
             });
 
             it('should apply site environment config overrides', function () {
-                var actual = configHelper.config('food', { site: 'food' });
+                var actual = configHelper.config('food', { site: 'food' }, 'test');
                 expect(actual.solr.host).to.equal('solr01.digital.test.local');
             });
 
