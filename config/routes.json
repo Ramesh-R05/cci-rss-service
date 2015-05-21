@@ -23,7 +23,7 @@
       },
       {
         "key": "items",
-        "query": "item.default",
+        "query": "item.fullcontent",
         "mappings": [ "item.default", "item.fullcontent" ]
       }
     ]

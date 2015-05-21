@@ -4,9 +4,12 @@
     "queries": {
       "item": {
         "default": {
-          "fq": "nodeTypeAlias_t:(FoodArticle OR FoodStudioArticle OR Article)"
+          "fq": "nodeTypeAlias_t:(FoodArticle OR FoodStudioArticle OR Article OR Gallery)"
         },
         "sponsored": {
+          "fq": "nodeTypeAlias_t:(FoodArticle OR FoodStudioArticle OR Article OR Gallery)"
+        },
+        "fullcontent": {
           "fq": "nodeTypeAlias_t:(FoodArticle OR FoodStudioArticle OR Article)"
         }
       }
@@ -23,9 +26,12 @@
     "queries": {
       "item": {
         "default": {
-          "fq": "nodeTypeAlias_t:(FoodArticle OR FoodStudioArticle OR Article)"
+          "fq": "nodeTypeAlias_t:(FoodArticle OR FoodStudioArticle OR Article OR Gallery)"
         },
         "sponsored": {
+          "fq": "nodeTypeAlias_t:(FoodArticle OR FoodStudioArticle OR Article OR Gallery)"
+        },
+        "fullcontent": {
           "fq": "nodeTypeAlias_t:(FoodArticle OR FoodStudioArticle OR Article)"
         }
       }

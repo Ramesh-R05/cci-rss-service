@@ -10,7 +10,7 @@ The following feeds are currently supported:
 
 **/rss/{site}**
 
-A simple feed of the most recent articles.  Returns the content title, url, description and image only.
+A simple feed of the most recent content.  Returns the content title, url, description and image only.
 
 ###Full Content
 
@@ -18,11 +18,11 @@ A simple feed of the most recent articles.  Returns the content title, url, desc
 
 The most recent articles with full content body included for each feed item.
 
-###Sponsored Articles
+###Sponsored Content
 
 **/rss/{site}/sponsored**
 
-Returns articles that have a campaign assigned to it. Includes all content details from the shortened teaser feed with additional campaign specific data.
+Returns content that has a campaign assigned to it. Includes all content details from the shortened teaser feed with additional campaign specific data.
 
 ###Recipes
 

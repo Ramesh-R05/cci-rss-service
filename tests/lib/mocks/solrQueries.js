@@ -46,33 +46,54 @@ var mock = function (site, solrHost) {
 
     var host = 'http://' + (solrHost ? solrHost : 'solr01.digital.dev.local');
 
+    //queries.channel.default
     nock(host)
     .get(util.format('/solr/%s-search/select?q=*%3A*&fq=nodeTypeAlias_t%3A%22Homepage%22&rows=1&wt=json', site))
     .reply(200, JSON.stringify(solrChannelResult));
 
+    //queries.item.default
+    nock(host)
+    .get(util.format('/solr/%s-search/select?q=*%3A*&fq=nodeTypeAlias_t%3A%28BauerArticle%20OR%20Article%20OR%20BauerGallery%20OR%20Gallery%29&sort=pageDateCreated_dt%20desc&rows=50&wt=json', site))
+    .reply(200, JSON.stringify(solrItemsResult));
+
+    //queries.item.fullcontent
     nock(host)
     .get(util.format('/solr/%s-search/select?q=*%3A*&fq=nodeTypeAlias_t%3A%28BauerArticle%20OR%20Article%29&sort=pageDateCreated_dt%20desc&rows=50&wt=json', site))
     .reply(200, JSON.stringify(solrItemsResult));
 
+    //queries.item.recipes
     nock(host)
     .get(util.format('/solr/%s-search/select?q=*%3A*&fq=nodeTypeAlias_t%3A%28Recipe%29&sort=pageDateCreated_dt%20desc&rows=50&wt=json', site))
     .reply(200, JSON.stringify(solrItemsResult));
 
+    //queries.item.sponsored
+    nock(host)
+    .get(util.format('/solr/%s-search/select?q=contentCampaign_t%3A*&fq=nodeTypeAlias_t%3A%28BauerArticle%20OR%20Article%20OR%20BauerGallery%20OR%20Gallery%29&sort=pageDateCreated_dt%20desc&rows=500&wt=json', site))
+    .reply(200, JSON.stringify(solrItemsResult));
+
+    //food.queries.item.default
+    nock(host)
+    .get(util.format('/solr/%s-search/select?q=*%3A*&fq=nodeTypeAlias_t%3A%28FoodArticle%20OR%20FoodStudioArticle%20OR%20Article%20OR%20Gallery%29&sort=pageDateCreated_dt%20desc&rows=50&wt=json', site))
+    .reply(200, JSON.stringify(solrItemsResult));
+
+    //food.queries.item.fullcontent
     nock(host)
     .get(util.format('/solr/%s-search/select?q=*%3A*&fq=nodeTypeAlias_t%3A%28FoodArticle%20OR%20FoodStudioArticle%20OR%20Article%29&sort=pageDateCreated_dt%20desc&rows=50&wt=json', site))
     .reply(200, JSON.stringify(solrItemsResult));
 
+    //food.queries.item.sponsored
     nock(host)
-    .get(util.format('/solr/%s-search/select?q=contentCampaign_t%3A*&fq=nodeTypeAlias_t%3A%28BauerArticle%20OR%20Article%29&sort=pageDateCreated_dt%20desc&rows=500&wt=json', site))
+    .get(util.format('/solr/%s-search/select?q=contentCampaign_t%3A*&fq=nodeTypeAlias_t%3A%28FoodArticle%20OR%20FoodStudioArticle%20OR%20Article%20OR%20Gallery%29&sort=pageDateCreated_dt%20desc&rows=500&wt=json', site))
     .reply(200, JSON.stringify(solrItemsResult));
 
-
+    //invalid site: queries.channel.default
     nock(host)
     .get('/solr/invalid-search/select?q=*%3A*&fq=nodeTypeAlias_t%3A%22Homepage%22&rows=1&wt=json')
     .reply(404, '');
 
+    //invalid site: queries.item.default
     nock(host)
-    .get('/solr/invalid-search/select?q=*%3A*&fq=nodeTypeAlias_t%3A%28BauerArticle%20OR%20Article%29&sort=pageDateCreated_dt%20desc&rows=50&wt=json')
+    .get('/solr/invalid-search/select?q=*%3A*&fq=nodeTypeAlias_t%3A%28BauerArticle%20OR%20Article%20OR%20BauerGallery%20OR%20Gallery%29&sort=pageDateCreated_dt%20desc&rows=50&wt=json')
     .reply(404, '');
 }
 
