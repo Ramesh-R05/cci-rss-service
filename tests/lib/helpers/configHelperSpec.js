@@ -43,7 +43,7 @@ describe('configHelper', function () {
 
             before(function () {
                 configHelper.clearCache();
-                configHelper.setEnvironment('test');
+                process.env.NODE_ENV = 'test';
                 config.sites.food_test = {
                     "solr": {
                         "host": "solr01.digital.test.local"
@@ -53,7 +53,7 @@ describe('configHelper', function () {
 
             after(function () {
                 configHelper.clearCache();
-                configHelper.setEnvironment(null);
+                process.env.NODE_ENV = null;
                 delete config.sites.food_test;
             });
 
