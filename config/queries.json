@@ -13,6 +13,13 @@
 
     "default": {
       "q": "*:*",
+      "fq": "nodeTypeAlias_t:(BauerArticle OR Article OR BauerGallery OR Gallery)",
+      "sort": "pageDateCreated_dt desc",
+      "rows": "50"
+    },
+
+    "fullcontent": {
+      "q": "*:*",
       "fq": "nodeTypeAlias_t:(BauerArticle OR Article)",
       "sort": "pageDateCreated_dt desc",
       "rows": "50"
@@ -20,7 +27,7 @@
 
     "sponsored": {
       "q": "contentCampaign_t:*",
-      "fq": "nodeTypeAlias_t:(BauerArticle OR Article)",
+      "fq": "nodeTypeAlias_t:(BauerArticle OR Article OR BauerGallery OR Gallery)",
       "sort": "pageDateCreated_dt desc",
       "rows": "500"
     },

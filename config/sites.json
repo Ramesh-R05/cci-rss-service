@@ -1,18 +1,24 @@
 ﻿{
 
   "food": {
-    "solr": {
-      "host": "solr01.digital.live.local"
-    },
     "queries": {
       "item": {
         "default": {
-          "fq": "nodeTypeAlias_t:(FoodArticle OR FoodStudioArticle OR Article)"
+          "fq": "nodeTypeAlias_t:(FoodArticle OR FoodStudioArticle OR Article OR Gallery)"
         },
         "sponsored": {
+          "fq": "nodeTypeAlias_t:(FoodArticle OR FoodStudioArticle OR Article OR Gallery)"
+        },
+        "fullcontent": {
           "fq": "nodeTypeAlias_t:(FoodArticle OR FoodStudioArticle OR Article)"
         }
       }
+    }
+  },
+
+  "food_live": {
+    "solr": {
+      "host": "solr01.digital.live.local"
     }
   },
 
@@ -20,9 +26,12 @@
     "queries": {
       "item": {
         "default": {
-          "fq": "nodeTypeAlias_t:(FoodArticle OR FoodStudioArticle OR Article)"
+          "fq": "nodeTypeAlias_t:(FoodArticle OR FoodStudioArticle OR Article OR Gallery)"
         },
         "sponsored": {
+          "fq": "nodeTypeAlias_t:(FoodArticle OR FoodStudioArticle OR Article OR Gallery)"
+        },
+        "fullcontent": {
           "fq": "nodeTypeAlias_t:(FoodArticle OR FoodStudioArticle OR Article)"
         }
       }

@@ -108,7 +108,7 @@ describe('rssRouteHandler', function () {
 
             describe('and when: site = \'food\'', function () {
 
-                solrQueries.mock('food', 'solr01.digital.live.local');
+                solrQueries.mock('food');
 
                 var req = createMockRequest('food', '', null, null);
                 var res = createMockResponse();
@@ -146,6 +146,68 @@ describe('rssRouteHandler', function () {
 
         });
 
+        describe('when: full content feed path', function () {
+
+            solrQueries.mock('aww');
+
+            var req = createMockRequest('aww', 'full-content', null, null);
+            var res = createMockResponse();
+
+            it('should return xml with full content', function (done) {
+                var promise = rssRouteHandler.route(req, res);
+                promise.finally(function () {
+                    expect(res.code).to.equal(200);
+                    expect(res.get('Content-Type')).to.equal('text/xml');
+                    expect(res.content.length).to.be.above(0);
+                    expect(res.content).to.have.string('<p>Aenean mauris elit, congue quis leo sit amet.</p>');
+                    done();
+                })
+            });
+
+        });
+        
+        describe('when: recipe feed path', function () {
+
+            solrQueries.mock('food');
+
+            var req = createMockRequest('food', 'recipes', null, null);
+            var res = createMockResponse();
+
+            it('should return recipe xml content', function (done) {
+                var promise = rssRouteHandler.route(req, res);
+                promise.finally(function () {
+                    expect(res.code).to.equal(200);
+                    expect(res.get('Content-Type')).to.equal('text/xml');
+                    expect(res.content.length).to.be.above(0);
+                    expect(res.content).to.have.string('6 or more ingredients');
+                    done();
+                })
+            });
+
+        });
+
+        describe('when: full content recipe feed path', function () {
+
+            solrQueries.mock('food');
+
+            var req = createMockRequest('food', 'recipes/full-content', null, null);
+            var res = createMockResponse();
+
+            it('should return recipe xml with full content', function (done) {
+                var promise = rssRouteHandler.route(req, res);
+                promise.finally(function () {
+                    expect(res.code).to.equal(200);
+                    expect(res.get('Content-Type')).to.equal('text/xml');
+                    expect(res.content.length).to.be.above(0);
+                    expect(res.content).to.have.string('6 or more ingredients');
+                    expect(res.content).to.have.string('<h3>Balsamic honey pulled-pork buns</h3>');
+                    expect(res.content).to.have.string('<li>800 grams trimmed pork shoulder</li>');
+                    done();
+                })
+            });
+
+        });
+        
         describe('when: invalid site', function () {
 
             var req = createMockRequest('invalid', '', null, null);
