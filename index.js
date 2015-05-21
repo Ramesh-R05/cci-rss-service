@@ -19,6 +19,11 @@ app.use(function(req, res, next) {
 /* ---------- ROUTE APIS ---------- */
 app.use('/rss', rssRoutes); //all routes prefix with 'rss'
 
+/* ---------- AWS LOAD BALANCER ---------- */
+app.get('/api/verifysite', function (req, res) {
+    res.json({ isVerified: true, verifiedMessage: "Verified" });
+});
+
 
 /* ---------- Version information ---------- */
 app.get('/version', function(req, res) {
