@@ -803,10 +803,26 @@ describe('mappingFunctions', function () {
     describe('mapRecipeSource', function () {
 
         describe('when: valid input data is set', function () {
+
             it('should correctly format the input', function () {
-                var actual = mappingFunctions.mapRecipeSource('Taste');
-                expect(actual).to.have.string('Recipe by: Taste');
+                var actual = mappingFunctions.mapRecipeSource('Woman\'s Day');
+                expect(actual).to.have.string('Recipe by: Woman\'s Day');
             });
+
+            describe('and when: input value = \'Recipes Plus\'', function () {
+                it('should use value \'Recipes+\' instead', function () {
+                    var actual = mappingFunctions.mapRecipeSource('Recipes Plus');
+                    expect(actual).to.have.string('Recipe by: Recipes+');
+                });
+            });
+
+            describe('and when: input value = \'Taste\'', function () {
+                it('should use value \'Food To Love\' instead', function () {
+                    var actual = mappingFunctions.mapRecipeSource('Taste');
+                    expect(actual).to.have.string('Recipe by: Food To Love');
+                });
+            });
+
         });
 
         describe('when: input data is an excluded source', function () {
