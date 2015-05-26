@@ -36,6 +36,12 @@ var solrItemsResult = {
     }
 };
 
+var solrSectionsResult = {
+    response: {
+        docs: []
+    }
+};
+
 var emptySolrResponse = {
     response: {
         docs: []
@@ -50,6 +56,11 @@ var mock = function (site, solrHost) {
     nock(host)
     .get(util.format('/solr/%s-search/select?q=*%3A*&fq=nodeTypeAlias_t%3A%22Homepage%22&rows=1&wt=json', site))
     .reply(200, JSON.stringify(solrChannelResult));
+
+    //queries.sections.default
+    nock(host)
+    .get(util.format('/solr/%s-search/select?q=*%3A*&fq=nodeTypeAlias_t%3A%28Section%20OR%20RecipeSection%20OR%20Subsection%20OR%20RecipeSubsection%29&rows=500&wt=json', site))
+    .reply(200, JSON.stringify(solrSectionsResult));
 
     //queries.item.default
     nock(host)
@@ -89,6 +100,11 @@ var mock = function (site, solrHost) {
     //invalid site: queries.channel.default
     nock(host)
     .get('/solr/invalid-search/select?q=*%3A*&fq=nodeTypeAlias_t%3A%22Homepage%22&rows=1&wt=json')
+    .reply(404, '');
+
+    //invalid site: queries.sections.default
+    nock(host)
+    .get('/solr/invalid-search/select?q=*%3A*&fq=nodeTypeAlias_t%3A%28Section%20OR%20RecipeSection%20OR%20Subsection%20OR%20RecipeSubsection%29&rows=500&wt=json')
     .reply(404, '');
 
     //invalid site: queries.item.default

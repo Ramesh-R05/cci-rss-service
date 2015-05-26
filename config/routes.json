@@ -8,7 +8,18 @@
       },
       {
         "key": "items",
-        "query": "item.default"
+        "query": "item.default",
+        "mappings": [ "item.default", "item.sections" ]
+      },
+      {
+        "key": "sections",
+        "query": "sections.default"
+      }
+    ],
+    "onDataReceived": [
+      {
+        "fn": "onSectionsDataReceived",
+        "params": [ "path_ss", [ "contentTitle_t", "nodeName_t" ] ]
       }
     ]
   },
@@ -24,7 +35,17 @@
       {
         "key": "items",
         "query": "item.fullcontent",
-        "mappings": [ "item.default", "item.fullcontent" ]
+        "mappings": [ "item.default", "item.sections", "item.fullcontent" ]
+      },
+      {
+        "key": "sections",
+        "query": "sections.default"
+      }
+    ],
+    "onDataReceived": [
+      {
+        "fn": "onSectionsDataReceived",
+        "params": [ "path_ss", [ "contentTitle_t", "nodeName_t" ] ]
       }
     ]
   },
@@ -41,14 +62,22 @@
         "key": "items",
         "query": "item.sponsored",
         "mappings": [ "item.default", "item.sponsored" ]
+      },
+      {
+        "key": "sections",
+        "query": "sections.default"
       }
     ],
-    "dataReceived": {
-      "fn": "onSponsoredDataReceived",
-      "params": [
-        "contentCampaign_t"
-      ]
-    }
+    "onDataReceived": [
+      {
+        "fn": "onSponsoredDataReceived",
+        "params": [ "contentCampaign_t" ]
+      },
+      {
+        "fn": "onSectionsDataReceived",
+        "params": [ "path_ss", [ "contentTitle_t", "nodeName_t" ] ]
+      }
+    ]
   },
 
   "recipes": {
