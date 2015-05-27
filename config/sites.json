@@ -16,12 +16,6 @@
     }
   },
 
-  "food_live": {
-    "solr": {
-      "host": "solr01.digital.live.local"
-    }
-  },
-
   "food-nz": {
     "queries": {
       "item": {

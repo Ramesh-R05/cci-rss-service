@@ -860,4 +860,44 @@ describe('mappingFunctions', function () {
         });
     });
 
+    describe('mapCategories', function () {
+
+        var input;
+
+        describe('when: input data is set', function () {
+
+            before(function () {
+                input = ['A', ['B', 'C'], 'D'];
+            });
+
+            it('should concatenate all input items into a single array', function () {
+                var actual = mappingFunctions.mapCategories(input);
+                expect(actual.length).to.equal(4);
+                expect(actual.join(',')).to.equal('A,B,C,D');
+            });
+
+            describe('and when: an input item is empty', function () {
+
+                before(function () {
+                    input = ['A', ['B', 'C'], [], '', 'D'];
+                });
+
+                it('should ignore the item', function () {
+                    var actual = mappingFunctions.mapCategories(input);
+                    expect(actual.length).to.equal(4);
+                    expect(actual.join(',')).to.equal('A,B,C,D');
+                });
+
+            });
+        });
+
+        describe('when: input data is not set', function () {
+            it('should return an empty array', function () {
+                var actual = mappingFunctions.mapCategories(null);
+                expect(actual).to.be.empty;
+            });
+        });
+
+    });
+
 });

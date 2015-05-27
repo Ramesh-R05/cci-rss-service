@@ -1,5 +1,5 @@
 {
   "solr": {
-    "host": "solr-cluster02.digital.live.local"
+    "host": "solr01.digital.live.local"
   }
 }
