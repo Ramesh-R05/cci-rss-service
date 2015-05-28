@@ -39,5 +39,16 @@
       "rows": "50"
     }
 
+  },
+
+  "sections": {
+
+    "default": {
+      "q": "*:*",
+      "fq": "nodeTypeAlias_t:(Section OR RecipeSection OR Subsection OR RecipeSubsection)",
+      "rows": "500"
+    }
+
   }
+
 }

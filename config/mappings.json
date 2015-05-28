@@ -110,12 +110,18 @@
 
     "sponsored": {
       "categories": {
-        "mapArray": [
-          {
-            "fn": "mapCampaignSponsor",
-            "params": [ "@contentCampaign_t" ]
-          }
-        ]
+        "map": {
+          "fn": "mapCategories",
+          "params": [
+            [
+              "@__sections",
+              {
+                "fn": "mapCampaignSponsor",
+                "params": [ "@contentCampaign_t" ]
+              }
+            ]
+          ]
+        }
       },
       "custom_elements": {
         "mapObjectArray": {
@@ -132,6 +138,12 @@
             }
           }
         }
+      }
+    },
+
+    "sections": {
+      "categories": {
+        "map": "__sections"
       }
     },
 
