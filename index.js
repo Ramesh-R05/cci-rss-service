@@ -11,6 +11,9 @@ var PORT = process.env.PORT || 8001;
 var app = express();
 
 app.use(bodyParser.json());
+
+app.use(express.static('public'));
+
 app.use(function(req, res, next) {
   console.log(req.method + ': ' + req.url);
   next();
