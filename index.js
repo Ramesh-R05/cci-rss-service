@@ -24,7 +24,7 @@ app.use('/rss', rssRoutes); //all routes prefix with 'rss'
 
 /* ---------- AWS LOAD BALANCER ---------- */
 app.get('/api/verifysite', function (req, res) {
-    res.json({ isVerified: true, verifiedMessage: "Verified" });
+    res.json({ isVerified: true, verifiedMessage: "Verified", source: "service" });
 });
 
 
