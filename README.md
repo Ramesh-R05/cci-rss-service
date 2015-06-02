@@ -136,7 +136,7 @@ Defines the different Solr queries used by the service.
 In the code above the default feed items query can be accessed by key ```item.default``` and will generate the following query:
 
 ```solr
-/select?q=\*:\*&fq=nodeTypeAlias_t:(BauerArticle OR Article OR BauerGallery OR Gallery)&sort=pageDateCreated_dt desc&rows=50
+/select?q=*:*&fq=nodeTypeAlias_t:(BauerArticle OR Article OR BauerGallery OR Gallery)&sort=pageDateCreated_dt desc&rows=50
 ```
 
 
