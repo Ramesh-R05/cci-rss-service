@@ -91,7 +91,6 @@ There are five main configuration files used by the RSS service.
 
 Contains basic Solr settings for the service.
 
-**Sample:**
 ```json
 {
   "host": "solr01.digital.dev.local",
@@ -110,7 +109,6 @@ The value of core will be set to: **aww-search**.
 
 Defines the different Solr queries used by the service.
 
-**Sample:**
 ```json
 {
   "channel": {
@@ -132,7 +130,7 @@ Defines the different Solr queries used by the service.
       "rows": "50"
     }
 
-    ...
+  }
 }
 ```
 In the code above the default feed items query can be accessed by key ```item.default``` and will generate the following query:
