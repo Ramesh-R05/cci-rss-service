@@ -8,35 +8,45 @@ The following feeds are currently supported:
 
 ###Shortend Teaser
 
-**/rss/{site}**
+```
+/rss/{site}
+```
 
 A simple feed of the most recent content.  Returns the content title, url, description and image only.
 
 ###Full Content
 
-**/rss/{site}/full-content**
+```
+/rss/{site}/full-content
+```
 
 The most recent articles with full content body included for each feed item.
 
 ###Sponsored Content
 
-**/rss/{site}/sponsored**
+```
+/rss/{site}/sponsored
+```
 
 Returns content that has a campaign assigned to it. Includes all content details from the shortened teaser feed with additional campaign specific data.
 
 ###Recipes
 
-**/rss/{site}/recipes**
+```
+/rss/{site}/recipes
+```
 
 A simple feed of the most recent recipes. Returns the content title, url, description, image and recipe tags only.
 
 ###Recipes - Full Content
 
-**/rss/{site}/recipes/full-content**
+```
+/rss/{site}/recipes/full-content
+```
 
 The most recent recipes with full content details included for each feed item.
 
-**Note:** In the RSS feed paths above **{site}** should be replaced with the website's Solr core prefix (e.g. aww, food, wd).
+**Note:** In the RSS feed paths above ```{site}``` should be replaced with the website's Solr core prefix (e.g. aww, food, wd).
 
 ##Running the app
 
@@ -146,12 +156,58 @@ In the code above the default feed items query can be accessed by key ```item.de
 
 ###Routes.json
 
-...
+Used for RSS feed route configuration.  There will be one entry for each unique feed in the service. 
 
+Each entry contains the following settings:
+
+1. ```path```: The route path for the feed.  Paths are relative to ```/rss/{site}/```, meaning that a feed in the routes configuration is available for all sites.
+2. ```data```: An array of data set configuration items for the RSS feed.  
+
+  Each item contains the following settings:
+
+  1. ```key```: An identifier for the data set.
+  2. ```query```: The Solr query to execute for the data set.  This must correspond to a query configuration key in ```queries.json``` e.g. ```item.default```.
+  3. ```mappings```: (optional) An array of mappings to apply to each result from the Solr query.  Each item in this array must correspond to a mapping configuration key in ```mappings.json``` e.g. ```item.default```.  If this setting is omitted the service will try and find a mapping configuration using the value of ```query```.
+
+  **Note**: A feed must contain a ```channel``` and ```items``` data set configuration.
+
+3. ```onDataReceived```: (optional) An array of data handler functions to execute after all feed data has be received.  This allows for any sanitation or modification of the data before the mapping process occurs.  Data handler functions should be exposed via ```/lib/helpers/dataHandlers.js```.  The feed data will be passed as a parameter to your data handler function after any custom parameters defined in your handler function configuration.
+
+```json
+{
+  "default": {
+    "path": "/",
+    "data": [
+      {
+        "key": "channel",
+        "query": "channel.default"
+      },
+      {
+        "key": "items",
+        "query": "item.default",
+        "mappings": [ "item.default", "item.sections" ]
+      },
+      {
+        "key": "sections",
+        "query": "sections.default"
+      }
+    ],
+    "onDataReceived": [
+      {
+        "fn": "onSectionsDataReceived",
+        "params": [ "path_ss", [ "contentTitle_t", "nodeName_t" ] ]
+      }
+    ]
+  },
+  
+ }
+```
+
+The example above is the route configuration for the RSS feed at path ```/rss/{site}/```.  It will perform Solr queries to retrieve, ```channel```, ```items``` and ```sections``` data. When all data is recieved it will run the ```onSectionsDataReceived``` handler function to add section information to each result from the ```items``` query.
 
 ###Sites.json
 
-Used to provide any site specific overrides for any of the service configuration settings.
+Used to provide any site specific overrides or extensions for any of the service configuration settings.
 
 ```json
 {
