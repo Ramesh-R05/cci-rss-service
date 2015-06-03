@@ -162,16 +162,15 @@ Each entry contains the following settings:
 
 1. ```path```: The route path for the feed.  Paths are relative to ```/rss/{site}/```, meaning that a feed in the routes configuration is available for all sites.
 2. ```data```: An array of data set configuration items for the RSS feed.  
-
-  Each item contains the following settings:
-
-  1. ```key```: An identifier for the data set.
-  2. ```query```: The Solr query to execute for the data set.  This must correspond to a query configuration key in ```queries.json``` e.g. ```item.default```.
-  3. ```mappings```: (optional) An array of mappings to apply to each result from the Solr query.  Each item in this array must correspond to a mapping configuration key in ```mappings.json``` e.g. ```item.default```.  If this setting is omitted the service will try and find a mapping configuration using the value of ```query```.
-
-  **Note**: A feed must contain a ```channel``` and ```items``` data set configuration.
-
 3. ```onDataReceived```: (optional) An array of data handler functions to execute after all feed data has be received.  This allows for any sanitation or modification of the data before the mapping process occurs.  Data handler functions should be exposed via ```/lib/helpers/dataHandlers.js```.  The feed data will be passed as a parameter to your data handler function after any custom parameters defined in your handler function configuration.
+
+Data set configuration items contain the following settings:
+
+1. ```key```: An identifier for the data set.
+2. ```query```: The Solr query to execute for the data set.  This must correspond to a query configuration key in ```queries.json``` e.g. ```item.default```.
+3. ```mappings```: (optional) An array of mappings to apply to each result from the Solr query.  Each item in this array must correspond to a mapping configuration key in ```mappings.json``` e.g. ```item.default```.  If this setting is omitted the service will try and find a mapping configuration using the value of ```query```.
+
+**Note**: A feed must contain a ```channel``` and ```items``` data set configuration.
 
 ```json
 {
