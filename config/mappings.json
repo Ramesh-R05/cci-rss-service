@@ -48,7 +48,7 @@
 
     "default": {
       "title": {
-        "map": [ "pageTitle_t", "contentTitle_t", "nodeName_t" ]
+        "map": [ "contentSummaryTitle_t", "contentTitle_t", "nodeName_t" ]
       },
       "description": {
         "map": [ "pageMetaDescription_t", "contentSummary_t" ],
