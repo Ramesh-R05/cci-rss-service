@@ -16,7 +16,7 @@
     }
   },
 
-  "food-nz": {
+  "nzfood": {
     "queries": {
       "item": {
         "default": {
