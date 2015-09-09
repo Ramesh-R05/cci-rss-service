@@ -227,27 +227,28 @@ For each property to be mapped a configuration object must be specified.  Valid 
 
 	- A single Solr field name.
 	
-	```
-	"map": "siteUrl_t"
-	```
+		```
+		"map": "siteUrl_t"
+		```
 	
 	- An array of Solr field names.
 	
-	```
-	"map": [ "pageTitle_t", "contentTitle_t" ]
-	```
+		```
+		"map": [ "pageTitle_t", "contentTitle_t" ]
+		```
 	
-	The actual value mapped will be the first non-empty Solr field value from the array.  You can use this approach to provide fallback mapping properties if there is a chance that the preferred one may be empty.
+		The actual value mapped will be the first non-empty Solr field value from the array.  You can use this approach to provide fallback mapping properties if there is a chance that the preferred one may be empty.
 	
 	- A mapping function configuration object.
 	
-	```
-	"map": {
-		"fn": "mapFeedUrl",
-		"params": [ "@__request" ]
-	}
-	```
+		```
+		"map": {
+			"fn": "mapFeedUrl",
+			"params": [ "@__request" ]
+		}
+		```
 
+		
 2. ```mapArray```: (mapping directive) Will map to an array of values.  This must be an array containing any of the valid values for the ```map``` property.
 
 	For example:
@@ -261,6 +262,7 @@ For each property to be mapped a configuration object must be specified.  Valid 
 		}
 	]
 	```
+	
 	
 3. ```mapObject```: (mapping directive) Will map to an object.  For each property in the object a valid mapping configuration object must be specified.
 
