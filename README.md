@@ -152,7 +152,139 @@ In the code above the default feed items query can be accessed by key ```item.de
 
 ###Mappings.json
 
-...
+Contains all mapping configurations for the RSS feeds.  These are used to map Solr field values (or other values) to the specific properties required to generate an RSS reed.  
+
+Consider the mapping configurations below:
+
+```json
+{
+  "channel": {
+
+    "default": {
+      "title": {
+        "map": [ "pageTitle_t", "contentTitle_t" ]
+      },
+      "feed_url": {
+        "map": {
+          "fn": "mapFeedUrl",
+          "params": [ "@__request" ]
+        }
+      },
+      "site_url": {
+        "map": "siteUrl_t"
+      },
+      "description": {
+        "map": [ "pageMetaDescription_t", "contentSummary_t" ],
+        "afterMap": [
+          {
+            "fn": "sanitise"
+          }
+        ]
+      },
+      "copyright": {
+        "map": {
+          "fn": "mapCopyright"
+        }
+      },
+      "ttl": {
+        "value": 60
+      }
+    },
+
+    "sponsored": {
+      "custom_namespaces": {
+        "mapObject": {
+          "mvcf": {
+            "value": "http://feed.aww.com.au/ns/mvcf/"
+          }
+        }
+      }
+
+    }
+  },
+  
+ }
+```
+
+This is an example of the mapping configurations that can be used to set the required properties for the channel element of the RSS feed.  There are two mapping groups defined above: ```channel.default``` and ```channel.sponsored```.
+
+```channel.default``` sets the following properties: 
+1. ```title```
+2. ```feed_url```
+3. ```site_url```
+4. ```description```
+5. ```copyright```
+6. ```ttl```
+
+```channel.sponsored``` sets only one property: ```custom_namespaces```.
+
+Exactly which mapping groups get applied to the results of a Solr query is determined in ```routes.json```.
+
+For each property to be mapped a configuration object must be specified.  Valid configuration properties are as follows:
+
+1. ```map```: (mapping directive) Will map to a single value. This is the most common type of mapping directive.  The value of this property can be one of the following:
+
+	- A single Solr field name.
+	```json
+	"map": "siteUrl_t"
+	```
+	
+	- An array of Solr field names.
+	```json
+	"map": [ "pageTitle_t", "contentTitle_t" ]
+	```
+	The actual value mapped will be the first non-empty Solr field value from the array.  You can use this approach to provide fallback mapping properties if there is a chance that the preferred one may be empty.
+	
+	- A mapping function configuration object.
+	```json
+	"map": {
+		"fn": "mapFeedUrl",
+		"params": [ "@__request" ]
+	}
+	
+	Or:
+	
+	"map": {
+		"fn": "mapCopyright"
+	}
+	```
+
+2. ```mapArray```: (mapping directive) Will map to an array of values.  This must be an array containing any of the valid values for the ```map``` property.
+
+	For example:
+	```json
+	"mapArray": [
+		"siteUrl_t",
+		[ "pageTitle_t", "contentTitle_t" ],
+		{
+			"fn": "mapCopyright"
+		}
+	]
+	```
+3. ```mapObject```: (mapping directive) Will map to an object.  For each property in the object a valid mapping configuration object must be specified.
+
+	For example:
+	```json
+	"mapObject": {
+		"url": {
+			"map": "contentImageUrl_t"
+		},
+		"type": {
+            "map": {
+              "fn": "mapMimeType",
+              "params": [ "@contentImageUrl_t" ]
+            }
+		}
+	}
+	```
+	Assuming that the value of "contentImageUrl_t" is "http://www.example.com/someimage.jpg" the value returned by the configuration above would be:
+	```json
+	{
+		"url": "http://www.example.com/someimage.jpg",
+		"type": "image/jpeg"
+	}
+	```
+	Note: The "mapMimeType" mapping function takes an asset url as a parameter and returns the mime type.
 
 ###Routes.json
 
