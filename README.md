@@ -237,7 +237,7 @@ For each property to be mapped a configuration object must be specified.  Valid 
 		"map": [ "pageTitle_t", "contentTitle_t" ]
 		```
 	
-		The actual value mapped will be the first non-empty Solr field value from the array.  You can use this approach to provide fallback mapping properties if there is a chance that the preferred one may be empty.
+	The actual value mapped will be the first non-empty Solr field value from the array.  You can use this approach to provide fallback mapping properties if there is a chance that the preferred one may be empty.
 	
 	- A mapping function configuration object.
 	
@@ -248,50 +248,49 @@ For each property to be mapped a configuration object must be specified.  Valid 
 		}
 		```
 
-		
 2. ```mapArray```: (mapping directive) Will map to an array of values.  This must be an array containing any of the valid values for the ```map``` property.
 
-		For example:
-		
-		```
-		"mapArray": [
-			"siteUrl_t",
-			[ "pageTitle_t", "contentTitle_t" ],
-			{
-				"fn": "mapCopyright"
-			}
-		]
+	For example:
+	
+	```
+	"mapArray": [
+		"siteUrl_t",
+		[ "pageTitle_t", "contentTitle_t" ],
+		{
+			"fn": "mapCopyright"
+		}
+	]
 	```
 	
 	
 3. ```mapObject```: (mapping directive) Will map to an object.  For each property in the object a valid mapping configuration object must be specified.
 
-		For example:
-		
-		```
-		"mapObject": {
-			"url": {
-				"map": "contentImageUrl_t"
-			},
-			"type": {
-				"map": {
-				  "fn": "mapMimeType",
-				  "params": [ "@contentImageUrl_t" ]
-				}
-			}
+	For example:
+	
+	```
+	"mapObject": {
+		"url": {
+			"map": "contentImageUrl_t"
+		},
+		"type": {
+            "map": {
+              "fn": "mapMimeType",
+              "params": [ "@contentImageUrl_t" ]
+            }
 		}
-		```
-		
-		Assuming that the value of "contentImageUrl_t" is "http://www.example.com/someimage.jpg" the value returned by the configuration above would be:
-		
-		```
-		{
-			"url": "http://www.example.com/someimage.jpg",
-			"type": "image/jpeg"
-		}
-		```
-		
-		Note: The "mapMimeType" mapping function takes an asset url as a parameter and returns the mime type.
+	}
+	```
+	
+	Assuming that the value of "contentImageUrl_t" is "http://www.example.com/someimage.jpg" the value returned by the configuration above would be:
+	
+	```
+	{
+		"url": "http://www.example.com/someimage.jpg",
+		"type": "image/jpeg"
+	}
+	```
+	
+	Note: The "mapMimeType" mapping function takes an asset url as a parameter and returns the mime type.
 
 ###Routes.json
 
