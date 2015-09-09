@@ -209,6 +209,7 @@ Consider the mapping configurations below:
 This is an example of the mapping configurations that can be used to set the required properties for the channel element of the RSS feed.  There are two mapping groups defined above: ```channel.default``` and ```channel.sponsored```.
 
 ```channel.default``` sets the following properties: 
+
 1. ```title```
 2. ```feed_url```
 3. ```site_url```
@@ -225,18 +226,18 @@ For each property to be mapped a configuration object must be specified.  Valid 
 1. ```map```: (mapping directive) Will map to a single value. This is the most common type of mapping directive.  The value of this property can be one of the following:
 
 	- A single Solr field name.
-	```json
+	```
 	"map": "siteUrl_t"
 	```
 	
 	- An array of Solr field names.
-	```json
+	```
 	"map": [ "pageTitle_t", "contentTitle_t" ]
 	```
 	The actual value mapped will be the first non-empty Solr field value from the array.  You can use this approach to provide fallback mapping properties if there is a chance that the preferred one may be empty.
 	
 	- A mapping function configuration object.
-	```json
+	```
 	"map": {
 		"fn": "mapFeedUrl",
 		"params": [ "@__request" ]
@@ -252,7 +253,7 @@ For each property to be mapped a configuration object must be specified.  Valid 
 2. ```mapArray```: (mapping directive) Will map to an array of values.  This must be an array containing any of the valid values for the ```map``` property.
 
 	For example:
-	```json
+	```
 	"mapArray": [
 		"siteUrl_t",
 		[ "pageTitle_t", "contentTitle_t" ],
@@ -264,7 +265,7 @@ For each property to be mapped a configuration object must be specified.  Valid 
 3. ```mapObject```: (mapping directive) Will map to an object.  For each property in the object a valid mapping configuration object must be specified.
 
 	For example:
-	```json
+	```
 	"mapObject": {
 		"url": {
 			"map": "contentImageUrl_t"
@@ -278,7 +279,7 @@ For each property to be mapped a configuration object must be specified.  Valid 
 	}
 	```
 	Assuming that the value of "contentImageUrl_t" is "http://www.example.com/someimage.jpg" the value returned by the configuration above would be:
-	```json
+	```
 	{
 		"url": "http://www.example.com/someimage.jpg",
 		"type": "image/jpeg"
