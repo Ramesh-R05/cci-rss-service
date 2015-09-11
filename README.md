@@ -221,7 +221,7 @@ This is an example of the mapping configurations that can be used to set the req
 
 Exactly which mapping groups get applied to the results of a Solr query is determined in ```routes.json```.
 
-For each property to be mapped a configuration object must be specified.  Valid configuration properties are as follows:
+For each property to be mapped a configuration object must be specified.  Valid configuration settings are as follows:
 
 1. ```map```: (mapping directive) Will map to a single value. This is the most common type of mapping directive.  The value of this property can be one of the following:
 
@@ -250,7 +250,7 @@ For each property to be mapped a configuration object must be specified.  Valid 
 
 2. ```mapArray```: (mapping directive) Will map to an array of values.  This must be an array containing any of the valid values for the ```map``` property.
 
-	For example:
+	Example:
 	
 	```
 	"mapArray": [
@@ -265,7 +265,7 @@ For each property to be mapped a configuration object must be specified.  Valid 
 	
 3. ```mapObject```: (mapping directive) Will map to an object.  For each property in the object a valid mapping configuration object must be specified.
 
-	For example:
+	Example:
 	
 	```
 	"mapObject": {
@@ -281,16 +281,90 @@ For each property to be mapped a configuration object must be specified.  Valid 
 	}
 	```
 	
-	Assuming that the value of "contentImageUrl_t" is "http://www.example.com/someimage.jpg" the value returned by the configuration above would be:
+	Assuming that the value of "contentImageUrl_t" is "http://www.example.com/some-image.jpg" the value returned by the configuration above would be:
 	
 	```
 	{
-		"url": "http://www.example.com/someimage.jpg",
+		"url": "http://www.example.com/some-image.jpg",
 		"type": "image/jpeg"
 	}
 	```
 	
 	Note: The "mapMimeType" mapping function takes an asset url as a parameter and returns the mime type.
+	
+
+4. ```mapObjectArray```: (mapping directive) Will map to an array of objects.  For each property in the object a valid mapping configuration object must be specified.
+
+	Example:
+	
+	```
+	"exampleProperty": {
+		"mapObjectArray": {
+			"objProp1": {
+				"map": "solrField1"
+			},
+			"objProp2": {
+				"map": "solrField2"
+			}
+		}
+	}
+	```
+
+	Given the mapping configuration above and assuming that the values for "solrField1" and "solrField2" are "1234" and "abcd" respectively, the value mapped to property "exampleProperty" will be:
+	
+	```
+	[
+		{ "objProp1": "1234" },
+		{ "objProp2": "abcd" }
+	]
+	```
+
+5. ```afterMap```:  An array of functions to execute against the result of a mapped value.
+
+	Example:
+	
+	```
+	"url": {
+		"map": "contentImageUrl_t",
+		"afterMap": [
+			{
+				"fn": "format",
+				"params": [ "%s?width=800" ]
+			}
+		]
+	}
+	```
+	
+	Note: The actual mapped value will be passed as the last parameter of the after map function.
+	
+
+6. ```value```: Used to set the value of a property explicitly.
+
+	For example:
+	
+	```
+	"ttl": {
+		"value": 60
+	}
+	```
+	
+	If ```value``` is set any mapping directive for a property will be ignored.  So in the following example if the value of "contentImageUrl_t" is "http://www.example.com/some-image.jpg", the actual value set for property ```url``` will be "http://www.example.com/another-image.jpg".
+	
+	```
+	"url": {
+		"map": "contentImageUrl_t",
+		"value": "http://www.example.com/another-image.jpg"
+	}
+	```
+	
+Note: Only one mapping directive setting may be specified in a mapping configuration object.
+
+####Mapping functions
+
+Any mapping functions you wish to use must be exposed via ```/lib/helpers/mappingFunctions.js```.  
+
+When configuring mapping function parameters be aware that a string beginning with "@" signifies a property value not a character string.  The value of that parameter will be resolved from the mapping data prior to the execution of the mapping function.
+
 
 ###Routes.json
 
