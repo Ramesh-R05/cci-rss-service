@@ -36,7 +36,7 @@
       "q": "*:*",
       "fq": "nodeTypeAlias_t:(Recipe)",
       "sort": "pageDateCreated_dt desc",
-      "rows": "50"
+      "rows": "500"
     }
 
   },

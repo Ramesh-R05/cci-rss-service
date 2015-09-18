@@ -74,7 +74,7 @@ var mock = function (site, solrHost) {
 
     //queries.item.recipes
     nock(host)
-    .get(util.format('/solr/%s-search/select?q=*%3A*&fq=nodeTypeAlias_t%3A%28Recipe%29&sort=pageDateCreated_dt%20desc&rows=50&wt=json', site))
+    .get(util.format('/solr/%s-search/select?q=*%3A*&fq=nodeTypeAlias_t%3A%28Recipe%29&sort=pageDateCreated_dt%20desc&rows=500&wt=json', site))
     .reply(200, JSON.stringify(solrItemsResult));
 
     //queries.item.sponsored
