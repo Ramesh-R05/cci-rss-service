@@ -25,6 +25,14 @@
       "rows": "50"
     },
 
+    "fullcontenthomes": {
+      "q": "*:*",
+      "fq": "nodeTypeAlias_t:(HomesArticle OR Gallery)",
+      "sort": "pageDateCreated_dt desc",
+      "rows": "100",
+      "queryParams": "Add this to allow query params"
+    },
+
     "sponsored": {
       "q": "contentCampaign_t:*",
       "fq": "nodeTypeAlias_t:(BauerArticle OR Article OR BauerGallery OR Gallery)",

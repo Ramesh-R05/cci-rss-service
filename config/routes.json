@@ -110,6 +110,28 @@
         "mappings": [ "item.default", "item.recipes", "item.recipes_fullcontent" ]
       }
     ]
+  },
+
+  "fullcontenthomes": {
+    "path": "/full-content-homes",
+    "data": [
+      {
+        "key": "channel",
+        "query": "channel.default",
+        "mappings": [ "channel.default" ]
+      },
+      {
+        "key": "items",
+        "query": "item.fullcontenthomes",
+        "mappings": [ "item.default", "item.sections", "item.fullcontent" ]
+      }
+    ],
+    "onDataReceived": [
+      {
+        "fn": "onSectionsDataReceived",
+        "params": [ "path_ss", [ "contentTitle_t", "nodeName_t" ] ]
+      }
+    ]
   }
 
 }

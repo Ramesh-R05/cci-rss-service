@@ -80,4 +80,26 @@ describe('solrHelper', function () {
 
     });
 
+    describe('compileQuery function', function(){
+        var queryParams ={
+            hello: 'world'
+        }
+
+        it ('should build the correct queryParams when it is activated', function(){
+            var queryConfig = {
+                queryParams: true,
+                randomValue: 'Yes'
+            };
+
+            expect(solrHelper.compileQuery(queryConfig, queryParams)).to.equal("randomValue=Yes&hello=world");
+        });
+
+        it ('should ignore queryParams when it is not activated', function(){
+            var queryConfig = {
+                randomValue: 'Yes'
+            };
+
+            expect(solrHelper.compileQuery(queryConfig, queryParams)).to.equal("randomValue=Yes");
+        });
+    });
 });
