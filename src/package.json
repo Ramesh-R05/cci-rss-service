@@ -7,10 +7,10 @@
     "url": "https://bauer-au-deploy:Mention-Face-Wine-Scientist-4@bitbucket.org/bauermediaau/rss-service.git"
   },
   "scripts": {
-    "coverage": "node ./node_modules/istanbul/lib/cli cover --root ./lib --include-all-sources --dir ./coverage --report cobertura --report html --hook-run-in-context ./node_modules/mocha/bin/_mocha -- --ui bdd tests/test-setup.js tests/ --recursive",
+    "coverage": "node ./node_modules/istanbul/lib/cli cover --root ./app --include-all-sources --dir ./coverage --report cobertura --report html --hook-run-in-context ./node_modules/mocha/bin/_mocha -- --ui bdd tests/test-setup.js tests/ --recursive",
     "start": "node index.js",
-    "test": "node ./node_modules/istanbul/lib/cli cover --root ./lib --include-all-sources --dir ./coverage --report cobertura --report html --hook-run-in-context ./node_modules/mocha/bin/_mocha -- --ui bdd tests/test-setup.js tests/ --recursive",
-    "lint": "node ./node_modules/eslint/bin/eslint.js --ext .js lib/",
+    "test": "node ./node_modules/istanbul/lib/cli cover --root ./app --include-all-sources --dir ./coverage --report cobertura --report html --hook-run-in-context ./node_modules/mocha/bin/_mocha -- --ui bdd tests/test-setup.js tests/ --recursive",
+    "lint": "node ./node_modules/eslint/bin/eslint.js --ext .js app/",
     "build": "npm run lint"
   },
   "dependencies": {

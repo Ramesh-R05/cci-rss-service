@@ -1,5 +1,5 @@
-﻿var solrHelper = require('../.././helpers/solrHelper');
-var configHelper = require('../.././helpers/configHelper');
+﻿var solrHelper = require('../../../app/helpers/solrHelper');
+var configHelper = require('../../../app/helpers/configHelper');
 var solrQueries = require('../mocks/solrQueries');
 
 solrQueries.mock('aww');

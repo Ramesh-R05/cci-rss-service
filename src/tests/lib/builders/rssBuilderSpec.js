@@ -1,4 +1,4 @@
-var builder = require('../.././builders/rssBuilder');
+var builder = require('../../../app/builders/rssBuilder');
 
 describe('rssBuilder', function () {
 

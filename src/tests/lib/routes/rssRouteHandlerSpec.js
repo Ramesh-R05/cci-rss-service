@@ -1,6 +1,6 @@
-﻿var rssRouteHandler = require('../.././routes/rssRouteHandler');
+﻿var rssRouteHandler = require('../../../app/routes/rssRouteHandler');
 var solrQueries = require('../mocks/solrQueries');
-var configHelper = require('../.././helpers/configHelper');
+var configHelper = require('../../../app/helpers/configHelper');
 
 describe('rssRouteHandler', function () {
 

@@ -1,4 +1,4 @@
-﻿var mimeTypeHelper = require('../.././helpers/mimeTypeHelper');
+﻿var mimeTypeHelper = require('../../../app/helpers/mimeTypeHelper');
 
 describe('mimeTypeHelper', function () {
 

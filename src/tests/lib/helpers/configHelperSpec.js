@@ -1,4 +1,4 @@
-﻿var configHelper = require('../.././helpers/configHelper');
+﻿var configHelper = require('../../../app/helpers/configHelper');
 
 describe('configHelper', function () {
 

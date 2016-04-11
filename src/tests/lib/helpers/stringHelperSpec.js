@@ -1,4 +1,4 @@
-﻿var stringHelper = require('../.././helpers/stringHelper');
+﻿var stringHelper = require('../../../app/helpers/stringHelper');
 
 describe('stringHelper', function () {
 

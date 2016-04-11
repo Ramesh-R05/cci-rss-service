@@ -1,4 +1,4 @@
-﻿var mappingFunctions = require('../.././helpers/mappingFunctions');
+﻿var mappingFunctions = require('../../../app/helpers/mappingFunctions');
 
 describe('mappingFunctions', function () {
 
