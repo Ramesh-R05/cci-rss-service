@@ -1,7 +1,7 @@
 require('@bxm/node-logger')('RSS SERVICE', process.env.NODE_ENV);
 var express = require('express');
 var bodyParser = require('body-parser');
-var rssRoutes = require('./lib/routes/rss');
+var rssRoutes = require('./app/routes/rss');
 global.config = require('config');
 
 var version = require('./version');

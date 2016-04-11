@@ -1,4 +1,4 @@
-﻿var dataHandlers = require('../../../lib/helpers/dataHandlers');
+﻿var dataHandlers = require('../.././helpers/dataHandlers');
 
 describe('dataHandlers', function () {
 

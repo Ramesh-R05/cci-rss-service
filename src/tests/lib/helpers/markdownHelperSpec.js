@@ -1,4 +1,4 @@
-﻿var markdownHelper = require('../../../lib/helpers/markdownHelper');
+﻿var markdownHelper = require('../.././helpers/markdownHelper');
 
 describe('markdownHelper', function () {
 
