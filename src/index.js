@@ -1,12 +1,12 @@
 require('@bxm/node-logger')('RSS SERVICE', process.env.NODE_ENV);
 var express = require('express');
 var bodyParser = require('body-parser');
-var rssRoutes = require('./lib/routes/rss');
+var rssRoutes = require('./app/routes/rss');
 global.config = require('config');
 
 var version = require('./version');
 
-var PORT = process.env.PORT || 8001;
+var PORT = process.env.PORT || 3000;
 
 var app = express();
 
@@ -15,8 +15,8 @@ app.use(bodyParser.json());
 app.use(express.static('public'));
 
 app.use(function(req, res, next) {
-  console.log(req.method + ': ' + req.url);
-  next();
+    console.log(req.method + ': ' + req.url);
+    next();
 });
 
 /* ---------- ROUTE APIS ---------- */
@@ -65,11 +65,11 @@ app.use(function(err, req, res, next) {
 });
 
 app.listen(PORT, function() {
-  console.log('Started at port: ' + PORT);
+    console.log('Started at port: ' + PORT);
 }).on('error', function(err) {
-  if(err.errno === 'EADDRINUSE') {
-    console.error('Port ' + PORT + ' already in use');
-  } else {
-    throw err;
-  }
+    if(err.errno === 'EADDRINUSE') {
+        console.error('Port ' + PORT + ' already in use');
+    } else {
+        throw err;
+    }
 });

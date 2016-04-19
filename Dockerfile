@@ -1,19 +1,18 @@
-FROM node:0.12
+FROM bauer/node
 
-ADD package.json /tmp/package.json
-WORKDIR /tmp
+ARG http_proxy=http://proxy.mgmt.local:3128
+ARG https_proxy=https://proxy.mgmt.local:3128
+ARG node_ver=v0.12.8
 
-RUN npm config set proxy http://proxy.mgmt.local:3128 && \
-    npm config set https-proxy http://proxy.mgmt.local:3128 && \
-    npm config set registry http://npm.digital.mgmt.local:8080 && \
-    npm config set @bxm/registry http://npm.digital.mgmt.local:8080 && \
-    npm install --production && \
-    mkdir /app && \
-    cp -r node_modules /app
+RUN nvm_set_node.sh -v $node_ver
 
-ADD . /app
+ADD ./deployment/nginx/service.conf /etc/nginx/conf.d/rss-service.conf
+
+RUN mkdir /app
+ADD ./src /app
+
 WORKDIR /app
 
-EXPOSE 8001
+EXPOSE 80
 
-CMD npm run start > /var/log/app.log
+CMD ["/usr/bin/supervisord"]

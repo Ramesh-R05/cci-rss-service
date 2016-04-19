@@ -1,5 +1,5 @@
-﻿var mappingHelper = require('../../../lib/helpers/mappingHelper');
-var configHelper = require('../../../lib/helpers/configHelper');
+﻿var mappingHelper = require('../../../app/helpers/mappingHelper');
+var configHelper = require('../../../app/helpers/configHelper');
 
 describe('mappingHelper', function () {
 
