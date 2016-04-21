@@ -1,8 +1,5 @@
-﻿'use strict';
-
-var stringHelper = require('../helpers/stringHelper');
-var configHelper = require('../helpers/configHelper');
-var rssHelper = require('../helpers/rssHelper');
+﻿import configHelper from '../helpers/configHelper';
+import rssHelper from '../helpers/rssHelper';
 
 var getRouteConfiguration = function (config, routePath) {
 
@@ -22,8 +19,8 @@ var getRouteConfiguration = function (config, routePath) {
 
 var route = function (req, res) {
 
-    var site = !stringHelper.isEmpty(req.params[0]) ? req.params[0].toLowerCase() : '';
-    var routePath = !stringHelper.isEmpty(req.params[1]) ? '/' + req.params[1].toLowerCase() : '/';
+    var site = req.params.site.toLowerCase();
+    var routePath = '/' + (req.params.route_path ? req.params.route_path : '');
 
     if (site) {
 
@@ -70,6 +67,8 @@ var route = function (req, res) {
 
 }
 
-module.exports = {
-    route: route
-}
+export default {
+    route
+};
+
+

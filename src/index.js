@@ -1,4 +1,5 @@
 require('@bxm/node-logger')('RSS SERVICE', process.env.NODE_ENV);
+require('babel/register')();
 var express = require('express');
 var bodyParser = require('body-parser');
 var rssRoutes = require('./app/routes/rss');
@@ -20,7 +21,7 @@ app.use(function(req, res, next) {
 });
 
 /* ---------- ROUTE APIS ---------- */
-app.use('/rss', rssRoutes); //all routes prefix with 'rss'
+app.use(rssRoutes); //all routes prefix with 'rss'
 
 /* ---------- AWS LOAD BALANCER ---------- */
 app.get('/api/verifysite', function (req, res) {
