@@ -1,31 +1,29 @@
-﻿'use strict';
+﻿import util from 'util';
+import mimeTypeHelper from './mimeTypeHelper';
+import markdownHelper from './markdownHelper';
+import stringHelper from './stringHelper';
+import mustache from 'mustache';
+import _ from 'underscore';
+import S from 'string';
 
-var util = require('util');
-var mimeTypeHelper = require('./mimeTypeHelper');
-var markdownHelper = require('./markdownHelper');
-var stringHelper = require('./stringHelper');
-var mustache = require('mustache');
-var _ = require('underscore');
-var S = require('string');
-
-var renderRecipeGroupHeading = function () {
+let renderRecipeGroupHeading = () => {
     return function (text, render) {
-        var txt = render(text);
+        let txt = render(text);
         return txt ? '<h3>' + txt + '</h3>' : '';
     }
 }
 
-var renderRecipeIngredientQuantityAndMeasure = function () {
+let renderRecipeIngredientQuantityAndMeasure = () => {
     return function (text, render) {
-        var displayItems = [];
-        var parts = render(text).split(':');
-        var quantity = parts[0];
-        var measure = parts[1];
+        let displayItems = [];
+        let parts = render(text).split(':');
+        let quantity = parts[0];
+        let measure = parts[1];
         if (quantity) {
             displayItems.push(quantity);
         }
         if (measure) {
-            var num = parseInt(quantity, 10);
+            let num = parseInt(quantity, 10);
             if (!isNaN(num) && num > 1) {
                 if (measure.charAt(measure.length - 1) !== 's') {
                     measure = measure + 's';
@@ -37,8 +35,7 @@ var renderRecipeIngredientQuantityAndMeasure = function () {
     }
 }
 
-module.exports = {
-
+export default {
     sanitise: function (str) {
         return str ? stringHelper.stripMarkdown(stringHelper.stripHtml(str)) : '';
     },
@@ -47,7 +44,7 @@ module.exports = {
         return  str ? util.format(fmt, str) : '';
     },
 
-    mapCopyright: function (mapData) {
+    mapCopyright: function () {
         return (new Date()).getFullYear() + ' BAUER MEDIA PTY LIMITED'
     },
 
@@ -62,8 +59,8 @@ module.exports = {
     mapCampaignType: function (campaignStr, matchType) {
 
         try {
-            var campaign = JSON.parse(campaignStr);
-            var type = campaign[0].campaignType;
+            let campaign = JSON.parse(campaignStr);
+            let type = campaign[0].campaignType;
             return (type.toLowerCase() === matchType.toLowerCase());
         }
         catch (err) { }
@@ -74,8 +71,8 @@ module.exports = {
     mapCampaignSponsor: function (campaignStr) {
 
         try {
-            var campaign = JSON.parse(campaignStr);
-            var sponsor = campaign[0].sponsor;
+            let campaign = JSON.parse(campaignStr);
+            let sponsor = campaign[0].sponsor;
             if (sponsor && sponsor.length > 0) {
                 return sponsor;
             }
@@ -91,18 +88,18 @@ module.exports = {
 
     mapFullContent: function (contentUrl, contentJsonStr, mapSettingsStr) {
 
-        var content = '';
+        let content = '';
         
         try {
 
-            var contentJson = JSON.parse(contentJsonStr);
-            var mapSettings = {};
+            let contentJson = JSON.parse(contentJsonStr);
+            let mapSettings = {};
 
             if (mapSettingsStr && typeof mapSettingsStr === 'string') {
                 mapSettings = JSON.parse(mapSettingsStr);
             }
 
-            var imgSettings = mapSettings.image || { width: 800 };
+            let imgSettings = mapSettings.image || { width: 800 };
 
             contentJson.forEach(function (item) {
                 if (item.type && item.content) {
@@ -135,14 +132,14 @@ module.exports = {
 
     mapTags: function (tagGroupList) {
 
-        var tags = [];
+        let tags = [];
 
         tagGroupList.forEach(function (item) {
             if (item && item instanceof Array) {
                 item.forEach(function (tag) {
-                    var tagLeaf = tag.split(':').slice(-1)[0];
+                    let tagLeaf = tag.split(':').slice(-1)[0];
                     if (tagLeaf) {
-                        var cleanTag = tagLeaf.replace(/[\[\]{}"]/g, '').toLowerCase().trim();
+                        let cleanTag = tagLeaf.replace(/[\[\]{}"]/g, '').toLowerCase().trim();
                         if (cleanTag && !_.contains(cleanTag, tags)) {
                             tags.push(cleanTag);
                         }
@@ -157,7 +154,7 @@ module.exports = {
 
     mapRecipeContent: function (recipeContentItems) {
 
-        var content = [];
+        let content = [];
 
         if (recipeContentItems) {
             recipeContentItems.forEach(function (item) {
@@ -172,12 +169,12 @@ module.exports = {
     
     mapRecipeIngredients: function (ingredientsData) {
 
-        var html = [];
+        let html = [];
 
         try {
-            var ingredientGroups = JSON.parse(ingredientsData);
-            var groupHtml = [];
-            var groupTemplate =
+            let ingredientGroups = JSON.parse(ingredientsData);
+            let groupHtml = [];
+            let groupTemplate =
                 '<div>' +
                     '{{#renderHeading}}{{heading}}{{/renderHeading}}' +
                     '<ul>' +
@@ -214,12 +211,12 @@ module.exports = {
 
     mapRecipeCookingMethod: function (methodData) {
 
-        var html = [];
+        let html = [];
 
         try {
-            var methodGroups = JSON.parse(methodData);
-            var groupHtml = [];
-            var groupTemplate =
+            let methodGroups = JSON.parse(methodData);
+            let groupHtml = [];
+            let groupTemplate =
                 '<div>' +
                     '{{#renderHeading}}{{heading}}{{/renderHeading}}' +
                     '<ol>' +
@@ -254,14 +251,14 @@ module.exports = {
 
     mapRecipeServings: function (servingsData) {
 
-        var html = [];
+        let html = [];
 
         try {
-            var servings = JSON.parse(servingsData);
+            let servings = JSON.parse(servingsData);
             if (servings.serves) html.push('<h4>Serves: ' + servings.serves + '</h4>');
             if (servings.yieldQuantity) {
-                var quantity = parseFloat(servings.yieldQuantity);
-                var measure = servings.yieldMeasure && servings.yieldMeasure.toLowerCase() !== 'item' ? servings.yieldMeasure.toLowerCase() : '';
+                let quantity = parseFloat(servings.yieldQuantity);
+                let measure = servings.yieldMeasure && servings.yieldMeasure.toLowerCase() !== 'item' ? servings.yieldMeasure.toLowerCase() : '';
                 if (measure && !isNaN(quantity) && quantity > 1) {
                     measure = measure.charAt(measure.length - 1) !== 's' ? measure + 's' : measure;
                 }
@@ -277,33 +274,33 @@ module.exports = {
 
     mapRecipeCookingTime: function (cookingTimeData) {
 
-        var html = [];
+        let html = [];
 
         try {
-            var cookingTimes = JSON.parse(cookingTimeData);
+            let cookingTimes = JSON.parse(cookingTimeData);
             if (cookingTimes.times) {
                 cookingTimes.times.forEach(function (time) {
                     if (time.minutes) {
 
-                        var timeParts = [];
-                        var hours = Math.floor(time.minutes / 60);
-                        var mins = time.minutes % 60;
+                        let timeParts = [];
+                        let hours = Math.floor(time.minutes / 60);
+                        let mins = time.minutes % 60;
 
                         timeParts.push(S(time.id).humanize().s + ' time:');
 
                         if (hours > 0) {
-                            var unit = hours === 1 ? 'hour' : 'hours';
+                            let unit = hours === 1 ? 'hour' : 'hours';
                             timeParts.push(hours + ' ' + unit);
                         }
 
                         if (mins > 0) {
                             if (mins >= 1) {
-                                var unit = mins === 1 ? 'minute' : 'minutes';
+                                let unit = mins === 1 ? 'minute' : 'minutes';
                                 timeParts.push(mins + ' ' + unit);
                             }
                             else {
-                                var seconds = Math.round(mins * 60);
-                                var unit = seconds === 1 ? 'second' : 'seconds';
+                                let seconds = Math.round(mins * 60);
+                                let unit = seconds === 1 ? 'second' : 'seconds';
                                 timeParts.push(seconds + ' ' + unit);
                             }
                         }
@@ -332,10 +329,10 @@ module.exports = {
     },
 
     mapRecipeTips: function (tipsData) {
-        var html = [];
+        let html = [];
         if (tipsData) {
             html.push('<h3>Tips</h3>');
-            var tips = stringHelper.split(tipsData, '\n', true);
+            let tips = stringHelper.split(tipsData, '\n', true);
             tips.forEach(function (tip) {
                 html.push('<p>' + tip + '</p>');
             });
@@ -372,7 +369,7 @@ module.exports = {
 
     mapCategories: function (categoryGroups) {
 
-        var categories = [];
+        let categories = [];
 
         if (categoryGroups) {
             categoryGroups.forEach(function (group) {
@@ -384,5 +381,4 @@ module.exports = {
 
         return categories;
     }
-
-}
+};

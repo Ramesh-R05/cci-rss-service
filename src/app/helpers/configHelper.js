@@ -1,22 +1,17 @@
-﻿'use strict';
+﻿import mustache from 'mustache';
+import utils from '../utils';
+import config from 'config';
 
-var mustache = require('mustache');
-var utils = require('../utils');
-var config = require('config');
+let cache = {};
 
-var cache = {};
-
-var getSiteConfig = function (site, props, environment) {
-
-    var cacheKey = 'config_' + site;
-
-    var siteConfig = cache[cacheKey];
+let getSiteConfig = (site, props, environment) => {
+    let cacheKey = 'config_' + site;
+    let siteConfig = cache[cacheKey];
 
     if (siteConfig === undefined) {
-
         siteConfig = config.util.cloneDeep(config);
 
-        var key = 'sites.' + site;
+        let key = 'sites.' + site;
         
         //site specific config overrides
         if (config.has(key)) {
@@ -37,17 +32,14 @@ var getSiteConfig = function (site, props, environment) {
         }
 
         cache[cacheKey] = siteConfig;
-
         return siteConfig;
     }
 
     return siteConfig;
 }
 
-var bindConfigProperties = function (config, bindingData) {
-
+let bindConfigProperties = (config, bindingData) => {
     for (var i in config) {
-
         var propVal = config[i];
 
         if (!propVal) {
@@ -65,11 +57,11 @@ var bindConfigProperties = function (config, bindingData) {
     }
 }
 
-var clearCache = function () {
+let clearCache = () => {
     cache = {};
 }
 
-module.exports = {
+export default {
     config: getSiteConfig,
-    clearCache: clearCache
-}
+    clearCache
+};

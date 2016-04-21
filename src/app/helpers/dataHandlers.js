@@ -1,8 +1,6 @@
-﻿'use strict';
+﻿import _ from 'underscore';
 
-var _ = require('underscore');
-
-var findDataSource = function (dataSources, dataKey) {
+let findDataSource = (dataSources, dataKey) => {
 
     var dataSource = _.find(dataSources, function (d) {
         return d.key === dataKey;
@@ -15,7 +13,7 @@ var findDataSource = function (dataSources, dataKey) {
     return null;
 }
 
-var onSponsoredDataReceived = function (campaignFieldName, data) {
+let onSponsoredDataReceived = (campaignFieldName, data) => {
 
     var itemsDataSource = findDataSource(data, 'items');
 
@@ -42,7 +40,7 @@ var onSponsoredDataReceived = function (campaignFieldName, data) {
     return data;
 }
 
-var onSectionsDataReceived = function (pathFieldName, sectionNameFields, data) {
+let onSectionsDataReceived = (pathFieldName, sectionNameFields, data) => {
 
     var sectionsDataSource = findDataSource(data, 'sections');
 
@@ -91,7 +89,7 @@ var onSectionsDataReceived = function (pathFieldName, sectionNameFields, data) {
     return data;
 }
 
-module.exports = {
-    onSponsoredDataReceived: onSponsoredDataReceived,
-    onSectionsDataReceived: onSectionsDataReceived
-}
+export default {
+    onSponsoredDataReceived,
+    onSectionsDataReceived
+};
