@@ -2,6 +2,7 @@
 
 var mustache = require('mustache');
 var utils = require('../utils');
+var config = require('config');
 
 var cache = {};
 
