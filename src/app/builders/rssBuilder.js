@@ -10,7 +10,7 @@ function getDataSource(dataSources, key) {
     return null;
 }
 
-export function buildFeed(dataSources) {
+function buildFeed(dataSources) {
     const channelData = getDataSource(dataSources, "channel");
 
     if (channelData && channelData.length > 0) {
@@ -26,4 +26,8 @@ export function buildFeed(dataSources) {
     }
 
     throw new Error('Channel data not set.')
+};
+
+export default {
+    buildFeed
 };

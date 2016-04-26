@@ -1,21 +1,19 @@
-﻿'use strict';
+﻿import stringHelper from './stringHelper';
+import mapFunctions from './mappingFunctions';
+import utils from'../utils';
 
-var stringHelper = require('./stringHelper');
-var mapFunctions = require('./mappingFunctions');
-var utils = require('../utils');
+let mapSolrData = props => {
 
-var mapSolrData = function (props) {
-
-    var mapped = [];
+    let mapped = [];
 
     if (props.solrData) {
 
-        var additionalMapData = {
+        let additionalMapData = {
             __request: props.request
         };
 
         props.solrData.forEach(function (source) {
-            var mappingConfigs = getMappingConfigurations(source.mappings, props.config);
+            let mappingConfigs = getMappingConfigurations(source.mappings, props.config);
             mapped.push({
                 key: source.key,
                 data: mapDataItems(mappingConfigs, source.data, additionalMapData)
@@ -26,12 +24,12 @@ var mapSolrData = function (props) {
     return mapped;
 }
 
-var getMappingConfigurations = function (mappingKeys, config) {
+let getMappingConfigurations = (mappingKeys, config) => {
 
-    var mappingConfigs = [];
+    let mappingConfigs = [];
 
     mappingKeys.forEach(function (key) {
-        var mappingKey = 'mappings.' + key;
+        let mappingKey = 'mappings.' + key;
         if (config.has(mappingKey)) {
             mappingConfigs.push(config.get(mappingKey));
         }
@@ -40,14 +38,14 @@ var getMappingConfigurations = function (mappingKeys, config) {
     return mappingConfigs;
 }
 
-var mapDataItems = function (mappingConfigs, dataItems, additionalMapData) {
+let mapDataItems = (mappingConfigs, dataItems, additionalMapData) => {
 
-    var mappedItems = [];
+    let mappedItems = [];
 
     if (dataItems) {
         dataItems.forEach(function (mapData) {
             if (additionalMapData) {
-                for (var j in additionalMapData) {
+                for (let j in additionalMapData) {
                     mapData[j] = additionalMapData[j];
                 }
             }
@@ -58,12 +56,12 @@ var mapDataItems = function (mappingConfigs, dataItems, additionalMapData) {
     return mappedItems;
 }
 
-var mapDataItem = function (mappingConfigs, mapData) {
+let mapDataItem = (mappingConfigs, mapData) => {
 
-    var mapped = {};
+    let mapped = {};
 
     mappingConfigs.forEach(function (mapConfig) {
-        for (var j in mapConfig) {
+        for (let j in mapConfig) {
             mapped[j] = mapDataItemProperty(mapConfig[j], mapData);
         }
     });
@@ -71,7 +69,7 @@ var mapDataItem = function (mappingConfigs, mapData) {
     return mapped;
 }
 
-var mapDataItemProperty = function (config, mapData) {
+let mapDataItemProperty = (config, mapData) => {
 
     if (config && config.value){
         return config.value;
@@ -94,17 +92,17 @@ var mapDataItemProperty = function (config, mapData) {
     }
 }
 
-var map = function (config, mapData, defaultValue, postMapFunctions) {
+let map = (config, mapData, defaultValue, postMapFunctions) => {
 
-    var val = '';
+    let val = '';
 
     if (!defaultValue){
         defaultValue = '';
     }
 
     if (config && config instanceof Array){
-        for(var i = 0; i < config.length; i++){
-            var mapKey = config[i];
+        for(let i = 0; i < config.length; i++){
+            let mapKey = config[i];
             val = mapValue(mapKey, mapData, defaultValue);
             if(val !== defaultValue){
                 break;
@@ -117,7 +115,7 @@ var map = function (config, mapData, defaultValue, postMapFunctions) {
 
     if (postMapFunctions){
         postMapFunctions.forEach(function (item, i, arr) {
-            var fn = utils.compileFunction(item, mapData, [val]);
+            let fn = utils.compileFunction(item, mapData, [val]);
             val = fn.execute();
         });
     }
@@ -125,9 +123,9 @@ var map = function (config, mapData, defaultValue, postMapFunctions) {
     return val;
 }
 
-var mapArray = function (config, mapData, defaultValue, postMapFunctions) {
+let mapArray = (config, mapData, defaultValue, postMapFunctions) => {
 
-    var arr = [];
+    let arr = [];
 
     if (config && config instanceof Array) {
         config.forEach(function (mapKey) {
@@ -138,11 +136,11 @@ var mapArray = function (config, mapData, defaultValue, postMapFunctions) {
     return arr;
 }
 
-var mapObject = function (config, mapData) {
+let mapObject = (config, mapData) => {
 
-    var obj = {};
+    let obj = {};
 
-    for (var i in config){
+    for (let i in config){
         obj[i] = mapDataItemProperty(config[i], mapData);
     }
 
@@ -150,14 +148,14 @@ var mapObject = function (config, mapData) {
 
 }
 
-var mapObjectArray = function (config, mapData) {
+let mapObjectArray = (config, mapData) => {
 
-    var arr = [];
+    let arr = [];
 
-    var obj = mapObject(config, mapData);
+    let obj = mapObject(config, mapData);
 
-    for (var i in obj) {
-        var o = {};
+    for (let i in obj) {
+        let o = {};
         o[i] = obj[i];
         arr.push(o);
     }
@@ -165,14 +163,14 @@ var mapObjectArray = function (config, mapData) {
     return arr;
 }
 
-var mapValue = function (config, mapData, defaultValue) {
+let mapValue = (config, mapData, defaultValue) => {
 
     if (typeof config === 'string')
     {
       return utils.getProperty(config, mapData, defaultValue);
     }
     else if (utils.isFunctionConfig(config)) {
-        var fn = utils.compileFunction(config, mapData);
+        let fn = utils.compileFunction(config, mapData);
         return fn.execute();
     }
     else {
@@ -180,12 +178,11 @@ var mapValue = function (config, mapData, defaultValue) {
     }
 }
 
-
-module.exports = {
-    mapSolrData: mapSolrData,
-    map: map,
-    mapArray: mapArray,
-    mapObject: mapObject,
-    mapObjectArray: mapObjectArray,
-    mapValue: mapValue
-}
+export default {
+    mapSolrData,
+    map,
+    mapArray,
+    mapObject,
+    mapObjectArray,
+    mapValue
+};

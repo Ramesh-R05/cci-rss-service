@@ -1,21 +1,19 @@
-﻿'use strict';
+﻿import solrHelper from './solrHelper';
+import mapper from './mappingHelper';
+import builder from '../builders/rssBuilder';
+import utils from '../utils';
+import Q from 'q';
 
-var solrHelper = require('./solrHelper');
-var mapper = require('./mappingHelper');
-var builder = require('../builders/rssBuilder');
-var utils = require('../utils');
-var Q = require('q');
+let buildFeed = props => {
 
-var buildFeed = function (props) {
-
-    var deferred = Q.defer();
+    let deferred = Q.defer();
 
     solrHelper.loadData(props)
         .then(function (data) {
             props.solrData = onSolrDataReceived(data, props);
 
             try {
-                var feed = builder.buildFeed(mapper.mapSolrData(props));
+                let feed = builder.buildFeed(mapper.mapSolrData(props));
                 deferred.resolve(feed.xml());
             }
             catch (err) {
@@ -29,11 +27,11 @@ var buildFeed = function (props) {
     return deferred.promise;
 }
 
-var onSolrDataReceived = function (data, props) {
+let onSolrDataReceived = (data, props) => {
 
     if (props.route.onDataReceived) {
         props.route.onDataReceived.forEach(function (func) {
-            var handler = utils.compileFunction(func, {}, [data]);
+            let handler = utils.compileFunction(func, {}, [data]);
             data = handler.execute();
         });
     }
@@ -41,6 +39,6 @@ var onSolrDataReceived = function (data, props) {
     return data;
 }
 
-module.exports = {
-    buildFeed: buildFeed
-}
+export default {
+    buildFeed
+};

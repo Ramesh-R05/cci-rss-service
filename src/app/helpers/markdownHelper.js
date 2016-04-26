@@ -1,14 +1,12 @@
-﻿'use strict';
+﻿import marked from 'marked';
+import unmarked from 'remove-markdown';
+import util from 'util';
 
-var marked = require('marked');
-var unmarked = require('remove-markdown');
-var util = require('util');
-
-var options = {
+let options = {
     breaks: true
 };
 
-var renderParagraph = function (content) {
+let renderParagraph = content => {
 
     if (content) {
         return marked(content, options);
@@ -17,23 +15,23 @@ var renderParagraph = function (content) {
     return '';
 }
 
-var renderImage = function (content, attributes) {
+let renderImage = (content, attributes) => {
 
     if (content && content.url) {
 
-        var url = content.url;
+        let url = content.url;
 
         if (attributes) {
-            var attList = [];
-            for (var i in attributes) {
+            let attList = [];
+            for (let i in attributes) {
                 attList.push(i + '=' + attributes[i]);
             }
             url += '?' + attList.join('&');
         }
 
-        var caption = content.caption || '';
+        let caption = content.caption || '';
 
-        var html = util.format('<img src="%s" alt="%s" />', url, unmarked(caption));
+        let html = util.format('<img src="%s" alt="%s" />', url, unmarked(caption));
 
         if (caption) {
             html += renderParagraph(caption);
@@ -45,7 +43,8 @@ var renderImage = function (content, attributes) {
     return '';
 }
 
-module.exports = {
-    renderParagraph: renderParagraph,
-    renderImage: renderImage
-}
+export default {
+    renderParagraph,
+    renderImage
+};
+
