@@ -1,39 +1,4 @@
-﻿import stringHelper from './stringHelper';
-import mapFunctions from './mappingFunctions';
-import utils from'../utils';
-
-let mapSolrData = props => {
-    let mapped = [];
-
-    if (props.solrData) {
-        let additionalMapData = {
-            __request: props.request
-        };
-
-        props.solrData.forEach(function (source) {
-            let mappingConfigs = getMappingConfigurations(source.mappings, props.config);
-            mapped.push({
-                key: source.key,
-                data: mapDataItems(mappingConfigs, source.data, additionalMapData)
-            });
-        });
-    }
-
-    return mapped;
-};
-
-let getMappingConfigurations = (mappingKeys, config) => {
-    let mappingConfigs = [];
-
-    mappingKeys.forEach(function (key) {
-        let mappingKey = 'mappings.' + key;
-        if (config.has(mappingKey)) {
-            mappingConfigs.push(config.get(mappingKey));
-        }
-    });
-
-    return mappingConfigs;
-};
+﻿import utils from'../utils';
 
 let mapDataItems = (mappingConfigs, dataItems, additionalMapData) => {
     let mappedItems = [];
@@ -50,7 +15,41 @@ let mapDataItems = (mappingConfigs, dataItems, additionalMapData) => {
     }
 
     return mappedItems;
-}
+};
+
+let getMappingConfigurations = (mappingKeys, config) => {
+    let mappingConfigs = [];
+
+    mappingKeys.forEach(key => {
+        let mappingKey = 'mappings.' + key;
+        if (config.has(mappingKey)) {
+            mappingConfigs.push(config.get(mappingKey));
+        }
+    });
+
+    return mappingConfigs;
+};
+
+let mapSolrData = props => {
+    let mapped = [];
+
+    if (props.solrData) {
+        let additionalMapData = {
+            __request: props.request
+        };
+
+        props.solrData.forEach(source => {
+            let mappingConfigs = getMappingConfigurations(source.mappings, props.config);
+            mapped.push({
+                key: source.key,
+                data: mapDataItems(mappingConfigs, source.data, additionalMapData)
+            });
+        });
+    }
+
+    return mapped;
+};
+
 
 let mapDataItem = (mappingConfigs, mapData) => {
     let mapped = {};
