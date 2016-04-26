@@ -1,7 +1,5 @@
-﻿'use strict';
-
-var stringHelper = require('./helpers/stringHelper');
-var functions = require('./functions');
+﻿import stringHelper from  './helpers/stringHelper';
+import functions from './functions';
 
 var getProperty = function (propName, obj, defaultValue) {
 
@@ -141,11 +139,11 @@ var isArray = function(obj) {
     return (obj && obj instanceof Array);
 }
 
-module.exports = {
-    getProperty: getProperty,
-    compileFunction: compileFunction,
-    isFunction: isFunction,
-    isFunctionConfig: isFunctionConfig,
-    isArray: isArray,
-    functions: functions
-}
+export default {
+    getProperty,
+    compileFunction,
+    isFunction,
+    isFunctionConfig,
+    isArray,
+    functions
+};

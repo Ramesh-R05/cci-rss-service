@@ -1,13 +1,13 @@
 ﻿import configHelper from '../helpers/configHelper';
 import rssHelper from '../helpers/rssHelper';
 
-var getRouteConfiguration = function (config, routePath) {
+let getRouteConfiguration = (config, routePath) => {
 
-    var routes = config.get('routes');
+    let routes = config.get('routes');
 
     if (routes) {
-        for (var key in routes) {
-            var r = routes[key];
+        for (let key in routes) {
+            let r = routes[key];
             if (r.path.toLowerCase() === routePath.toLowerCase()) {
                 return r;
             }
@@ -17,20 +17,20 @@ var getRouteConfiguration = function (config, routePath) {
     return null;
 }
 
-var route = function (req, res) {
+let route = (req, res) => {
 
-    var site = req.params.site.toLowerCase();
-    var routePath = '/' + (req.params.route_path ? req.params.route_path : '');
+    let site = req.params.site.toLowerCase();
+    let routePath = '/' + (req.params.route_path ? req.params.route_path : '');
 
     if (site) {
 
-        var props = {
+        let props = {
             site: site,
             request: req
         }
 
-        var config = configHelper.config(site, props);
-        var routeConfig = getRouteConfiguration(config, routePath);
+        let config = configHelper.config(site, props);
+        let routeConfig = getRouteConfiguration(config, routePath);
 
         if (routeConfig) {
 
@@ -40,7 +40,7 @@ var route = function (req, res) {
 
             try {
 
-                var promise = rssHelper.buildFeed(props);
+                let promise = rssHelper.buildFeed(props);
 
                 promise.then(function (xml) {
                     res.set('Content-Type', 'text/xml');
