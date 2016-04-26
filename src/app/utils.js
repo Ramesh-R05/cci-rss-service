@@ -2,7 +2,6 @@
 import functions from './functions';
 
 var getProperty = function (propName, obj, defaultValue) {
-
     try {
         var parts = stringHelper.split(propName, '.', true);
         var prop = obj;
@@ -18,10 +17,9 @@ var getProperty = function (propName, obj, defaultValue) {
     catch (err) { }
 
     return defaultValue;
-}
+};
 
 var compileFunction = function (config, data, additionalParams) {
-
     var fn = {
         func: function () {
             return '';
@@ -52,10 +50,9 @@ var compileFunction = function (config, data, additionalParams) {
     }
 
     return fn;
-}
+};
 
 var compileFunctionParameter = function (param, data) {
-
     if (typeof param === 'string') {
         return bindParameterValue(param, data);
     }
@@ -73,10 +70,9 @@ var compileFunctionParameter = function (param, data) {
     }
 
     return param;
-}
+};
 
 var bindParameterValue = function (bindingKey, bindingData) {
-
     var val = bindingKey;
 
     if (bindingKey.length > 1 && bindingKey.indexOf('@') === 0) {
@@ -84,10 +80,9 @@ var bindParameterValue = function (bindingKey, bindingData) {
     }
 
     return val;
-}
+};
 
 var getFunctionInfo = function (config) {
-
     var info = {
         scope: null,
         func: null
@@ -124,20 +119,19 @@ var getFunctionInfo = function (config) {
     }
 
     return null;
-
 }
 
 var isFunction = function(obj) {
     return (obj && typeof obj === 'function');
-}
+};
 
 var isFunctionConfig = function(obj) {
     return (obj && obj.fn && typeof obj.fn === 'string');
-}
+};
 
 var isArray = function(obj) {
     return (obj && obj instanceof Array);
-}
+};
 
 export default {
     getProperty,

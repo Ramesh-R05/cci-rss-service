@@ -2,7 +2,6 @@
 import unmarked from 'remove-markdown';
 
 let split = (str, separator, removeEmpty) => {
-
     separator = !isEmpty(separator) ? separator : ',';
     removeEmpty = !isEmpty(removeEmpty) ? removeEmpty : false;
 
@@ -19,19 +18,19 @@ let split = (str, separator, removeEmpty) => {
     }
 
     return items;
-}
+};
 
 let isEmpty = str => {
     return (typeof str === 'undefined' || str === '' || str === null);
-}
+};
 
 let stripHtml = (str, allowedTags) => {
     return striptags(str, allowedTags);
-}
+};
 
 let stripMarkdown = str => {
     return unmarked(str);
-}
+};
 
 export default {
     split,

@@ -2,7 +2,6 @@
 import rssHelper from '../helpers/rssHelper';
 
 let getRouteConfiguration = (config, routePath) => {
-
     let routes = config.get('routes');
 
     if (routes) {
@@ -15,15 +14,13 @@ let getRouteConfiguration = (config, routePath) => {
     }
 
     return null;
-}
+};
 
 let route = (req, res) => {
-
     let site = req.params.site.toLowerCase();
     let routePath = '/' + (req.params.route_path ? req.params.route_path : '');
 
     if (site) {
-
         let props = {
             site: site,
             request: req
@@ -33,13 +30,11 @@ let route = (req, res) => {
         let routeConfig = getRouteConfiguration(config, routePath);
 
         if (routeConfig) {
-
             props.route = routeConfig;
             props.config = config;
             props.queryParams = req.query;
 
             try {
-
                 let promise = rssHelper.buildFeed(props);
 
                 promise.then(function (xml) {
@@ -64,8 +59,7 @@ let route = (req, res) => {
     else {
         res.sendStatus(404);
     }
-
-}
+};
 
 export default {
     route

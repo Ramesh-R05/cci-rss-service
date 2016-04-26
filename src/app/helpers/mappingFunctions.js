@@ -11,7 +11,7 @@ let renderRecipeGroupHeading = () => {
         let txt = render(text);
         return txt ? '<h3>' + txt + '</h3>' : '';
     }
-}
+};
 
 let renderRecipeIngredientQuantityAndMeasure = () => {
     return function (text, render) {
@@ -33,7 +33,7 @@ let renderRecipeIngredientQuantityAndMeasure = () => {
         }
         return displayItems.length > 0 ? displayItems.join(' ') + ' ' : '';
     }
-}
+};
 
 export default {
     sanitise: function (str) {

@@ -15,10 +15,9 @@ let compileQuery = (queryConfig, queryParams) => {
         }
     }
     return query.join('&');
-}
+};
 
 let getDataSources = props => {
-
     let dataSources = [];
     for (let i in props.route.data) {
         let source = props.route.data[i];
@@ -26,12 +25,10 @@ let getDataSources = props => {
     }
 
     return dataSources;
-}
+};
 
 let querySolrData = (dataSource, props) => {
-
     let deferred = Q.defer();
-
     let queryConfig = props.config.get('queries.' + dataSource.query);
 
     if (queryConfig) {
@@ -53,7 +50,7 @@ let querySolrData = (dataSource, props) => {
     }
 
     return deferred.promise;
-}
+};
 
 export default {
     loadData: props => {

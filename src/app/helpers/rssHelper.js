@@ -5,11 +5,10 @@ import utils from '../utils';
 import Q from 'q';
 
 let buildFeed = props => {
-
     let deferred = Q.defer();
 
     solrHelper.loadData(props)
-        .then(function (data) {
+        .then(data => {
             props.solrData = onSolrDataReceived(data, props);
 
             try {
@@ -20,15 +19,14 @@ let buildFeed = props => {
                 deferred.reject(err.message);
             }
 
-        }, function (err) {
+        }, err => {
             deferred.reject(err);
         });
 
     return deferred.promise;
-}
+};
 
 let onSolrDataReceived = (data, props) => {
-
     if (props.route.onDataReceived) {
         props.route.onDataReceived.forEach(function (func) {
             let handler = utils.compileFunction(func, {}, [data]);

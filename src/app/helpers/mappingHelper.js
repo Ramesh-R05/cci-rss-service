@@ -3,11 +3,9 @@ import mapFunctions from './mappingFunctions';
 import utils from'../utils';
 
 let mapSolrData = props => {
-
     let mapped = [];
 
     if (props.solrData) {
-
         let additionalMapData = {
             __request: props.request
         };
@@ -22,10 +20,9 @@ let mapSolrData = props => {
     }
 
     return mapped;
-}
+};
 
 let getMappingConfigurations = (mappingKeys, config) => {
-
     let mappingConfigs = [];
 
     mappingKeys.forEach(function (key) {
@@ -36,10 +33,9 @@ let getMappingConfigurations = (mappingKeys, config) => {
     });
 
     return mappingConfigs;
-}
+};
 
 let mapDataItems = (mappingConfigs, dataItems, additionalMapData) => {
-
     let mappedItems = [];
 
     if (dataItems) {
@@ -57,7 +53,6 @@ let mapDataItems = (mappingConfigs, dataItems, additionalMapData) => {
 }
 
 let mapDataItem = (mappingConfigs, mapData) => {
-
     let mapped = {};
 
     mappingConfigs.forEach(function (mapConfig) {
@@ -67,10 +62,9 @@ let mapDataItem = (mappingConfigs, mapData) => {
     });
 
     return mapped;
-}
+};
 
 let mapDataItemProperty = (config, mapData) => {
-
     if (config && config.value){
         return config.value;
     }
@@ -90,10 +84,9 @@ let mapDataItemProperty = (config, mapData) => {
     if (config && config.mapObjectArray){
         return mapObjectArray(config.mapObjectArray, mapData);
     }
-}
+};
 
 let map = (config, mapData, defaultValue, postMapFunctions) => {
-
     let val = '';
 
     if (!defaultValue){
@@ -121,10 +114,9 @@ let map = (config, mapData, defaultValue, postMapFunctions) => {
     }
 
     return val;
-}
+};
 
 let mapArray = (config, mapData, defaultValue, postMapFunctions) => {
-
     let arr = [];
 
     if (config && config instanceof Array) {
@@ -134,10 +126,9 @@ let mapArray = (config, mapData, defaultValue, postMapFunctions) => {
     }
 
     return arr;
-}
+};
 
 let mapObject = (config, mapData) => {
-
     let obj = {};
 
     for (let i in config){
@@ -145,13 +136,10 @@ let mapObject = (config, mapData) => {
     }
 
     return obj;
-
-}
+};
 
 let mapObjectArray = (config, mapData) => {
-
     let arr = [];
-
     let obj = mapObject(config, mapData);
 
     for (let i in obj) {
@@ -161,12 +149,10 @@ let mapObjectArray = (config, mapData) => {
     }
 
     return arr;
-}
+};
 
 let mapValue = (config, mapData, defaultValue) => {
-
-    if (typeof config === 'string')
-    {
+    if (typeof config === 'string') {
       return utils.getProperty(config, mapData, defaultValue);
     }
     else if (utils.isFunctionConfig(config)) {
@@ -176,7 +162,7 @@ let mapValue = (config, mapData, defaultValue) => {
     else {
         return defaultValue;
     }
-}
+};
 
 export default {
     mapSolrData,

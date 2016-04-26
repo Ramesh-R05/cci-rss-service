@@ -7,18 +7,15 @@ let options = {
 };
 
 let renderParagraph = content => {
-
     if (content) {
         return marked(content, options);
     }
 
     return '';
-}
+};
 
 let renderImage = (content, attributes) => {
-
     if (content && content.url) {
-
         let url = content.url;
 
         if (attributes) {
@@ -39,9 +36,8 @@ let renderImage = (content, attributes) => {
 
         return '<div>' + html + '</div>';
     }
-
     return '';
-}
+};
 
 export default {
     renderParagraph,

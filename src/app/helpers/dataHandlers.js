@@ -1,8 +1,7 @@
 ﻿import _ from 'underscore';
 
 let findDataSource = (dataSources, dataKey) => {
-
-    var dataSource = _.find(dataSources, function (d) {
+    var dataSource = _.find(dataSources, d => {
         return d.key === dataKey;
     });
 
@@ -11,21 +10,19 @@ let findDataSource = (dataSources, dataKey) => {
     }
 
     return null;
-}
+};
 
 let onSponsoredDataReceived = (campaignFieldName, data) => {
-
     var itemsDataSource = findDataSource(data, 'items');
 
     if (itemsDataSource && itemsDataSource.data) {
-
-        var sanitised = [];
+        let sanitised = [];
 
         itemsDataSource.data.forEach(function (item) {
             try {
                 var campaignStr = item[campaignFieldName];
                 if (campaignStr) {
-                    var campaign = JSON.parse(campaignStr);
+                    let campaign = JSON.parse(campaignStr);
                     if (campaign[0].campaignType && campaign[0].sponsor) {
                         sanitised.push(item);
                     }
@@ -38,21 +35,17 @@ let onSponsoredDataReceived = (campaignFieldName, data) => {
     }
 
     return data;
-}
+};
 
 let onSectionsDataReceived = (pathFieldName, sectionNameFields, data) => {
-
     var sectionsDataSource = findDataSource(data, 'sections');
 
     if (sectionsDataSource && sectionsDataSource.data) {
-
         var sectionHash = {};
         var itemsDataSource = findDataSource(data, 'items');
 
         if (itemsDataSource && itemsDataSource.data) {
-   
             itemsDataSource.data.forEach(function (item) {
-
                 var sections = [];
                 var path = item[pathFieldName];
 
@@ -77,17 +70,15 @@ let onSectionsDataReceived = (pathFieldName, sectionNameFields, data) => {
                                 }
                             }
                         }
-
                     });
                 }
-
                 item['__sections'] = sections;
             });
         }
     }
 
     return data;
-}
+};
 
 export default {
     onSponsoredDataReceived,
