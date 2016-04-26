@@ -4,4 +4,4 @@ import dataHandlers from './helpers/dataHandlers';
 export default {
     mapping: mapFunctions,
     data: dataHandlers
-}
+};

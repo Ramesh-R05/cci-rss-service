@@ -1,8 +1,8 @@
 import RSS from '@bxm/rss-builder';
 
 function getDataSource(dataSources, key) {
-    for (var i = 0; i < dataSources.length; i++) {
-        var source = dataSources[i];
+    for (let i = 0; i < dataSources.length; i++) {
+        let source = dataSources[i];
         if (source.key.toLowerCase() === key.toLowerCase()) {
             return source.data;
         }
@@ -11,13 +11,12 @@ function getDataSource(dataSources, key) {
 }
 
 function buildFeed(dataSources) {
-    const channelData = getDataSource(dataSources, "channel");
+    const channelData = getDataSource(dataSources, 'channel');
 
     if (channelData && channelData.length > 0) {
+        let feed = new RSS(channelData[0]);
 
-        var feed = new RSS(channelData[0]);
-
-        var itemsData = getDataSource(dataSources, "items");
+        let itemsData = getDataSource(dataSources, 'items');
 
         if (itemsData && itemsData.length > 0) {
             itemsData.forEach(item => feed.item(item));
@@ -25,8 +24,8 @@ function buildFeed(dataSources) {
         return feed;
     }
 
-    throw new Error('Channel data not set.')
-};
+    throw new Error('Channel data not set.');
+}
 
 export default {
     buildFeed
