@@ -43,7 +43,7 @@ var route = function (req, res) {
 
             try {
 
-                var promise = rssHelper.buildFeed(props);
+                var promise = rssHelper.buildFeed(props, site);
 
                 promise.then(function (xml) {
                     res.set('Content-Type', 'text/xml');
