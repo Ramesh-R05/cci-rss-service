@@ -36,27 +36,27 @@ let renderRecipeIngredientQuantityAndMeasure = () => {
 };
 
 export default {
-    sanitise: function (str) {
+    sanitise(str) {
         return str ? stringHelper.stripMarkdown(stringHelper.stripHtml(str)) : '';
     },
 
-    format: function (fmt, str) {
-        return  str ? util.format(fmt, str) : '';
+    format(fmt, str) {
+        return str ? util.format(fmt, str) : '';
     },
 
-    mapCopyright: function () {
+    mapCopyright() {
         return (new Date()).getFullYear() + ' BAUER MEDIA PTY LIMITED';
     },
 
-    mapItemUrl: function (siteUrl, url) {
+    mapItemUrl(siteUrl, url) {
         return siteUrl + url;
     },
 
-    mapMimeType: function (imageUrl) {
+    mapMimeType(imageUrl) {
         return mimeTypeHelper.getType(imageUrl);
     },
 
-    mapCampaignType: function (campaignStr, matchType) {
+    mapCampaignType(campaignStr, matchType) {
         try {
             let campaign = JSON.parse(campaignStr);
             let type = campaign[0].campaignType;
@@ -68,7 +68,7 @@ export default {
         return false;
     },
 
-    mapCampaignSponsor: function (campaignStr) {
+    mapCampaignSponsor(campaignStr) {
         try {
             let campaign = JSON.parse(campaignStr);
             let sponsor = campaign[0].sponsor;
@@ -82,11 +82,11 @@ export default {
         return '';
     },
 
-    mapFeedUrl: function (req) {
+    mapFeedUrl(req) {
         return req.protocol + '://' + req.get('host') + req.originalUrl;
     },
 
-    mapFullContent: function (contentUrl, contentJsonStr, mapSettingsStr) {
+    mapFullContent(contentUrl, contentJsonStr, mapSettingsStr) {
         let content = '';
         try {
             let contentJson = JSON.parse(contentJsonStr);
@@ -98,7 +98,7 @@ export default {
 
             let imgSettings = mapSettings.image || { width: 800 };
 
-            contentJson.forEach(function (item) {
+            contentJson.forEach(item => {
                 if (item.type && item.content) {
                     switch (item.type) {
                         case 'paragraph':
@@ -116,23 +116,24 @@ export default {
                                 content += markdownHelper.renderParagraph(util.format('<a href="%s" target="_blank">Watch video</a>', contentUrl));
                             }
                             break;
+                        default:
+                            break;
                     }
                 }
             });
-        }
-        catch (err) {
+        } catch (err) {
             content = '';
         }
 
         return content;
     },
 
-    mapTags: function (tagGroupList) {
+    mapTags(tagGroupList) {
         let tags = [];
 
-        tagGroupList.forEach(function (item) {
+        tagGroupList.forEach(item => {
             if (item && item instanceof Array) {
-                item.forEach(function (tag) {
+                item.forEach(tag => {
                     let tagLeaf = tag.split(':').slice(-1)[0];
                     if (tagLeaf) {
                         let cleanTag = tagLeaf.replace(/[\[\]{}"]/g, '').toLowerCase().trim();
@@ -145,26 +146,23 @@ export default {
         });
 
         return tags;
-
     },
 
-    mapRecipeContent: function (recipeContentItems) {
+    mapRecipeContent(recipeContentItems) {
         let content = [];
 
         if (recipeContentItems) {
-            recipeContentItems.forEach(function (item) {
+            recipeContentItems.forEach(item => {
                 if (item) {
                     content.push(item);
                 }
             });
         }
-
         return content.join('');
     },
-    
-    mapRecipeIngredients: function (ingredientsData) {
-        let html = [];
 
+    mapRecipeIngredients(ingredientsData) {
+        let html = [];
         try {
             let ingredientGroups = JSON.parse(ingredientsData);
             let groupHtml = [];
@@ -181,7 +179,7 @@ export default {
                     '</ul>' +
                 '</div>';
 
-            ingredientGroups.forEach(function (group) {
+            ingredientGroups.forEach(group => {
                 if (group && group.ingredients && group.ingredients.length > 0) {
                     group.renderHeading = renderRecipeGroupHeading;
                     group.renderQuantityAndMeasure = renderRecipeIngredientQuantityAndMeasure;
@@ -202,7 +200,7 @@ export default {
         return html.join('');
     },
 
-    mapRecipeCookingMethod: function (methodData) {
+    mapRecipeCookingMethod(methodData) {
         let html = [];
         try {
             let methodGroups = JSON.parse(methodData);
@@ -219,7 +217,7 @@ export default {
                     '</ol>' +
                 '</div>';
 
-            methodGroups.forEach(function (group) {
+            methodGroups.forEach(group => {
                 if (group && group.methods && group.methods.length > 0) {
                     group.renderHeading = renderRecipeGroupHeading;
                     groupHtml.push(mustache.render(groupTemplate, group));
@@ -239,7 +237,7 @@ export default {
         return html.join('');
     },
 
-    mapRecipeServings: function (servingsData) {
+    mapRecipeServings(servingsData) {
         let html = [];
         try {
             let servings = JSON.parse(servingsData);
@@ -259,12 +257,12 @@ export default {
         return html.join('');
     },
 
-    mapRecipeCookingTime: function (cookingTimeData) {
+    mapRecipeCookingTime(cookingTimeData) {
         let html = [];
         try {
             let cookingTimes = JSON.parse(cookingTimeData);
             if (cookingTimes.times) {
-                cookingTimes.times.forEach(function (time) {
+                cookingTimes.times.forEach(time => {
                     if (time.minutes) {
                         let timeParts = [];
                         let hours = Math.floor(time.minutes / 60);
@@ -281,8 +279,7 @@ export default {
                             if (mins >= 1) {
                                 let unit = mins === 1 ? 'minute' : 'minutes';
                                 timeParts.push(mins + ' ' + unit);
-                            }
-                            else {
+                            } else {
                                 let seconds = Math.round(mins * 60);
                                 let unit = seconds === 1 ? 'second' : 'seconds';
                                 timeParts.push(seconds + ' ' + unit);
@@ -303,54 +300,57 @@ export default {
 
         return html.join('');
     },
-    
-    mapRecipeImage: function (imageUrl, width) {
-        width = width || 800;
+
+    mapRecipeImage(imageUrl, width) {
+        let newWidth = width || 800;
         return imageUrl
-            ? '<div><img src="' + imageUrl + '?width=' + width + '" /></div>'
+            ? '<div><img src="' + imageUrl + '?width=' + newWidth + '" /></div>'
             : '';
     },
 
-    mapRecipeTips: function (tipsData) {
+    mapRecipeTips(tipsData) {
         let html = [];
         if (tipsData) {
             html.push('<h3>Tips</h3>');
             let tips = stringHelper.split(tipsData, '\n', true);
-            tips.forEach(function (tip) {
+            tips.forEach(tip => {
                 html.push('<p>' + tip + '</p>');
             });
         }
         return html.join('');
     },
 
-    mapRecipeSource: function (data) {
+    mapRecipeSource(data) {
+        let newData = data;
         switch (data.toLowerCase()) {
             case 'taste':
-                data = 'Food To Love';
+                newData = 'Food To Love';
                 break;
             case 'recipes plus':
-                data = 'Recipes+';
+                newData = 'Recipes+';
                 break;
             case 'commercial':
             case 'supplied':
-                data = '';
+                newData = '';
+                break;
+            default:
                 break;
         }
 
-        return (data)
-            ? '<h4>Recipe by: ' + data + '</h4>'
+        return (newData)
+            ? '<h4>Recipe by: ' + newData + '</h4>'
             : '';
     },
 
-    mapRecipeProperty: function (label, data) {
+    mapRecipeProperty(label, data) {
         return data ? '<h4>' + label + ': ' + data + '</h4>' : '';
     },
 
-    mapCategories: function (categoryGroups) {
+    mapCategories(categoryGroups) {
         let categories = [];
 
         if (categoryGroups) {
-            categoryGroups.forEach(function (group) {
+            categoryGroups.forEach(group => {
                 if (group) {
                     categories = categories.concat(group);
                 }
