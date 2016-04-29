@@ -4,17 +4,17 @@ import markdownHelper from './markdownHelper';
 import stringHelper from './stringHelper';
 import mustache from 'mustache';
 import _ from 'underscore';
-import S from 'string';
+import s from 'string';
 
 let renderRecipeGroupHeading = () => {
-    return function (text, render) {
+    return (text, render) => {
         let txt = render(text);
         return txt ? '<h3>' + txt + '</h3>' : '';
-    }
+    };
 };
 
 let renderRecipeIngredientQuantityAndMeasure = () => {
-    return function (text, render) {
+    return (text, render) => {
         let displayItems = [];
         let parts = render(text).split(':');
         let quantity = parts[0];
@@ -32,7 +32,7 @@ let renderRecipeIngredientQuantityAndMeasure = () => {
             displayItems.push(measure);
         }
         return displayItems.length > 0 ? displayItems.join(' ') + ' ' : '';
-    }
+    };
 };
 
 export default {
@@ -45,7 +45,7 @@ export default {
     },
 
     mapCopyright: function () {
-        return (new Date()).getFullYear() + ' BAUER MEDIA PTY LIMITED'
+        return (new Date()).getFullYear() + ' BAUER MEDIA PTY LIMITED';
     },
 
     mapItemUrl: function (siteUrl, url) {
@@ -57,27 +57,27 @@ export default {
     },
 
     mapCampaignType: function (campaignStr, matchType) {
-
         try {
             let campaign = JSON.parse(campaignStr);
             let type = campaign[0].campaignType;
             return (type.toLowerCase() === matchType.toLowerCase());
+        } catch (err) {
+            //Intentionally empty
         }
-        catch (err) { }
 
         return false;
     },
 
     mapCampaignSponsor: function (campaignStr) {
-
         try {
             let campaign = JSON.parse(campaignStr);
             let sponsor = campaign[0].sponsor;
             if (sponsor && sponsor.length > 0) {
                 return sponsor;
             }
+        } catch (err) {
+            //Intentionally empty
         }
-        catch (err) { }
 
         return '';
     },
@@ -87,11 +87,8 @@ export default {
     },
 
     mapFullContent: function (contentUrl, contentJsonStr, mapSettingsStr) {
-
         let content = '';
-        
         try {
-
             let contentJson = JSON.parse(contentJsonStr);
             let mapSettings = {};
 
@@ -131,7 +128,6 @@ export default {
     },
 
     mapTags: function (tagGroupList) {
-
         let tags = [];
 
         tagGroupList.forEach(function (item) {
@@ -153,7 +149,6 @@ export default {
     },
 
     mapRecipeContent: function (recipeContentItems) {
-
         let content = [];
 
         if (recipeContentItems) {
@@ -168,7 +163,6 @@ export default {
     },
     
     mapRecipeIngredients: function (ingredientsData) {
-
         let html = [];
 
         try {
@@ -201,8 +195,7 @@ export default {
                     groupHtml.join('')
                 );
             }
-        }
-        catch (err) {
+        } catch (err) {
             return '';
         }
 
@@ -210,9 +203,7 @@ export default {
     },
 
     mapRecipeCookingMethod: function (methodData) {
-
         let html = [];
-
         try {
             let methodGroups = JSON.parse(methodData);
             let groupHtml = [];
@@ -241,8 +232,7 @@ export default {
                     groupHtml.join('')
                 );
             }
-        }
-        catch (err) {
+        } catch (err) {
             return '';
         }
 
@@ -250,9 +240,7 @@ export default {
     },
 
     mapRecipeServings: function (servingsData) {
-
         let html = [];
-
         try {
             let servings = JSON.parse(servingsData);
             if (servings.serves) html.push('<h4>Serves: ' + servings.serves + '</h4>');
@@ -264,8 +252,7 @@ export default {
                 }
                 html.push('<h4>Makes: ' + servings.yieldQuantity + (measure ? ' ' + measure : '') + '</h4>');
             }
-        }
-        catch (err) {
+        } catch (err) {
             return '';
         }
 
@@ -273,20 +260,17 @@ export default {
     },
 
     mapRecipeCookingTime: function (cookingTimeData) {
-
         let html = [];
-
         try {
             let cookingTimes = JSON.parse(cookingTimeData);
             if (cookingTimes.times) {
                 cookingTimes.times.forEach(function (time) {
                     if (time.minutes) {
-
                         let timeParts = [];
                         let hours = Math.floor(time.minutes / 60);
                         let mins = time.minutes % 60;
 
-                        timeParts.push(S(time.id).humanize().s + ' time:');
+                        timeParts.push(s(time.id).humanize().s + ' time:');
 
                         if (hours > 0) {
                             let unit = hours === 1 ? 'hour' : 'hours';
@@ -313,8 +297,7 @@ export default {
                     }
                 });
             }
-        }
-        catch (err) {
+        } catch (err) {
             return '';
         }
 
@@ -341,17 +324,13 @@ export default {
     },
 
     mapRecipeSource: function (data) {
-
         switch (data.toLowerCase()) {
-
             case 'taste':
                 data = 'Food To Love';
                 break;
-
             case 'recipes plus':
                 data = 'Recipes+';
                 break;
-
             case 'commercial':
             case 'supplied':
                 data = '';
@@ -368,7 +347,6 @@ export default {
     },
 
     mapCategories: function (categoryGroups) {
-
         let categories = [];
 
         if (categoryGroups) {
