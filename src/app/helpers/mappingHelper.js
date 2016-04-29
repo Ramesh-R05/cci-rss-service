@@ -4,7 +4,7 @@ let mapDataItems = (mappingConfigs, dataItems, additionalMapData) => {
     let mappedItems = [];
 
     if (dataItems) {
-        dataItems.forEach(function (mapData) {
+        dataItems.forEach(mapData => {
             if (additionalMapData) {
                 for (let j in additionalMapData) {
                     mapData[j] = additionalMapData[j];
@@ -54,7 +54,7 @@ let mapSolrData = props => {
 let mapDataItem = (mappingConfigs, mapData) => {
     let mapped = {};
 
-    mappingConfigs.forEach(function (mapConfig) {
+    mappingConfigs.forEach(mapConfig => {
         for (let j in mapConfig) {
             mapped[j] = mapDataItemProperty(mapConfig[j], mapData);
         }
@@ -64,23 +64,23 @@ let mapDataItem = (mappingConfigs, mapData) => {
 };
 
 let mapDataItemProperty = (config, mapData) => {
-    if (config && config.value){
+    if (config && config.value) {
         return config.value;
     }
 
-    if(config && config.map){
+    if (config && config.map) {
         return map(config.map, mapData, config.default, config.afterMap);
     }
 
-    if (config && config.mapArray){
+    if (config && config.mapArray) {
         return mapArray(config.mapArray, mapData, config.default, config.afterMap);
     }
 
-    if(config && config.mapObject){
+    if(config && config.mapObject) {
         return mapObject(config.mapObject, mapData);
     }
 
-    if (config && config.mapObjectArray){
+    if (config && config.mapObjectArray) {
         return mapObjectArray(config.mapObjectArray, mapData);
     }
 };
@@ -88,11 +88,11 @@ let mapDataItemProperty = (config, mapData) => {
 let map = (config, mapData, defaultValue, postMapFunctions) => {
     let val = '';
 
-    if (!defaultValue){
+    if (!defaultValue) {
         defaultValue = '';
     }
 
-    if (config && config instanceof Array){
+    if (config && config instanceof Array) {
         for(let i = 0; i < config.length; i++){
             let mapKey = config[i];
             val = mapValue(mapKey, mapData, defaultValue);
@@ -100,13 +100,12 @@ let map = (config, mapData, defaultValue, postMapFunctions) => {
                 break;
             }
         }
-    }
-    else {
+    } else {
         val = mapValue(config, mapData, defaultValue);
     }
 
-    if (postMapFunctions){
-        postMapFunctions.forEach(function (item, i, arr) {
+    if (postMapFunctions) {
+        postMapFunctions.forEach(item => {
             let fn = utils.compileFunction(item, mapData, [val]);
             val = fn.execute();
         });
@@ -119,7 +118,7 @@ let mapArray = (config, mapData, defaultValue, postMapFunctions) => {
     let arr = [];
 
     if (config && config instanceof Array) {
-        config.forEach(function (mapKey) {
+        config.forEach(mapKey => {
             arr.push(map(mapKey, mapData, defaultValue, postMapFunctions));
         });
     }
@@ -130,7 +129,7 @@ let mapArray = (config, mapData, defaultValue, postMapFunctions) => {
 let mapObject = (config, mapData) => {
     let obj = {};
 
-    for (let i in config){
+    for (let i in config) {
         obj[i] = mapDataItemProperty(config[i], mapData);
     }
 
@@ -152,15 +151,12 @@ let mapObjectArray = (config, mapData) => {
 
 let mapValue = (config, mapData, defaultValue) => {
     if (typeof config === 'string') {
-      return utils.getProperty(config, mapData, defaultValue);
-    }
-    else if (utils.isFunctionConfig(config)) {
+        return utils.getProperty(config, mapData, defaultValue);
+    } else if (utils.isFunctionConfig(config)) {
         let fn = utils.compileFunction(config, mapData);
         return fn.execute();
     }
-    else {
-        return defaultValue;
-    }
+    return defaultValue;
 };
 
 export default {
