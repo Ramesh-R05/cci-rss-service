@@ -40,17 +40,14 @@ var setImageLength = function(items) {
                     item.enclosure.size = response.headers['content-length'];
                     callback(null, null);
                 } else {
-                    callback(error || response.statusCode);
+                    console.error('[ERROR] get image URL:' + item.enclosure.url + ', error: ' + err);
+                    callback(null, null);   //Still needs success callback!
                 }
             });
         }
-    }, function(err) {
-        if (!err) {
-            deferred.resolve();
-        } else {
-            console.error('[ERROR] ' + err);
-            deferred.reject(err);
-        }
+    }, function() {
+        //Even if any error from the queue, should not stop other processes!
+        deferred.resolve();
     });
 
     return deferred.promise;
@@ -68,9 +65,6 @@ var buildFeed = function (props, site) {
                 dollyTest(site, feed);
                 setImageLength(feed.items).then(function() {
                     deferred.resolve(feed.xml());
-                }, function (err) {
-                    console.error('[ERROR] ' + err);
-                    res.sendStatus(500);
                 });
             }
             catch (err) {
