@@ -21,7 +21,9 @@ let renderImage = (content, attributes) => {
         if (attributes) {
             let attList = [];
             for (let i in attributes) {
-                attList.push(i + '=' + attributes[i]);
+                if (attributes.hasOwnProperty(i)) {
+                    attList.push(i + '=' + attributes[i]);
+                }
             }
             url += '?' + attList.join('&');
         }
