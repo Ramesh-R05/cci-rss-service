@@ -1,4 +1,4 @@
-﻿import stringHelper from  './helpers/stringHelper';
+﻿import stringHelper from './helpers/stringHelper';
 import functions from './functions';
 
 function getProperty(propName, obj, defaultValue) {
@@ -6,12 +6,12 @@ function getProperty(propName, obj, defaultValue) {
         let parts = stringHelper.split(propName, '.', true);
         let prop = obj;
 
-        parts.forEach(function (part) {
+        parts.forEach(part => {
             prop = prop[part];
         });
 
         if (prop && prop !== obj) {
-            return prop
+            return prop;
         }
     } catch (err) {
         //Intentionally empty
@@ -22,12 +22,12 @@ function getProperty(propName, obj, defaultValue) {
 
 function compileFunction(config, data, additionalParams) {
     let fn = {
-        func: function () {
+        func: function() {
             return '';
         },
         params: [],
         scope: this,
-        execute: function () {
+        execute: function() {
             return this.func.apply(this.scope, this.params);
         }
     };
@@ -39,7 +39,7 @@ function compileFunction(config, data, additionalParams) {
             fn.scope = fnInfo.scope;
             if (config.params) {
                 config.params.forEach(function (param) {
-                    fn.params.push(compileFunctionParameter(param, data))
+                    fn.params.push(compileFunctionParameter(param, data));
                 });
             }
             if (isArray(additionalParams)) {
@@ -92,15 +92,14 @@ function getFunctionInfo(config) {
         if (isFunction(info.func)) {
             return info;
         }
-    }
-    else {
+    } else {
         let fn = functions[config.fn];
         if (isFunction(fn)) {
             info.scope = functions;
             info.func = fn;
             return info;
         }
-        for(let i in functions) {
+        for (let i in functions) {
             let scope = functions[i];
             let fn = scope[config.fn];
             if (isFunction(fn)) {
