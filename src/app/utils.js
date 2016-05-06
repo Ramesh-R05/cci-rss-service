@@ -1,7 +1,7 @@
 ﻿import stringHelper from  './helpers/stringHelper';
 import functions from './functions';
 
-let getProperty = function (propName, obj, defaultValue) {
+function getProperty(propName, obj, defaultValue) {
     try {
         let parts = stringHelper.split(propName, '.', true);
         let prop = obj;
@@ -17,9 +17,9 @@ let getProperty = function (propName, obj, defaultValue) {
     catch (err) { }
 
     return defaultValue;
-};
+}
 
-let compileFunction = function (config, data, additionalParams) {
+function compileFunction(config, data, additionalParams) {
     let fn = {
         func: function () {
             return '';
@@ -50,9 +50,9 @@ let compileFunction = function (config, data, additionalParams) {
     }
 
     return fn;
-};
+}
 
-let compileFunctionParameter = function (param, data) {
+function compileFunctionParameter(param, data) {
     if (typeof param === 'string') {
         return bindParameterValue(param, data);
     }
@@ -70,9 +70,9 @@ let compileFunctionParameter = function (param, data) {
     }
 
     return param;
-};
+}
 
-let bindParameterValue = function (bindingKey, bindingData) {
+function bindParameterValue(bindingKey, bindingData) {
     let val = bindingKey;
 
     if (bindingKey.length > 1 && bindingKey.indexOf('@') === 0) {
@@ -80,9 +80,9 @@ let bindParameterValue = function (bindingKey, bindingData) {
     }
 
     return val;
-};
+}
 
-let getFunctionInfo = function (config) {
+function getFunctionInfo(config) {
     let info = {
         scope: null,
         func: null
@@ -121,17 +121,17 @@ let getFunctionInfo = function (config) {
     return null;
 }
 
-let isFunction = function(obj) {
+function isFunction(obj) {
     return (obj && typeof obj === 'function');
-};
+}
 
-let isFunctionConfig = function(obj) {
+function isFunctionConfig(obj) {
     return (obj && obj.fn && typeof obj.fn === 'string');
-};
+}
 
-let isArray = function(obj) {
+function isArray(obj) {
     return (obj && obj instanceof Array);
-};
+}
 
 export default {
     getProperty,
