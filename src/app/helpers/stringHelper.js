@@ -1,7 +1,8 @@
 ﻿import striptags from 'striptags';
 import unmarked from 'remove-markdown';
 
-let split = (str, separator, removeEmpty) => {
+let split = (str, sourceSeparator, removeEmpty) => {
+    let separator = sourceSeparator;
     separator = !isEmpty(separator) ? separator : ',';
     removeEmpty = !isEmpty(removeEmpty) ? removeEmpty : false;
 
