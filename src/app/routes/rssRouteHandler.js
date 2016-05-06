@@ -6,9 +6,11 @@ let getRouteConfiguration = (config, routePath) => {
 
     if (routes) {
         for (let key in routes) {
-            let r = routes[key];
-            if (r.path.toLowerCase() === routePath.toLowerCase()) {
-                return r;
+            if (routes.hasOwnProperty(key)) {
+                let r = routes[key];
+                if (r.path.toLowerCase() === routePath.toLowerCase()) {
+                    return r;
+                }
             }
         }
     }
@@ -24,7 +26,7 @@ let route = (req, res) => {
         let props = {
             site: site,
             request: req
-        }
+        };
 
         let config = configHelper.config(site, props);
         let routeConfig = getRouteConfiguration(config, routePath);
@@ -37,26 +39,23 @@ let route = (req, res) => {
             try {
                 let promise = rssHelper.buildFeed(props);
 
-                promise.then(function (xml) {
+                promise.then(xml => {
                     res.set('Content-Type', 'text/xml');
                     res.send(xml.replace(/[\u001f\u001e]/g, ''));
-                }, function (err) {
+                }, err => {
                     console.error('[ERROR] ' + err);
                     res.sendStatus(500);
                 });
 
                 return promise;
-            }
-            catch (err) {
+            } catch (err) {
                 console.error('[ERROR] ' + err.message);
                 res.sendStatus(500);
             }
-        }
-        else {
+        } else {
             res.sendStatus(404);
         }
-    }
-    else {
+    } else {
         res.sendStatus(404);
     }
 };
