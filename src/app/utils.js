@@ -38,7 +38,7 @@ function compileFunction(config, data, additionalParams) {
             fn.func = fnInfo.func;
             fn.scope = fnInfo.scope;
             if (config.params) {
-                config.params.forEach(function (param) {
+                config.params.forEach(param => {
                     fn.params.push(compileFunctionParameter(param, data));
                 });
             }
@@ -62,7 +62,9 @@ function compileFunctionParameter(param, data) {
     if (param && typeof param === 'object') {
         let obj = isArray(param) ? [] : {};
         for (let i in param) {
-            obj[i] = compileFunctionParameter(param[i], data);
+            if (param.hasOwnProperty(i)) {
+                obj[i] = compileFunctionParameter(param[i], data);
+            }
         }
         return obj;
     }
@@ -100,12 +102,14 @@ function getFunctionInfo(config) {
             return info;
         }
         for (let i in functions) {
-            let scope = functions[i];
-            let fn = scope[config.fn];
-            if (isFunction(fn)) {
-                info.scope = scope;
-                info.func = fn;
-                return info;
+            if (functions.hasOwnProperty(i)) {
+                let scope = functions[i];
+                let f = scope[config.fn];
+                if (isFunction(f)) {
+                    info.scope = scope;
+                    info.func = f;
+                    return info;
+                }
             }
         }
     }
