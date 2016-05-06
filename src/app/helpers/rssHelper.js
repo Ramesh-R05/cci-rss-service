@@ -6,21 +6,7 @@ var builder = require('../builders/rssBuilder');
 var utils = require('../utils');
 var Q = require('q');
 
-//HACK: To test DDO-406
-//TODO: If works, deal with it in mappings.json. If not, remove this
-var dollyTest = function (site, sourceFeed) {
-    if (site !== 'dolly' || !sourceFeed || !sourceFeed.items || sourceFeed.items.length < 1) {
-        return;
-    }
-
-    sourceFeed.items.forEach(function (item) {
-        if (item.enclosure && item.enclosure.url) {
-            item.enclosure.url = item.enclosure.url.replace('?width=800', '');
-        }
-    });
-}
-
-var buildFeed = function (props, site) {
+var buildFeed = function (props) {
 
     var deferred = Q.defer();
 
@@ -30,7 +16,6 @@ var buildFeed = function (props, site) {
 
             try {
                 var feed = builder.buildFeed(mapper.mapSolrData(props));
-                dollyTest(site, feed);
                 deferred.resolve(feed.xml());
             }
             catch (err) {
