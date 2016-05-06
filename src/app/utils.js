@@ -13,8 +13,9 @@ function getProperty(propName, obj, defaultValue) {
         if (prop && prop !== obj) {
             return prop
         }
+    } catch (err) {
+        //Intentionally empty
     }
-    catch (err) { }
 
     return defaultValue;
 }
@@ -32,9 +33,7 @@ function compileFunction(config, data, additionalParams) {
     };
 
     if (config && config.fn) {
-
         let fnInfo = getFunctionInfo(config);
-
         if (fnInfo) {
             fn.func = fnInfo.func;
             fn.scope = fnInfo.scope;
@@ -48,7 +47,6 @@ function compileFunction(config, data, additionalParams) {
             }
         }
     }
-
     return fn;
 }
 
@@ -68,17 +66,14 @@ function compileFunctionParameter(param, data) {
         }
         return obj;
     }
-
     return param;
 }
 
 function bindParameterValue(bindingKey, bindingData) {
     let val = bindingKey;
-
     if (bindingKey.length > 1 && bindingKey.indexOf('@') === 0) {
         val = getProperty(bindingKey.substring(1), bindingData, '');
     }
-
     return val;
 }
 
@@ -105,19 +100,16 @@ function getFunctionInfo(config) {
             info.func = fn;
             return info;
         }
-        else {
-            for(let i in functions) {
-                let scope = functions[i];
-                let fn = scope[config.fn];
-                if (isFunction(fn)) {
-                    info.scope = scope;
-                    info.func = fn;
-                    return info;
-                }
+        for(let i in functions) {
+            let scope = functions[i];
+            let fn = scope[config.fn];
+            if (isFunction(fn)) {
+                info.scope = scope;
+                info.func = fn;
+                return info;
             }
         }
     }
-
     return null;
 }
 
