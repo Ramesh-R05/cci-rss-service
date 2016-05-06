@@ -1,10 +1,10 @@
 ﻿import stringHelper from  './helpers/stringHelper';
 import functions from './functions';
 
-var getProperty = function (propName, obj, defaultValue) {
+let getProperty = function (propName, obj, defaultValue) {
     try {
-        var parts = stringHelper.split(propName, '.', true);
-        var prop = obj;
+        let parts = stringHelper.split(propName, '.', true);
+        let prop = obj;
 
         parts.forEach(function (part) {
             prop = prop[part];
@@ -19,8 +19,8 @@ var getProperty = function (propName, obj, defaultValue) {
     return defaultValue;
 };
 
-var compileFunction = function (config, data, additionalParams) {
-    var fn = {
+let compileFunction = function (config, data, additionalParams) {
+    let fn = {
         func: function () {
             return '';
         },
@@ -33,7 +33,7 @@ var compileFunction = function (config, data, additionalParams) {
 
     if (config && config.fn) {
 
-        var fnInfo = getFunctionInfo(config);
+        let fnInfo = getFunctionInfo(config);
 
         if (fnInfo) {
             fn.func = fnInfo.func;
@@ -52,7 +52,7 @@ var compileFunction = function (config, data, additionalParams) {
     return fn;
 };
 
-var compileFunctionParameter = function (param, data) {
+let compileFunctionParameter = function (param, data) {
     if (typeof param === 'string') {
         return bindParameterValue(param, data);
     }
@@ -62,8 +62,8 @@ var compileFunctionParameter = function (param, data) {
     }
 
     if (param && typeof param === 'object') {
-        var obj = isArray(param) ? [] : {};
-        for (var i in param) {
+        let obj = isArray(param) ? [] : {};
+        for (let i in param) {
             obj[i] = compileFunctionParameter(param[i], data);
         }
         return obj;
@@ -72,8 +72,8 @@ var compileFunctionParameter = function (param, data) {
     return param;
 };
 
-var bindParameterValue = function (bindingKey, bindingData) {
-    var val = bindingKey;
+let bindParameterValue = function (bindingKey, bindingData) {
+    let val = bindingKey;
 
     if (bindingKey.length > 1 && bindingKey.indexOf('@') === 0) {
         val = getProperty(bindingKey.substring(1), bindingData, '');
@@ -82,8 +82,8 @@ var bindParameterValue = function (bindingKey, bindingData) {
     return val;
 };
 
-var getFunctionInfo = function (config) {
-    var info = {
+let getFunctionInfo = function (config) {
+    let info = {
         scope: null,
         func: null
     };
@@ -99,16 +99,16 @@ var getFunctionInfo = function (config) {
         }
     }
     else {
-        var fn = functions[config.fn];
+        let fn = functions[config.fn];
         if (isFunction(fn)) {
             info.scope = functions;
             info.func = fn;
             return info;
         }
         else {
-            for(var i in functions) {
-                var scope = functions[i];
-                var fn = scope[config.fn];
+            for(let i in functions) {
+                let scope = functions[i];
+                let fn = scope[config.fn];
                 if (isFunction(fn)) {
                     info.scope = scope;
                     info.func = fn;
@@ -121,15 +121,15 @@ var getFunctionInfo = function (config) {
     return null;
 }
 
-var isFunction = function(obj) {
+let isFunction = function(obj) {
     return (obj && typeof obj === 'function');
 };
 
-var isFunctionConfig = function(obj) {
+let isFunctionConfig = function(obj) {
     return (obj && obj.fn && typeof obj.fn === 'string');
 };
 
-var isArray = function(obj) {
+let isArray = function(obj) {
     return (obj && obj instanceof Array);
 };
 
