@@ -102,12 +102,12 @@ function compileFunctionParameter(param, data) {
 
 function compileFunction(config, data, additionalParams) {
     let fn = {
-        func: function() {
+        func: function func() {
             return '';
         },
         params: [],
         scope: this,
-        execute: function() {
+        execute: function execute() {
             return this.func.apply(this.scope, this.params);
         }
     };
