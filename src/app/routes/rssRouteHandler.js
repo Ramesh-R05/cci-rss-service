@@ -1,4 +1,5 @@
-﻿import configHelper from '../helpers/configHelper';
+﻿import {backendLogger as logger} from '@bxm/winston-logger';
+import configHelper from '../helpers/configHelper';
 import rssHelper from '../helpers/rssHelper';
 
 let getRouteConfiguration = (config, routePath) => {
@@ -43,13 +44,13 @@ let route = (req, res) => {
                     res.set('Content-Type', 'text/xml');
                     res.send(xml.replace(/[\u001f\u001e]/g, ''));
                 }, err => {
-                    console.error('[ERROR] ' + err);
+                    logger.log('error', err.message, { stack: err.stack });
                     res.sendStatus(500);
                 });
 
                 return promise;
             } catch (err) {
-                console.error('[ERROR] ' + err.message);
+                logger.log('error', err.message, { stack: err.stack });
                 res.sendStatus(500);
             }
         } else {
