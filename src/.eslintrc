@@ -1,3 +1,8 @@
 {
-  "extends": "@bxm/eslint-config-microservice"
+  "extends": "@bxm/eslint-config-microservice",
+  "rules": {
+    //HACK: Many of files have lint error on line 1 although no issue and disabling with inline comment doesn't work too.
+    //So that makes this as warning instead of error.
+    "no-irregular-whitespace": 1
+  }
 }
