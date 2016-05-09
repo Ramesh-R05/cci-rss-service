@@ -1,18 +1,13 @@
-FROM bauer/node
+FROM bauer/node-lite-base
 
-ARG http_proxy=http://proxy.mgmt.local:3128
-ARG https_proxy=https://proxy.mgmt.local:3128
 ARG node_ver=v0.12.8
 
-RUN nvm_set_node.sh -v $node_ver
+ADD ./deployment/nginx/service.conf /etc/nginx/conf.d/field-indexer.conf
 
-ADD ./deployment/nginx/service.conf /etc/nginx/conf.d/rss-service.conf
-
-RUN mkdir /app
 ADD ./src /app
 
 WORKDIR /app
 
-EXPOSE 80
+EXPOSE 80 9001
 
-CMD ["/usr/bin/supervisord"]
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
