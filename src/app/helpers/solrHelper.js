@@ -1,45 +1,31 @@
-'use strict';
+import solr from 'solr-client';
+import Q from 'q';
 
-var solr = require('solr-client');
-var Q = require('q');
-var merge = require('lodash/object/merge');
+let compileQuery = (queryConfig, queryParams) => {
+    let query = [];
 
-var compileQuery = function (queryConfig, queryParams) {
-    var query = [];
-
-    for(var i in queryConfig) {
+    for (let i in queryConfig) {
         if (i !== 'queryParams') query.push(i + '=' + escape(queryConfig[i]));
     }
 
     if (queryConfig.queryParams) {
-        for (var j in queryParams) {
-            query.push(j + '=' + escape(queryParams[j]));
+        for (let j in queryParams) {
+            if (queryParams.hasOwnProperty(j)) {
+                query.push(j + '=' + escape(queryParams[j]));
+            }
         }
     }
     return query.join('&');
-}
+};
 
-var getDataSources = function (props) {
-
-    var dataSources = [];
-    for (var i in props.route.data) {
-        var source = props.route.data[i];
-        dataSources.push(querySolrData(source, props));
-    }
-
-    return dataSources;
-}
-
-var querySolrData = function (dataSource, props) {
-
-    var deferred = Q.defer();
-
-    var queryConfig = props.config.get('queries.' + dataSource.query);
+let querySolrData = (dataSource, props) => {
+    let deferred = Q.defer();
+    let queryConfig = props.config.get('queries.' + dataSource.query);
 
     if (queryConfig) {
-        var compiledQuery = compileQuery(queryConfig, props.queryParams);
-        var client = solr.createClient(props.config.get('solr'));
-        client.search(compiledQuery, function (err, obj) {
+        let compiledQuery = compileQuery(queryConfig, props.queryParams);
+        let client = solr.createClient(props.config.get('solr'));
+        client.search(compiledQuery, (err, obj) => {
             if (!err) {
                 deferred.resolve({
                     key: dataSource.key,
@@ -55,17 +41,24 @@ var querySolrData = function (dataSource, props) {
     }
 
     return deferred.promise;
-}
-
-module.exports = {
-    loadData: function(props) {
-        return Q.all(getDataSources(props));
-    },
-    compileQuery: compileQuery
 };
 
+let getDataSources = props => {
+    let dataSources = [];
+    let routeData = props.route.data;
+    for (let i in routeData) {
+        if (routeData.hasOwnProperty(i)) {
+            let source = routeData[i];
+            dataSources.push(querySolrData(source, props));
+        }
+    }
 
+    return dataSources;
+};
 
-
-
-
+export default {
+    loadData: props => {
+        return Q.all(getDataSources(props));
+    },
+    compileQuery
+};

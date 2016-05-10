@@ -1,75 +1,68 @@
-﻿'use strict';
+﻿import {backendLogger as logger} from '@bxm/winston-logger';
+import configHelper from '../helpers/configHelper';
+import rssHelper from '../helpers/rssHelper';
 
-var stringHelper = require('../helpers/stringHelper');
-var configHelper = require('../helpers/configHelper');
-var rssHelper = require('../helpers/rssHelper');
-
-var getRouteConfiguration = function (config, routePath) {
-
-    var routes = config.get('routes');
+let getRouteConfiguration = (config, routePath) => {
+    let routes = config.get('routes');
 
     if (routes) {
-        for (var key in routes) {
-            var r = routes[key];
-            if (r.path.toLowerCase() === routePath.toLowerCase()) {
-                return r;
+        for (let key in routes) {
+            if (routes.hasOwnProperty(key)) {
+                let r = routes[key];
+                if (r.path.toLowerCase() === routePath.toLowerCase()) {
+                    return r;
+                }
             }
         }
     }
 
     return null;
-}
+};
 
-var route = function (req, res) {
-
-    var site = !stringHelper.isEmpty(req.params[0]) ? req.params[0].toLowerCase() : '';
-    var routePath = !stringHelper.isEmpty(req.params[1]) ? '/' + req.params[1].toLowerCase() : '/';
+let route = (req, res) => {
+    let site = req.params.site.toLowerCase();
+    let routePath = '/' + (req.params.route_path ? req.params.route_path : '');
 
     if (site) {
-
-        var props = {
+        let props = {
             site: site,
             request: req
-        }
+        };
 
-        var config = configHelper.config(site, props);
-        var routeConfig = getRouteConfiguration(config, routePath);
+        let config = configHelper.config(site, props);
+        let routeConfig = getRouteConfiguration(config, routePath);
 
         if (routeConfig) {
-
             props.route = routeConfig;
             props.config = config;
             props.queryParams = req.query;
 
             try {
+                let promise = rssHelper.buildFeed(props);
 
-                var promise = rssHelper.buildFeed(props);
-
-                promise.then(function (xml) {
+                promise.then(xml => {
                     res.set('Content-Type', 'text/xml');
                     res.send(xml.replace(/[\u001f\u001e]/g, ''));
-                }, function (err) {
-                    console.error('[ERROR] ' + err);
+                }, err => {
+                    logger.log('error', err.message, { stack: err.stack });
                     res.sendStatus(500);
                 });
 
                 return promise;
-            }
-            catch (err) {
-                console.error('[ERROR] ' + err.message);
+            } catch (err) {
+                logger.log('error', err.message, { stack: err.stack });
                 res.sendStatus(500);
             }
-        }
-        else {
+        } else {
             res.sendStatus(404);
         }
-    }
-    else {
+    } else {
         res.sendStatus(404);
     }
+};
 
-}
+export default {
+    route
+};
 
-module.exports = {
-    route: route
-}
+

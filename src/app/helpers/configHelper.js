@@ -1,29 +1,44 @@
-﻿'use strict';
+﻿import mustache from 'mustache';
+import config from 'config';
 
-var mustache = require('mustache');
-var utils = require('../utils');
+let cache = {};
 
-var cache = {};
+let bindConfigProperties = (configs, bindingData) => {
+    for (let i in configs) {
+        if ({}.hasOwnProperty.call(configs, i)) {
+            let propVal = configs[i];
 
-var getSiteConfig = function (site, props, environment) {
+            if (!propVal) {
+                continue;
+            }
 
-    var cacheKey = 'config_' + site;
+            if (typeof propVal === 'string') {
+                configs[i] = mustache.render(propVal, bindingData);
+                continue;
+            }
 
-    var siteConfig = cache[cacheKey];
+            if (typeof propVal === 'object') {
+                bindConfigProperties(propVal, bindingData);
+            }
+        }
+    }
+};
+
+let getSiteConfig = (site, props, environment) => {
+    let cacheKey = 'config_' + site;
+    let siteConfig = cache[cacheKey];
 
     if (siteConfig === undefined) {
-
         siteConfig = config.util.cloneDeep(config);
 
-        var key = 'sites.' + site;
-        
+        let key = 'sites.' + site;
         //site specific config overrides
         if (config.has(key)) {
             siteConfig = config.util.extendDeep(siteConfig, config.get(key));
         }
 
         //site environment specific config overrides
-        var env = environment || process.env.NODE_ENV;
+        let env = environment || process.env.NODE_ENV;
         if (env) {
             key = key + '_' + env;
             if (config.has(key)) {
@@ -36,39 +51,17 @@ var getSiteConfig = function (site, props, environment) {
         }
 
         cache[cacheKey] = siteConfig;
-
         return siteConfig;
     }
 
     return siteConfig;
-}
+};
 
-var bindConfigProperties = function (config, bindingData) {
-
-    for (var i in config) {
-
-        var propVal = config[i];
-
-        if (!propVal) {
-            continue;
-        }
-
-        if (typeof propVal === 'string') {
-            config[i] = mustache.render(propVal, bindingData);
-            continue;
-        }
-
-        if (typeof propVal === 'object') {
-            bindConfigProperties(propVal, bindingData);
-        }
-    }
-}
-
-var clearCache = function () {
+let clearCache = () => {
     cache = {};
-}
+};
 
-module.exports = {
+export default {
     config: getSiteConfig,
-    clearCache: clearCache
-}
+    clearCache
+};

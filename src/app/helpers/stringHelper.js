@@ -1,23 +1,29 @@
-﻿'use strict';
+﻿import striptags from 'striptags';
+import unmarked from 'remove-markdown';
 
-var striptags = require('striptags');
-var unmarked = require('remove-markdown');
+let isEmpty = str => {
+    return (typeof str === 'undefined' || str === '' || str === null);
+};
 
-var paramListOpen = '(';
-var paramListClose = ')';
-var paramListSeparator = ',';
-var escapeCharacter = '\\';
+let stripHtml = (str, allowedTags) => {
+    return striptags(str, allowedTags);
+};
 
-var split = function (str, separator, removeEmpty) {
+let stripMarkdown = str => {
+    return unmarked(str);
+};
 
+let split = (str, sourceSeparator, sourceRemoveEmpty) => {
+    let separator = sourceSeparator;
+    let removeEmpty = sourceRemoveEmpty;
     separator = !isEmpty(separator) ? separator : ',';
     removeEmpty = !isEmpty(removeEmpty) ? removeEmpty : false;
 
-    var items = str.split(separator);
+    let items = str.split(separator);
 
     if (removeEmpty) {
-        var clean = [];
-        items.forEach(function (item) {
+        let clean = [];
+        items.forEach(item => {
             if (!isEmpty(item)) {
                 clean.push(item);
             }
@@ -26,23 +32,11 @@ var split = function (str, separator, removeEmpty) {
     }
 
     return items;
-}
+};
 
-var isEmpty = function (str) {
-    return (typeof str === 'undefined' || str === '' || str === null);
-}
-
-var stripHtml = function(str, allowedTags) {
-    return striptags(str, allowedTags);
-}
-
-var stripMarkdown = function(str) {
-    return unmarked(str);
-}
-
-module.exports = {
-    split: split,
-    isEmpty: isEmpty,
-    stripHtml: stripHtml,
-    stripMarkdown: stripMarkdown
-}
+export default {
+    split,
+    isEmpty,
+    stripHtml,
+    stripMarkdown
+};

@@ -1,10 +1,7 @@
-﻿'use strict';
+﻿import _ from 'underscore';
 
-var _ = require('underscore');
-
-var findDataSource = function (dataSources, dataKey) {
-
-    var dataSource = _.find(dataSources, function (d) {
+let findDataSource = (dataSources, dataKey) => {
+    var dataSource = _.find(dataSources, d => {
         return d.key === dataKey;
     });
 
@@ -13,64 +10,55 @@ var findDataSource = function (dataSources, dataKey) {
     }
 
     return null;
-}
+};
 
-var onSponsoredDataReceived = function (campaignFieldName, data) {
-
+let onSponsoredDataReceived = (campaignFieldName, data) => {
     var itemsDataSource = findDataSource(data, 'items');
 
     if (itemsDataSource && itemsDataSource.data) {
+        let sanitised = [];
 
-        var sanitised = [];
-
-        itemsDataSource.data.forEach(function (item) {
+        itemsDataSource.data.forEach(item => {
             try {
-                var campaignStr = item[campaignFieldName];
+                let campaignStr = item[campaignFieldName];
                 if (campaignStr) {
-                    var campaign = JSON.parse(campaignStr);
+                    let campaign = JSON.parse(campaignStr);
                     if (campaign[0].campaignType && campaign[0].sponsor) {
                         sanitised.push(item);
                     }
                 }
+            } catch (err) {
+                //Intentionally empty
             }
-            catch (err) { }
         });
 
         itemsDataSource.data = sanitised;
     }
 
     return data;
-}
+};
 
-var onSectionsDataReceived = function (pathFieldName, sectionNameFields, data) {
-
+let onSectionsDataReceived = (pathFieldName, sectionNameFields, data) => {
     var sectionsDataSource = findDataSource(data, 'sections');
 
     if (sectionsDataSource && sectionsDataSource.data) {
-
-        var sectionHash = {};
-        var itemsDataSource = findDataSource(data, 'items');
+        let sectionHash = {};
+        let itemsDataSource = findDataSource(data, 'items');
 
         if (itemsDataSource && itemsDataSource.data) {
-   
-            itemsDataSource.data.forEach(function (item) {
-
-                var sections = [];
-                var path = item[pathFieldName];
+            itemsDataSource.data.forEach(item => {
+                let sections = [];
+                let path = item[pathFieldName];
 
                 if (path) {
-                    path.forEach(function (pathId) {
-
+                    path.forEach(pathId => {
                         if (sectionHash[pathId]) {
                             sections.push(sectionHash[pathId]);
-                        }
-                        else {
-                            var section = _.find(sectionsDataSource.data, function (d) {
-                                return d.id === pathId;
-                            });
+                        } else {
+                            let section = _.find(sectionsDataSource.data, d => d.id === pathId);
                             if (section) {
-                                for (var i = 0; i < sectionNameFields.length; i++) {
-                                    var sectionName = section[sectionNameFields[i]];
+                                for (let i = 0; i < sectionNameFields.length; i++) {
+                                    let sectionName = section[sectionNameFields[i]];
                                     if (sectionName) {
                                         sectionHash[pathId] = sectionName;
                                         sections.push(sectionName);
@@ -79,19 +67,19 @@ var onSectionsDataReceived = function (pathFieldName, sectionNameFields, data) {
                                 }
                             }
                         }
-
                     });
                 }
-
-                item['__sections'] = sections;
+                /*eslint-disable */
+                item.__sections = sections;
+                /*eslint-enable */
             });
         }
     }
 
     return data;
-}
+};
 
-module.exports = {
-    onSponsoredDataReceived: onSponsoredDataReceived,
-    onSectionsDataReceived: onSectionsDataReceived
-}
+export default {
+    onSponsoredDataReceived,
+    onSectionsDataReceived
+};

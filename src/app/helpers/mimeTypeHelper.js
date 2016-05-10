@@ -1,43 +1,33 @@
-﻿'use strict';
+﻿import mimeTypes from '../../config/mimeTypes';
+import stringHelper from './stringHelper';
+import path from 'path';
 
-var mimeTypes = require('../../config/mimeTypes');
-var stringHelper = require('./stringHelper');
-var path = require('path');
+let cache = {};
 
-var cache = {};
-
-var getType = function (filePath) {
-
+let getType = filePath => {
     if (filePath && filePath.length > 0) {
+        let parts = stringHelper.split(filePath, '?', true);
+        let ext = path.extname(parts[0]);
 
-        var parts = stringHelper.split(filePath, '?', true);
-        var ext = path.extname(parts[0]);
-
-        var type = cache[ext];
+        let type = cache[ext];
 
         if (type === undefined) {
-
             type = '';
 
-            for (var i = 0; i < mimeTypes.length; i++) {
-
-                var item = mimeTypes[i];
-
+            for (let i = 0; i < mimeTypes.length; i++) {
+                let item = mimeTypes[i];
                 if (item.suffix === ext) {
                     type = item.type;
                     break;
                 }
             }
-
             cache[ext] = type;
         }
-
         return type;
     }
-    
     return '';
-}
+};
 
-module.exports = {
-    getType: getType
-}
+export default {
+    getType
+};

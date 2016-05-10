@@ -1,45 +1,32 @@
-'use strict';
+import RSS from '@bxm/rss-builder';
 
-var RSS = require('@bxm/rss-builder');
-var lodash = require('lodash');
-var isEmpty = lodash.isEmpty;
-
-var getDataSource = function (dataSources, key) {
-
-    for (var i = 0; i < dataSources.length; i++) {
-        var source = dataSources[i];
-        if(source.key.toLowerCase() === key.toLowerCase()) {
+function getDataSource(dataSources, key) {
+    for (let i = 0; i < dataSources.length; i++) {
+        let source = dataSources[i];
+        if (source.key.toLowerCase() === key.toLowerCase()) {
             return source.data;
         }
     }
-
     return null;
 }
 
-module.exports = {
+function buildFeed(dataSources) {
+    const channelData = getDataSource(dataSources, 'channel');
 
-    buildFeed: function (dataSources) {
+    if (channelData && channelData.length > 0) {
+        let feed = new RSS(channelData[0]);
 
-        var channelData = getDataSource(dataSources, "channel");
+        let itemsData = getDataSource(dataSources, 'items');
 
-        if (!isEmpty(channelData) && channelData.length > 0) {
-
-            var feed = new RSS(channelData[0]);
-
-            var itemsData = getDataSource(dataSources, "items");
-   
-            if (!isEmpty(itemsData) && itemsData.length > 0) {
-                itemsData.forEach(function (item) {
-                    feed.item(item);
-                });
-            }
-
-            return feed;
+        if (itemsData && itemsData.length > 0) {
+            itemsData.forEach(item => feed.item(item));
         }
-        else {
-            throw new Error('Channel data not set.')
-        }
-       
+        return feed;
     }
 
+    throw new Error('Channel data not set.');
+}
+
+export default {
+    buildFeed
 };

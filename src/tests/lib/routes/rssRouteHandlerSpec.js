@@ -4,15 +4,15 @@ var configHelper = require('../../../app/helpers/configHelper');
 
 describe('rssRouteHandler', function () {
 
-    var createMockRequest = function (site, routePath, query, settings) {
+    var createMockRequest = function (site, route_path, query, settings) {
         return {
-            path: '/' + site + '/' + routePath,
+            path: '/' + site + '/' + route_path,
             query: query || {},
             settings: settings || {},
-            params: [
+            params: {
                 site,
-                routePath
-            ],
+                route_path,
+            },
             get: function (key) {
                 return this.settings[key];
             }

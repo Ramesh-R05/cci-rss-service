@@ -1,9 +1,7 @@
-﻿'use strict';
+﻿import mapFunctions from './helpers/mappingFunctions';
+import dataHandlers from './helpers/dataHandlers';
 
-var mapFunctions = require('./helpers/mappingFunctions');
-var dataHandlers = require('./helpers/dataHandlers');
-
-module.exports = {
+export default {
     mapping: mapFunctions,
     data: dataHandlers
-}
+};

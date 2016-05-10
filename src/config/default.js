@@ -1,7 +1,13 @@
-﻿module.exports = {
-  "solr": require('./solr'),
-  "queries": require('./queries'),
-  "mappings": require('./mappings'),
-  "routes": require('./routes'),
-  "sites": require('./sites')
-}
+﻿import solr from './solr';
+import queries from './queries';
+import mappings from './mappings';
+import routes from './routes';
+import sites from './sites';
+
+export default {
+  solr,
+  queries,
+  mappings,
+  routes,
+  sites
+};

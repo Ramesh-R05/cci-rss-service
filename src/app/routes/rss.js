@@ -1,10 +1,10 @@
-'use strict';
+import {Router} from 'express';
+import rssRouteHandler from './rssRouteHandler';
 
-var express = require('express');
-var rssRouteHandler = require('./rssRouteHandler');
+/*eslint-disable */
+const router = Router();
+/*eslint-enable */
 
-var router = express.Router();
+router.get('/rss/:site/:route_path?', rssRouteHandler.route);
 
-router.route(/^\/([\w-]+)\/?([\w-]+(\/[\w-]+)*)?\/?$/).get(rssRouteHandler.route);
-
-module.exports = router;
+export default router;

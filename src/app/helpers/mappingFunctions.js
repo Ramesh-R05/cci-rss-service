@@ -1,31 +1,29 @@
-﻿'use strict';
+﻿import util from 'util';
+import mimeTypeHelper from './mimeTypeHelper';
+import markdownHelper from './markdownHelper';
+import stringHelper from './stringHelper';
+import mustache from 'mustache';
+import _ from 'underscore';
+import s from 'string';
 
-var util = require('util');
-var mimeTypeHelper = require('./mimeTypeHelper');
-var markdownHelper = require('./markdownHelper');
-var stringHelper = require('./stringHelper');
-var mustache = require('mustache');
-var _ = require('underscore');
-var S = require('string');
-
-var renderRecipeGroupHeading = function () {
-    return function (text, render) {
-        var txt = render(text);
+let renderRecipeGroupHeading = () => {
+    return (text, render) => {
+        let txt = render(text);
         return txt ? '<h3>' + txt + '</h3>' : '';
-    }
-}
+    };
+};
 
-var renderRecipeIngredientQuantityAndMeasure = function () {
-    return function (text, render) {
-        var displayItems = [];
-        var parts = render(text).split(':');
-        var quantity = parts[0];
-        var measure = parts[1];
+let renderRecipeIngredientQuantityAndMeasure = () => {
+    return (text, render) => {
+        let displayItems = [];
+        let parts = render(text).split(':');
+        let quantity = parts[0];
+        let measure = parts[1];
         if (quantity) {
             displayItems.push(quantity);
         }
         if (measure) {
-            var num = parseInt(quantity, 10);
+            let num = parseInt(quantity, 10);
             if (!isNaN(num) && num > 1) {
                 if (measure.charAt(measure.length - 1) !== 's') {
                     measure = measure + 's';
@@ -34,77 +32,73 @@ var renderRecipeIngredientQuantityAndMeasure = function () {
             displayItems.push(measure);
         }
         return displayItems.length > 0 ? displayItems.join(' ') + ' ' : '';
-    }
-}
+    };
+};
 
-module.exports = {
-
-    sanitise: function (str) {
+export default {
+    sanitise(str) {
         return str ? stringHelper.stripMarkdown(stringHelper.stripHtml(str)) : '';
     },
 
-    format: function (fmt, str) {
-        return  str ? util.format(fmt, str) : '';
+    format(fmt, str) {
+        return str ? util.format(fmt, str) : '';
     },
 
-    mapCopyright: function (mapData) {
-        return (new Date()).getFullYear() + ' BAUER MEDIA PTY LIMITED'
+    mapCopyright() {
+        return (new Date()).getFullYear() + ' BAUER MEDIA PTY LIMITED';
     },
 
-    mapItemUrl: function (siteUrl, url) {
+    mapItemUrl(siteUrl, url) {
         return siteUrl + url;
     },
 
-    mapMimeType: function (imageUrl) {
+    mapMimeType(imageUrl) {
         return mimeTypeHelper.getType(imageUrl);
     },
 
-    mapCampaignType: function (campaignStr, matchType) {
-
+    mapCampaignType(campaignStr, matchType) {
         try {
-            var campaign = JSON.parse(campaignStr);
-            var type = campaign[0].campaignType;
+            let campaign = JSON.parse(campaignStr);
+            let type = campaign[0].campaignType;
             return (type.toLowerCase() === matchType.toLowerCase());
+        } catch (err) {
+            //Intentionally empty
         }
-        catch (err) { }
 
         return false;
     },
 
-    mapCampaignSponsor: function (campaignStr) {
-
+    mapCampaignSponsor(campaignStr) {
         try {
-            var campaign = JSON.parse(campaignStr);
-            var sponsor = campaign[0].sponsor;
+            let campaign = JSON.parse(campaignStr);
+            let sponsor = campaign[0].sponsor;
             if (sponsor && sponsor.length > 0) {
                 return sponsor;
             }
+        } catch (err) {
+            //Intentionally empty
         }
-        catch (err) { }
 
         return '';
     },
 
-    mapFeedUrl: function (req) {
+    mapFeedUrl(req) {
         return req.protocol + '://' + req.get('host') + req.originalUrl;
     },
 
-    mapFullContent: function (contentUrl, contentJsonStr, mapSettingsStr) {
-
-        var content = '';
-        
+    mapFullContent(contentUrl, contentJsonStr, mapSettingsStr) {
+        let content = '';
         try {
-
-            var contentJson = JSON.parse(contentJsonStr);
-            var mapSettings = {};
+            let contentJson = JSON.parse(contentJsonStr);
+            let mapSettings = {};
 
             if (mapSettingsStr && typeof mapSettingsStr === 'string') {
                 mapSettings = JSON.parse(mapSettingsStr);
             }
 
-            var imgSettings = mapSettings.image || { width: 800 };
+            let imgSettings = mapSettings.image || { width: 800 };
 
-            contentJson.forEach(function (item) {
+            contentJson.forEach(item => {
                 if (item.type && item.content) {
                     switch (item.type) {
                         case 'paragraph':
@@ -122,27 +116,27 @@ module.exports = {
                                 content += markdownHelper.renderParagraph(util.format('<a href="%s" target="_blank">Watch video</a>', contentUrl));
                             }
                             break;
+                        default:
+                            break;
                     }
                 }
             });
-        }
-        catch (err) {
+        } catch (err) {
             content = '';
         }
 
         return content;
     },
 
-    mapTags: function (tagGroupList) {
+    mapTags(tagGroupList) {
+        let tags = [];
 
-        var tags = [];
-
-        tagGroupList.forEach(function (item) {
+        tagGroupList.forEach(item => {
             if (item && item instanceof Array) {
-                item.forEach(function (tag) {
-                    var tagLeaf = tag.split(':').slice(-1)[0];
+                item.forEach(tag => {
+                    let tagLeaf = tag.split(':').slice(-1)[0];
                     if (tagLeaf) {
-                        var cleanTag = tagLeaf.replace(/[\[\]{}"]/g, '').toLowerCase().trim();
+                        let cleanTag = tagLeaf.replace(/[\[\]{}"]/g, '').toLowerCase().trim();
                         if (cleanTag && !_.contains(cleanTag, tags)) {
                             tags.push(cleanTag);
                         }
@@ -152,32 +146,27 @@ module.exports = {
         });
 
         return tags;
-
     },
 
-    mapRecipeContent: function (recipeContentItems) {
-
-        var content = [];
+    mapRecipeContent(recipeContentItems) {
+        let content = [];
 
         if (recipeContentItems) {
-            recipeContentItems.forEach(function (item) {
+            recipeContentItems.forEach(item => {
                 if (item) {
                     content.push(item);
                 }
             });
         }
-
         return content.join('');
     },
-    
-    mapRecipeIngredients: function (ingredientsData) {
 
-        var html = [];
-
+    mapRecipeIngredients(ingredientsData) {
+        let html = [];
         try {
-            var ingredientGroups = JSON.parse(ingredientsData);
-            var groupHtml = [];
-            var groupTemplate =
+            let ingredientGroups = JSON.parse(ingredientsData);
+            let groupHtml = [];
+            let groupTemplate =
                 '<div>' +
                     '{{#renderHeading}}{{heading}}{{/renderHeading}}' +
                     '<ul>' +
@@ -190,7 +179,7 @@ module.exports = {
                     '</ul>' +
                 '</div>';
 
-            ingredientGroups.forEach(function (group) {
+            ingredientGroups.forEach(group => {
                 if (group && group.ingredients && group.ingredients.length > 0) {
                     group.renderHeading = renderRecipeGroupHeading;
                     group.renderQuantityAndMeasure = renderRecipeIngredientQuantityAndMeasure;
@@ -204,22 +193,19 @@ module.exports = {
                     groupHtml.join('')
                 );
             }
-        }
-        catch (err) {
+        } catch (err) {
             return '';
         }
 
         return html.join('');
     },
 
-    mapRecipeCookingMethod: function (methodData) {
-
-        var html = [];
-
+    mapRecipeCookingMethod(methodData) {
+        let html = [];
         try {
-            var methodGroups = JSON.parse(methodData);
-            var groupHtml = [];
-            var groupTemplate =
+            let methodGroups = JSON.parse(methodData);
+            let groupHtml = [];
+            let groupTemplate =
                 '<div>' +
                     '{{#renderHeading}}{{heading}}{{/renderHeading}}' +
                     '<ol>' +
@@ -231,7 +217,7 @@ module.exports = {
                     '</ol>' +
                 '</div>';
 
-            methodGroups.forEach(function (group) {
+            methodGroups.forEach(group => {
                 if (group && group.methods && group.methods.length > 0) {
                     group.renderHeading = renderRecipeGroupHeading;
                     groupHtml.push(mustache.render(groupTemplate, group));
@@ -244,66 +230,58 @@ module.exports = {
                     groupHtml.join('')
                 );
             }
-        }
-        catch (err) {
+        } catch (err) {
             return '';
         }
 
         return html.join('');
     },
 
-    mapRecipeServings: function (servingsData) {
-
-        var html = [];
-
+    mapRecipeServings(servingsData) {
+        let html = [];
         try {
-            var servings = JSON.parse(servingsData);
+            let servings = JSON.parse(servingsData);
             if (servings.serves) html.push('<h4>Serves: ' + servings.serves + '</h4>');
             if (servings.yieldQuantity) {
-                var quantity = parseFloat(servings.yieldQuantity);
-                var measure = servings.yieldMeasure && servings.yieldMeasure.toLowerCase() !== 'item' ? servings.yieldMeasure.toLowerCase() : '';
+                let quantity = parseFloat(servings.yieldQuantity);
+                let measure = servings.yieldMeasure && servings.yieldMeasure.toLowerCase() !== 'item' ? servings.yieldMeasure.toLowerCase() : '';
                 if (measure && !isNaN(quantity) && quantity > 1) {
                     measure = measure.charAt(measure.length - 1) !== 's' ? measure + 's' : measure;
                 }
                 html.push('<h4>Makes: ' + servings.yieldQuantity + (measure ? ' ' + measure : '') + '</h4>');
             }
-        }
-        catch (err) {
+        } catch (err) {
             return '';
         }
 
         return html.join('');
     },
 
-    mapRecipeCookingTime: function (cookingTimeData) {
-
-        var html = [];
-
+    mapRecipeCookingTime(cookingTimeData) {
+        let html = [];
         try {
-            var cookingTimes = JSON.parse(cookingTimeData);
+            let cookingTimes = JSON.parse(cookingTimeData);
             if (cookingTimes.times) {
-                cookingTimes.times.forEach(function (time) {
+                cookingTimes.times.forEach(time => {
                     if (time.minutes) {
+                        let timeParts = [];
+                        let hours = Math.floor(time.minutes / 60);
+                        let mins = time.minutes % 60;
 
-                        var timeParts = [];
-                        var hours = Math.floor(time.minutes / 60);
-                        var mins = time.minutes % 60;
-
-                        timeParts.push(S(time.id).humanize().s + ' time:');
+                        timeParts.push(s(time.id).humanize().s + ' time:');
 
                         if (hours > 0) {
-                            var unit = hours === 1 ? 'hour' : 'hours';
+                            let unit = hours === 1 ? 'hour' : 'hours';
                             timeParts.push(hours + ' ' + unit);
                         }
 
                         if (mins > 0) {
                             if (mins >= 1) {
-                                var unit = mins === 1 ? 'minute' : 'minutes';
+                                let unit = mins === 1 ? 'minute' : 'minutes';
                                 timeParts.push(mins + ' ' + unit);
-                            }
-                            else {
-                                var seconds = Math.round(mins * 60);
-                                var unit = seconds === 1 ? 'second' : 'seconds';
+                            } else {
+                                let seconds = Math.round(mins * 60);
+                                let unit = seconds === 1 ? 'second' : 'seconds';
                                 timeParts.push(seconds + ' ' + unit);
                             }
                         }
@@ -316,66 +294,63 @@ module.exports = {
                     }
                 });
             }
-        }
-        catch (err) {
+        } catch (err) {
             return '';
         }
 
         return html.join('');
     },
-    
-    mapRecipeImage: function (imageUrl, width) {
-        width = width || 800;
+
+    mapRecipeImage(imageUrl, width) {
+        let newWidth = width || 800;
         return imageUrl
-            ? '<div><img src="' + imageUrl + '?width=' + width + '" /></div>'
+            ? '<div><img src="' + imageUrl + '?width=' + newWidth + '" /></div>'
             : '';
     },
 
-    mapRecipeTips: function (tipsData) {
-        var html = [];
+    mapRecipeTips(tipsData) {
+        let html = [];
         if (tipsData) {
             html.push('<h3>Tips</h3>');
-            var tips = stringHelper.split(tipsData, '\n', true);
-            tips.forEach(function (tip) {
+            let tips = stringHelper.split(tipsData, '\n', true);
+            tips.forEach(tip => {
                 html.push('<p>' + tip + '</p>');
             });
         }
         return html.join('');
     },
 
-    mapRecipeSource: function (data) {
-
+    mapRecipeSource(data) {
+        let newData = data;
         switch (data.toLowerCase()) {
-
             case 'taste':
-                data = 'Food To Love';
+                newData = 'Food To Love';
                 break;
-
             case 'recipes plus':
-                data = 'Recipes+';
+                newData = 'Recipes+';
                 break;
-
             case 'commercial':
             case 'supplied':
-                data = '';
+                newData = '';
+                break;
+            default:
                 break;
         }
 
-        return (data)
-            ? '<h4>Recipe by: ' + data + '</h4>'
+        return (newData)
+            ? '<h4>Recipe by: ' + newData + '</h4>'
             : '';
     },
 
-    mapRecipeProperty: function (label, data) {
+    mapRecipeProperty(label, data) {
         return data ? '<h4>' + label + ': ' + data + '</h4>' : '';
     },
 
-    mapCategories: function (categoryGroups) {
-
-        var categories = [];
+    mapCategories(categoryGroups) {
+        let categories = [];
 
         if (categoryGroups) {
-            categoryGroups.forEach(function (group) {
+            categoryGroups.forEach(group => {
                 if (group) {
                     categories = categories.concat(group);
                 }
@@ -384,5 +359,4 @@ module.exports = {
 
         return categories;
     }
-
-}
+};

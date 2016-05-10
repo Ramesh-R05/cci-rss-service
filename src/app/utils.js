@@ -1,96 +1,39 @@
-﻿'use strict';
+﻿import stringHelper from './helpers/stringHelper';
+import functions from './functions';
 
-var stringHelper = require('./helpers/stringHelper');
-var functions = require('./functions');
+function isFunction(obj) {
+    return (obj && typeof obj === 'function');
+}
 
-var getProperty = function (propName, obj, defaultValue) {
+function isFunctionConfig(obj) {
+    return (obj && obj.fn && typeof obj.fn === 'string');
+}
 
+function isArray(obj) {
+    return (obj && obj instanceof Array);
+}
+
+function getProperty(propName, obj, defaultValue) {
     try {
-        var parts = stringHelper.split(propName, '.', true);
-        var prop = obj;
+        let parts = stringHelper.split(propName, '.', true);
+        let prop = obj;
 
-        parts.forEach(function (part) {
+        parts.forEach(part => {
             prop = prop[part];
         });
 
         if (prop && prop !== obj) {
-            return prop
+            return prop;
         }
+    } catch (err) {
+        //Intentionally empty
     }
-    catch (err) { }
 
     return defaultValue;
 }
 
-var compileFunction = function (config, data, additionalParams) {
-
-    var fn = {
-        func: function () {
-            return '';
-        },
-        params: [],
-        scope: this,
-        execute: function () {
-            return this.func.apply(this.scope, this.params);
-        }
-    };
-
-    if (config && config.fn) {
-
-        var fnInfo = getFunctionInfo(config);
-
-        if (fnInfo) {
-            fn.func = fnInfo.func;
-            fn.scope = fnInfo.scope;
-            if (config.params) {
-                config.params.forEach(function (param) {
-                    fn.params.push(compileFunctionParameter(param, data))
-                });
-            }
-            if (isArray(additionalParams)) {
-                fn.params = fn.params.concat(additionalParams);
-            }
-        }
-    }
-
-    return fn;
-}
-
-var compileFunctionParameter = function (param, data) {
-
-    if (typeof param === 'string') {
-        return bindParameterValue(param, data);
-    }
-
-    if (isFunctionConfig(param)) {
-        return compileFunction(param, data).execute();
-    }
-
-    if (param && typeof param === 'object') {
-        var obj = isArray(param) ? [] : {};
-        for (var i in param) {
-            obj[i] = compileFunctionParameter(param[i], data);
-        }
-        return obj;
-    }
-
-    return param;
-}
-
-var bindParameterValue = function (bindingKey, bindingData) {
-
-    var val = bindingKey;
-
-    if (bindingKey.length > 1 && bindingKey.indexOf('@') === 0) {
-        val = getProperty(bindingKey.substring(1), bindingData, '');
-    }
-
-    return val;
-}
-
-var getFunctionInfo = function (config) {
-
-    var info = {
+function getFunctionInfo(config) {
+    let info = {
         scope: null,
         func: null
     };
@@ -104,48 +47,94 @@ var getFunctionInfo = function (config) {
         if (isFunction(info.func)) {
             return info;
         }
-    }
-    else {
-        var fn = functions[config.fn];
+    } else {
+        let fn = functions[config.fn];
         if (isFunction(fn)) {
             info.scope = functions;
             info.func = fn;
             return info;
         }
-        else {
-            for(var i in functions) {
-                var scope = functions[i];
-                var fn = scope[config.fn];
-                if (isFunction(fn)) {
+        for (let i in functions) {
+            if (functions.hasOwnProperty(i)) {
+                let scope = functions[i];
+                let f = scope[config.fn];
+                if (isFunction(f)) {
                     info.scope = scope;
-                    info.func = fn;
+                    info.func = f;
                     return info;
                 }
             }
         }
     }
-
     return null;
-
 }
 
-var isFunction = function(obj) {
-    return (obj && typeof obj === 'function');
+function bindParameterValue(bindingKey, bindingData) {
+    let val = bindingKey;
+    if (bindingKey.length > 1 && bindingKey.indexOf('@') === 0) {
+        val = getProperty(bindingKey.substring(1), bindingData, '');
+    }
+    return val;
 }
 
-var isFunctionConfig = function(obj) {
-    return (obj && obj.fn && typeof obj.fn === 'string');
+function compileFunctionParameter(param, data) {
+    if (typeof param === 'string') {
+        return bindParameterValue(param, data);
+    }
+
+    if (isFunctionConfig(param)) {
+        /*eslint-disable*/
+        return compileFunction(param, data).execute();
+        /*eslint-enable*/
+    }
+
+    if (param && typeof param === 'object') {
+        let obj = isArray(param) ? [] : {};
+        for (let i in param) {
+            if (param.hasOwnProperty(i)) {
+                obj[i] = compileFunctionParameter(param[i], data);
+            }
+        }
+        return obj;
+    }
+    return param;
 }
 
-var isArray = function(obj) {
-    return (obj && obj instanceof Array);
+function compileFunction(config, data, additionalParams) {
+    let fn = {
+        func: function func() {
+            return '';
+        },
+        params: [],
+        scope: this,
+        execute: function execute() {
+            return this.func.apply(this.scope, this.params);
+        }
+    };
+
+    if (config && config.fn) {
+        let fnInfo = getFunctionInfo(config);
+        if (fnInfo) {
+            fn.func = fnInfo.func;
+            fn.scope = fnInfo.scope;
+            if (config.params) {
+                config.params.forEach(param => {
+                    fn.params.push(compileFunctionParameter(param, data));
+                });
+            }
+            if (isArray(additionalParams)) {
+                fn.params = fn.params.concat(additionalParams);
+            }
+        }
+    }
+    return fn;
 }
 
-module.exports = {
-    getProperty: getProperty,
-    compileFunction: compileFunction,
-    isFunction: isFunction,
-    isFunctionConfig: isFunctionConfig,
-    isArray: isArray,
-    functions: functions
-}
+export default {
+    getProperty,
+    compileFunction,
+    isFunction,
+    isFunctionConfig,
+    isArray,
+    functions
+};

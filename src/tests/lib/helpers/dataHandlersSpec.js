@@ -145,7 +145,7 @@ describe('dataHandlers', function () {
             });
 
             describe('and when: item sections are not found', function () {
-
+                var input;
                 before(function () {
                     input = [
                         {
