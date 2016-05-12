@@ -5,6 +5,6 @@ import rssRouteHandler from './rssRouteHandler';
 const router = Router();
 /*eslint-enable */
 
-router.get('/rss/:site/:route_path?', rssRouteHandler.route);
+router.get(/^\/rss\/([\w-]+)\/?([\w-]+(\/[\w-]+)*)?\/?$/, rssRouteHandler.route);
 
 export default router;
