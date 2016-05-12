@@ -1,5 +1,6 @@
 ﻿import {backendLogger as logger} from '@bxm/winston-logger';
 import configHelper from '../helpers/configHelper';
+import stringHelper from '../helpers/stringHelper';
 import rssHelper from '../helpers/rssHelper';
 
 let getRouteConfiguration = (config, routePath) => {
@@ -20,8 +21,8 @@ let getRouteConfiguration = (config, routePath) => {
 };
 
 let route = (req, res) => {
-    let site = req.params.site.toLowerCase();
-    let routePath = '/' + (req.params.route_path ? req.params.route_path : '');
+    const site = !stringHelper.isEmpty(req.params[0]) ? req.params[0].toLowerCase() : '';
+    const routePath = !stringHelper.isEmpty(req.params[1]) ? '/' + req.params[1].toLowerCase() : '/';
 
     if (site) {
         let props = {
