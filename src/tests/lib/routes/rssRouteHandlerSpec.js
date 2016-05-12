@@ -9,10 +9,10 @@ describe('rssRouteHandler', function () {
             path: '/' + site + '/' + route_path,
             query: query || {},
             settings: settings || {},
-            params: {
+            params: [
                 site,
-                route_path,
-            },
+                route_path
+            ],
             get: function (key) {
                 return this.settings[key];
             }
