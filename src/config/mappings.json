@@ -71,7 +71,7 @@
             "afterMap": [
               {
                 "fn": "format",
-                "params": [ "%s?width=800" ]
+                "params": [ "%s?height=600" ]
               }
             ]
           },
