@@ -13,7 +13,9 @@ let bindConfigProperties = (configs, bindingData) => {
             }
 
             if (typeof propVal === 'string') {
-                configs[i] = mustache.render(propVal, bindingData);
+                if (configs[i] !== mustache.render(propVal, bindingData )) {
+                    configs[i] = mustache.render(propVal, bindingData);
+                }
                 continue;
             }
 

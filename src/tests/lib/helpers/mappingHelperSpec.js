@@ -139,7 +139,7 @@ describe('mappingHelper', function () {
                 });
 
                 it('should have an item enclosure', function () {
-                    var expectedEnclosureUrl = testProps.solrData[1].data[0].contentImageUrl_t + '?width=800';
+                    var expectedEnclosureUrl = testProps.solrData[1].data[0].contentImageUrl_t + '?height=600';
                     expect(item.enclosure).to.exist;
                     expect(item.enclosure.url).to.equal(expectedEnclosureUrl)
                     expect(item.enclosure.type).to.equal('image/jpeg');

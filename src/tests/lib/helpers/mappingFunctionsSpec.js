@@ -90,7 +90,7 @@ describe('mappingFunctions', function () {
 
     describe('mapMimeType', function () {
 
-        var testImageUrl = 'http://www.example.com/images/test.png?width=800';
+        var testImageUrl = 'http://www.example.com/images/test.png?height=600';
         var expectedResult = 'image/png';
 
         describe('when: image url set', function () {
