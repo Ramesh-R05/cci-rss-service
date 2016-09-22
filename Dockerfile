@@ -1,4 +1,4 @@
-FROM bauer/node-lite-base
+FROM docker.registry2.mgmt.local:80/bauer/node-lite-base
 
 ARG node_ver=v0.12.8
 
