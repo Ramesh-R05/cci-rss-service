@@ -2,6 +2,8 @@
 import mimeTypeHelper from './mimeTypeHelper';
 import markdownHelper from './markdownHelper';
 import stringHelper from './stringHelper';
+import config from 'config';
+import get from 'lodash/object/get';
 import mustache from 'mustache';
 import _ from 'underscore';
 import s from 'string';
@@ -146,6 +148,24 @@ export default {
         });
 
         return tags;
+    },
+
+    mapAuthorContent(authorContentItems, siteName) {
+        if (authorContentItems) {
+            try {
+                const contentJson = JSON.parse(authorContentItems);
+                if (contentJson && contentJson instanceof Array) {
+                    // We only need to use one Author. If there are 2 authors the expectation is that the
+                    // editors will create a new profile with both names
+                    return get(contentJson[0], 'name', '');
+                }
+                return '';
+            } catch (err) {
+                return '';
+            }
+        } else {
+            return get(config.brands[siteName], 'title', '');
+        }
     },
 
     mapRecipeContent(recipeContentItems) {

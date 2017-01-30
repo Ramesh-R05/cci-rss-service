@@ -1,6 +1,5 @@
 ﻿{
   "channel": {
-
     "default": {
       "title": {
         "map": [ "pageTitle_t", "contentTitle_t" ]
@@ -31,7 +30,6 @@
         "value": 60
       }
     },
-
     "sponsored": {
       "custom_namespaces": {
         "mapObject": {
@@ -45,7 +43,6 @@
   },
 
   "item": {
-
     "default": {
       "title": {
         "map": [ "contentSummaryTitle_t", "contentTitle_t", "nodeName_t" ]
@@ -82,6 +79,18 @@
             }
           }
         }
+      },
+      "date": {
+        "map": [ "pageDateCreated_dt" ]
+      },
+      "updatedDate": {
+        "map": [ "nodeDateIndexed_dt" ]
+      },
+      "author": {
+        "map": {
+          "fn": "mapAuthorContent",
+          "params": [ "@contentProfiles_t", "@siteName_t" ]
+        }
       }
     },
 
@@ -96,7 +105,10 @@
                   "params": [
                     {
                       "fn": "mapItemUrl",
-                      "params": [ "@siteUrl_t", "@url_t" ]
+                      "params": [
+                        "@siteUrl_t",
+                        "@url_t"
+                      ]
                     },
                     "@contentBody_t"
                   ]

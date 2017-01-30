@@ -359,6 +359,31 @@ For each property to be mapped a configuration object must be specified.  Valid 
 	
 Note: Only one mapping directive setting may be specified in a mapping configuration object.
 
+####Adding a new data item
+
+1. Add the required item to the mappings.json config as specified above.
+
+eg. For a date field:
+
+"updatedDate": {
+  "map": [ "nodeDateIndexed_dt" ]
+}
+
+OR for a text field:
+
+"author": {
+  "map": [ "articleSource_t" ],
+  "afterMap": [
+    {
+      "fn": "sanitise"
+    }
+  ]
+}
+
+2. Add the new property to the RSS function and generateXML function in the rss-builder repo located here:
+
+https://github.com/bauerxcelmedia/rss-builder/blob/master/lib/index.js
+
 ####Mapping functions
 
 Any mapping functions you wish to use must be exposed via ```/lib/helpers/mappingFunctions.js```.  

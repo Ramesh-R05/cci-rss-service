@@ -410,6 +410,64 @@ describe('mappingFunctions', function () {
 
     });
 
+    describe('mapAuthorContent', function () {
+
+        var inputJSON;
+        var siteName;
+
+        describe("when: author content items set", function () {
+
+            before(function() {
+                inputJSON = '[{\"title\":\"Amber Manto\",\"summaryTitle\":\"Amber Manto\",\"typeName\":\"TeaserDto\",\"id\":\"NOW-18977\",\"parentId\":\"NOW-1166\",\"level\":3,\"sortOrder\":226,\"name\":\"Amber Manto\"}]';
+                siteName = 'now';
+            });
+
+            it('should set the expected name', function () {
+                var actual = mappingFunctions.mapAuthorContent(inputJSON, siteName);
+                expect(actual).to.equal('Amber Manto');
+            });
+        });
+
+        describe("when: author content items not set and site name set", function () {
+
+            before(function() {
+                inputJSON = '';
+                siteName = 'now';
+            });
+
+            it('should set the expected name', function () {
+                var actual = mappingFunctions.mapAuthorContent(inputJSON, siteName);
+                expect(actual).to.equal('Now To Love');
+            });
+        });
+
+        describe("when: author content items set and site name not set", function () {
+
+            before(function() {
+                inputJSON = '[{\"title\":\"Amber Manto\",\"summaryTitle\":\"Amber Manto\",\"typeName\":\"TeaserDto\",\"id\":\"NOW-18977\",\"parentId\":\"NOW-1166\",\"level\":3,\"sortOrder\":226,\"name\":\"Amber Manto\"}]';
+                siteName = '';
+            });
+
+            it('should set the expected name', function () {
+                var actual = mappingFunctions.mapAuthorContent(inputJSON, siteName);
+                expect(actual).to.equal('Amber Manto');
+            });
+        });
+
+        describe("when: author content items not set and site name not set", function () {
+
+            before(function() {
+                inputJSON = '';
+                siteName = '';
+            });
+
+            it('should set the expected name', function () {
+                var actual = mappingFunctions.mapAuthorContent(inputJSON, siteName);
+                expect(actual).to.equal('');
+            });
+        });
+    });
+
     describe('mapRecipeContent', function () {
 
         var input;
