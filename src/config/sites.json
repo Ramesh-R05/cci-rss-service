@@ -70,5 +70,16 @@
         }
       }
     }
+  },
+
+  "elle": {
+    "queries": {
+      "item": {
+        "default": {
+          "fq": "nodeTypeAlias_t:(Article OR Gallery)"
+        }
+      }
+    }
   }
+  
 }
