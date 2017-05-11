@@ -21,8 +21,17 @@ let compileQuery = (queryConfig, queryParams) => {
 let querySolrData = (dataSource, props) => {
     let deferred = Q.defer();
     let queryConfig = props.config.get('queries.' + dataSource.query);
-
+    const reqQuery = props.queryParams;
+    const sourceFilter = reqQuery && reqQuery.source;
+    const site = props.site;
+    const siteConfig = props.config.sites[site.toLowerCase()];
+    const filterEnable = siteConfig && siteConfig.withFilter;
     if (queryConfig) {
+        if (sourceFilter && dataSource.key === 'items' && filterEnable) {
+            queryConfig.q = sourceFilter.toLowerCase() === 'now to love' ?
+                `-articleSource_t:*` :
+                `articleSource_t:"${sourceFilter}"`;
+        }
         let compiledQuery = compileQuery(queryConfig, props.queryParams);
         let client = solr.createClient(props.config.get('solr'));
         client.search(compiledQuery, (err, obj) => {

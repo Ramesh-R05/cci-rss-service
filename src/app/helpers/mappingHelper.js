@@ -105,7 +105,6 @@ let mapDataItemProperty = (config, mapData) => {
 
 let mapDataItem = (mappingConfigs, mapData) => {
     let mapped = {};
-
     mappingConfigs.forEach(mapConfig => {
         for (let j in mapConfig) {
             if (mapConfig.hasOwnProperty(j)) {
@@ -129,7 +128,8 @@ let mapDataItems = (mappingConfigs, dataItems, additionalMapData) => {
                     }
                 }
             }
-            mappedItems.push(mapDataItem(mappingConfigs, mapData));
+            const mappedItem = mapDataItem(mappingConfigs, mapData);
+            mappedItems.push(mappedItem);
         });
     }
 
@@ -159,6 +159,7 @@ let mapSolrData = props => {
 
         props.solrData.forEach(source => {
             let mappingConfigs = getMappingConfigurations(source.mappings, props.config);
+
             mapped.push({
                 key: source.key,
                 data: mapDataItems(mappingConfigs, source.data, additionalMapData)

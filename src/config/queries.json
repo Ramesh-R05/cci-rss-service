@@ -45,6 +45,13 @@
       "fq": "nodeTypeAlias_t:(Recipe)",
       "sort": "pageDateCreated_dt desc",
       "rows": "500"
+    },
+
+    "filterSource": {
+      "q": "*:*",
+      "fq": "nodeTypeAlias_t:(HomesArticle OR BauerArticle OR Article OR BauerGallery OR Gallery)",
+      "sort": "pageDateCreated_dt desc",
+      "rows": "50"
     }
 
   },

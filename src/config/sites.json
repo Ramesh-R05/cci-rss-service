@@ -59,7 +59,8 @@
           "fq": "nodeTypeAlias_t:(Article OR Gallery)"
         }
       }
-    }
+    },
+    "withFilter": true
   },
 
   "nznow": {
@@ -69,7 +70,8 @@
           "fq": "nodeTypeAlias_t:(Article OR Gallery)"
         }
       }
-    }
+    },
+    "withFilter": true
   },
 
   "elle": {

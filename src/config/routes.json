@@ -132,6 +132,30 @@
         "params": [ "path_ss", [ "contentTitle_t", "nodeName_t" ] ]
       }
     ]
-  }
+  },
 
+  "sourceFilter" : {
+    "path": "/",
+    "data": [
+      {
+        "key": "channel",
+        "query": "channel.default"
+      },
+      {
+        "key": "items",
+        "query": "item.filterSource",
+        "mappings": ["item.default", "item.sections", "item.fullcontent"]
+      },
+      {
+        "key": "sections",
+        "query": "sections.default"
+      }
+    ],
+    "onDataReceived": [
+      {
+        "fn": "onSectionsDataReceived",
+        "params": [ "path_ss", [ "contentTitle_t", "nodeName_t" ] ]
+      }
+    ]
+  }
 }

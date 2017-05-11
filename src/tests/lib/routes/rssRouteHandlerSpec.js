@@ -207,6 +207,25 @@ describe('rssRouteHandler', function () {
             });
 
         });
+
+        describe('when: with source filter', function () {
+
+            solrQueries.mock('now');
+
+            var req = createMockRequest('now', '', {"source":"NW"}, null);
+            var res = createMockResponse();
+
+            it('should return source xml with full content', function (done) {
+                var promise = rssRouteHandler.route(req, res);
+                promise.finally(function () {
+                    expect(res.code).to.equal(200);
+                    expect(res.get('Content-Type')).to.equal('text/xml');
+                    expect(res.content.length).to.be.above(0);
+                    done();
+                })
+            });
+
+        });
         
         describe('when: invalid site', function () {
 

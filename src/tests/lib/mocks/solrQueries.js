@@ -97,6 +97,11 @@ var mock = function (site, solrHost) {
     .get(util.format('/solr/%s-search/select?q=contentCampaign_t%3A*&fq=nodeTypeAlias_t%3A%28FoodArticle%20OR%20FoodStudioArticle%20OR%20Article%20OR%20Gallery%29&sort=pageDateCreated_dt%20desc&rows=500&wt=json', site))
     .reply(200, JSON.stringify(solrItemsResult));
 
+    //now.queries.item.with.filter
+    nock(host)
+    .get(util.format('/solr/%s-search/select?q=articleSource_t%3A%22NW%22&fq=nodeTypeAlias_t%3A%28HomesArticle%20OR%20BauerArticle%20OR%20Article%20OR%20BauerGallery%20OR%20Gallery%29&sort=pageDateCreated_dt%20desc&rows=50&wt=json', site))
+    .reply(200, JSON.stringify(solrItemsResult));
+
     //invalid site: queries.channel.default
     nock(host)
     .get('/solr/invalid-search/select?q=*%3A*&fq=nodeTypeAlias_t%3A%22Homepage%22&rows=1&wt=json')
