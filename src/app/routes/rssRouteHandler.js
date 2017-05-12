@@ -51,13 +51,13 @@ let route = (req, res) => {
                     res.send(xml.replace(/[\u001f\u001e]/g, ''));
                 }, err => {
                     logger.log('error', err.message, { stack: err.stack });
-                    res.sendStatus(500);
+                    res.status(500).send(err.stack);
                 });
 
                 return promise;
             } catch (err) {
                 logger.log('error', err.message, { stack: err.stack });
-                res.sendStatus(500);
+                res.status(500).send(err.stack);
             }
         } else {
             res.sendStatus(404);

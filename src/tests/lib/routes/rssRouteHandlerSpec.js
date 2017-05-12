@@ -27,6 +27,15 @@ describe('rssRouteHandler', function () {
             sendStatus: function (code) {
                 this.code = code;
             },
+            status: function (code) {
+                this.code = code;  
+                var that = this;
+                return {
+                    send: function (content) {
+                        that.content = content;
+                    }
+                }
+            },
             send: function (content) {
                 this.content = content;
             },
