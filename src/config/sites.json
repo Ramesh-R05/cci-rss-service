@@ -1,4 +1,4 @@
-﻿{
+{
 
   "food": {
     "queries": {
@@ -82,6 +82,16 @@
         }
       }
     }
+  },
+
+  "hb": {
+    "queries": {
+      "item": {
+        "default": {
+          "fq": "nodeTypeAlias_t:(Article OR Gallery)"
+        }
+      }
+    }
   }
-  
+
 }
