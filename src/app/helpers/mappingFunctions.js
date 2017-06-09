@@ -378,5 +378,9 @@ export default {
         }
 
         return categories;
+    },
+
+    mapMediaCredit(mediaCredit, defaultMediaCredit) {
+        return mediaCredit || defaultMediaCredit;
     }
 };

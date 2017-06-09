@@ -28,6 +28,16 @@
       },
       "ttl": {
         "value": 60
+      },
+      "custom_namespaces": {
+        "mapObject": {
+          "media": {
+            "value": "http://search.yahoo.com/mrss/"
+          },
+          "mi": {
+            "value": "http://schemas.ingestion.microsoft.com/common/"
+          }
+        }
       }
     },
     "sponsored": {
@@ -61,6 +71,7 @@
           "params": [ "@siteUrl_t", "@url_t" ]
         }
       },
+
       "enclosure": {
         "mapObject": {
           "url": {
@@ -76,6 +87,80 @@
             "map": {
               "fn": "mapMimeType",
               "params": [ "@contentImageUrl_t" ]
+            }
+          }
+        }
+      },
+      "custom_elements": {
+        "mapObjectArray": {
+          "media:content": {
+            "mapObjectArray": {
+              "_attr":{
+                "mapObject": {
+                  "url": {
+                    "map": "contentImageUrl_t",
+                    "afterMap": [
+                      {
+                        "fn": "format",
+                        "params": [ "%s?height=600" ]
+                      }
+                    ]
+                  },
+                  "type": {
+                    "map": {
+                      "fn": "mapMimeType",
+                      "params": [ "@contentImageUrl_t" ]
+                    }
+                  }
+                }
+              },
+              "media:thumbnail": {
+                "mapObjectArray": {
+                  "_attr":{
+                    "mapObject": {
+                      "url": {
+                        "map": "contentImageUrl_t",
+                        "afterMap": [
+                          {
+                            "fn": "format",
+                            "params": [ "%s?height=600" ]
+                          }
+                        ]
+                      },
+                      "type": {
+                        "map": {
+                          "fn": "mapMimeType",
+                          "params": [ "@contentImageUrl_t" ]
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "media:title": {
+                "map": [ "contentImageAltText_t", "contentTitle_t", "nodeName_t" ]
+              },
+              "media:text": {
+                "map": [ "contentImageCaption_t", "pageMetaDescription_t", "contentSummary_t" ]
+              },
+              "media:credit": {
+                "map": {
+                  "fn": "mapMediaCredit",
+                  "params": [ "@contentPhotoCredit_t", "Provided by Bauer Media Pty Ltd" ]
+                }
+              },
+              "mi:dateTimeWritten": {
+                "map": [ "pageDateCreated_dt" ]
+              },
+              "mi:hasSyndicationRights": {
+                "value": "1"
+              },
+              "mi:licenseId": {
+                "value": "698525"
+              },
+              "mi:licensorName": {
+                "value": "BAUER MEDIA PTY LIMITED"
+              }
             }
           }
         }
@@ -113,6 +198,76 @@
                     "@contentBody_t"
                   ]
                 }
+              }
+            }
+          },
+          "media:content": {
+            "mapObjectArray": {
+              "_attr":{
+                "mapObject": {
+                  "url": {
+                    "map": "contentImageUrl_t",
+                    "afterMap": [
+                      {
+                        "fn": "format",
+                        "params": [ "%s?height=600" ]
+                      }
+                    ]
+                  },
+                  "type": {
+                    "map": {
+                      "fn": "mapMimeType",
+                      "params": [ "@contentImageUrl_t" ]
+                    }
+                  }
+                }
+              },
+              "media:thumbnail": {
+                "mapObjectArray": {
+                  "_attr":{
+                    "mapObject": {
+                      "url": {
+                        "map": "contentImageUrl_t",
+                        "afterMap": [
+                          {
+                            "fn": "format",
+                            "params": [ "%s?height=600" ]
+                          }
+                        ]
+                      },
+                      "type": {
+                        "map": {
+                          "fn": "mapMimeType",
+                          "params": [ "@contentImageUrl_t" ]
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "media:title": {
+                "map": [ "contentImageAltText_t", "contentTitle_t", "nodeName_t" ]
+              },
+              "media:text": {
+                "map": [ "contentImageCaption_t", "pageMetaDescription_t", "contentSummary_t" ]
+              },
+              "media:credit": {
+                "map": {
+                  "fn": "mapMediaCredit",
+                  "params": [ "@contentPhotoCredit_t", "Provided by Bauer Media Pty Ltd" ]
+                }
+              },
+              "mi:dateTimeWritten": {
+                "map": [ "pageDateCreated_dt" ]
+              },
+              "mi:hasSyndicationRights": {
+                "value": "1"
+              },
+              "mi:licenseId": {
+                "value": "698525"
+              },
+              "mi:licensorName": {
+                "value": "BAUER MEDIA PTY LIMITED"
               }
             }
           }

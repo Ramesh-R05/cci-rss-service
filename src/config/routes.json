@@ -144,7 +144,7 @@
       {
         "key": "items",
         "query": "item.filterSource",
-        "mappings": ["item.default", "item.sections", "item.fullcontent"]
+        "mappings": ["item.default", "item.sections", "item.filterSource"]
       },
       {
         "key": "sections",
