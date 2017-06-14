@@ -3,7 +3,7 @@ import config from 'config';
 
 let cache = {};
 
-let bindConfigProperties = (configs, bindingData) => {
+function bindConfigProperties(configs, bindingData) {
     for (let i in configs) {
         if ({}.hasOwnProperty.call(configs, i)) {
             let propVal = configs[i];
@@ -24,9 +24,9 @@ let bindConfigProperties = (configs, bindingData) => {
             }
         }
     }
-};
+}
 
-let getSiteConfig = (site, props, environment) => {
+function getSiteConfig(site, props, environment) {
     let cacheKey = 'config_' + site;
     let siteConfig = cache[cacheKey];
 
@@ -57,11 +57,11 @@ let getSiteConfig = (site, props, environment) => {
     }
 
     return siteConfig;
-};
+}
 
-let clearCache = () => {
+function clearCache() {
     cache = {};
-};
+}
 
 export default {
     config: getSiteConfig,

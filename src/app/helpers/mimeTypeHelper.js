@@ -4,7 +4,7 @@ import path from 'path';
 
 let cache = {};
 
-let getType = filePath => {
+function getType(filePath) {
     if (filePath && filePath.length > 0) {
         let parts = stringHelper.split(filePath, '?', true);
         let ext = path.extname(parts[0]);
@@ -26,7 +26,7 @@ let getType = filePath => {
         return type;
     }
     return '';
-};
+}
 
 export default {
     getType

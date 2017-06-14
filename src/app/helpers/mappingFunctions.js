@@ -8,14 +8,14 @@ import mustache from 'mustache';
 import _ from 'underscore';
 import s from 'string';
 
-let renderRecipeGroupHeading = () => {
+function renderRecipeGroupHeading() {
     return (text, render) => {
         let txt = render(text);
         return txt ? '<h3>' + txt + '</h3>' : '';
     };
-};
+}
 
-let renderRecipeIngredientQuantityAndMeasure = () => {
+function renderRecipeIngredientQuantityAndMeasure() {
     return (text, render) => {
         let displayItems = [];
         let parts = render(text).split(':');
@@ -35,7 +35,7 @@ let renderRecipeIngredientQuantityAndMeasure = () => {
         }
         return displayItems.length > 0 ? displayItems.join(' ') + ' ' : '';
     };
-};
+}
 
 export default {
     sanitise(str) {

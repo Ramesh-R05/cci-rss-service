@@ -1,19 +1,19 @@
 ﻿import striptags from 'striptags';
 import unmarked from 'remove-markdown';
 
-let isEmpty = str => {
+function isEmpty(str) {
     return (typeof str === 'undefined' || str === '' || str === null);
-};
+}
 
-let stripHtml = (str, allowedTags) => {
+function stripHtml(str, allowedTags) {
     return striptags(str, allowedTags);
-};
+}
 
-let stripMarkdown = str => {
+function stripMarkdown(str) {
     return unmarked(str);
-};
+}
 
-let split = (str, sourceSeparator, sourceRemoveEmpty) => {
+function split(str, sourceSeparator, sourceRemoveEmpty) {
     let separator = sourceSeparator;
     let removeEmpty = sourceRemoveEmpty;
     separator = !isEmpty(separator) ? separator : ',';
@@ -32,7 +32,7 @@ let split = (str, sourceSeparator, sourceRemoveEmpty) => {
     }
 
     return items;
-};
+}
 
 export default {
     split,

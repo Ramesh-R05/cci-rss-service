@@ -6,15 +6,15 @@ let options = {
     breaks: true
 };
 
-let renderParagraph = content => {
+function renderParagraph(content) {
     if (content) {
         return marked(content, options);
     }
 
     return '';
-};
+}
 
-let renderImage = (content, attributes) => {
+function renderImage(content, attributes) {
     if (content && content.url) {
         let url = content.url;
 
@@ -39,7 +39,7 @@ let renderImage = (content, attributes) => {
         return '<div>' + html + '</div>';
     }
     return '';
-};
+}
 
 export default {
     renderParagraph,

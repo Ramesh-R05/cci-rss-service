@@ -1,6 +1,6 @@
 ﻿import utils from'../utils';
 
-let mapValue = (config, mapData, defaultValue) => {
+function mapValue(config, mapData, defaultValue) {
     if (typeof config === 'string') {
         return utils.getProperty(config, mapData, defaultValue);
     } else if (utils.isFunctionConfig(config)) {
@@ -8,9 +8,9 @@ let mapValue = (config, mapData, defaultValue) => {
         return fn.execute();
     }
     return defaultValue;
-};
+}
 
-let map = (config, mapData, sourceValue, postMapFunctions) => {
+function map(config, mapData, sourceValue, postMapFunctions) {
     let val = '';
     let defaultValue = sourceValue;
 
@@ -38,9 +38,9 @@ let map = (config, mapData, sourceValue, postMapFunctions) => {
     }
 
     return val;
-};
+}
 
-let mapArray = (config, mapData, defaultValue, postMapFunctions) => {
+function mapArray(config, mapData, defaultValue, postMapFunctions) {
     let arr = [];
 
     if (config && config instanceof Array) {
@@ -50,9 +50,9 @@ let mapArray = (config, mapData, defaultValue, postMapFunctions) => {
     }
 
     return arr;
-};
+}
 
-let mapObject = (config, mapData) => {
+function mapObject(config, mapData) {
     let obj = {};
 
     for (let i in config) {
@@ -64,9 +64,9 @@ let mapObject = (config, mapData) => {
     }
 
     return obj;
-};
+}
 
-let mapObjectArray = (config, mapData) => {
+function mapObjectArray(config, mapData) {
     let arr = [];
     let obj = mapObject(config, mapData);
 
@@ -79,9 +79,9 @@ let mapObjectArray = (config, mapData) => {
     }
 
     return arr;
-};
+}
 
-let mapDataItemProperty = (config, mapData) => {
+function mapDataItemProperty(config, mapData) {
     if (config && config.value) {
         return config.value;
     }
@@ -101,9 +101,9 @@ let mapDataItemProperty = (config, mapData) => {
     if (config && config.mapObjectArray) {
         return mapObjectArray(config.mapObjectArray, mapData);
     }
-};
+}
 
-let mapDataItem = (mappingConfigs, mapData) => {
+function mapDataItem(mappingConfigs, mapData) {
     let mapped = {};
     mappingConfigs.forEach(mapConfig => {
         for (let j in mapConfig) {
@@ -114,9 +114,9 @@ let mapDataItem = (mappingConfigs, mapData) => {
     });
 
     return mapped;
-};
+}
 
-let mapDataItems = (mappingConfigs, dataItems, additionalMapData) => {
+function mapDataItems(mappingConfigs, dataItems, additionalMapData) {
     let mappedItems = [];
 
     if (dataItems) {
@@ -134,9 +134,9 @@ let mapDataItems = (mappingConfigs, dataItems, additionalMapData) => {
     }
 
     return mappedItems;
-};
+}
 
-let getMappingConfigurations = (mappingKeys, config) => {
+function getMappingConfigurations(mappingKeys, config) {
     let mappingConfigs = [];
 
     mappingKeys.forEach(key => {
@@ -147,9 +147,9 @@ let getMappingConfigurations = (mappingKeys, config) => {
     });
 
     return mappingConfigs;
-};
+}
 
-let mapSolrData = props => {
+function mapSolrData(props) {
     let mapped = [];
 
     if (props.solrData) {
@@ -168,7 +168,7 @@ let mapSolrData = props => {
     }
 
     return mapped;
-};
+}
 
 
 export default {

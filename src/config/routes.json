@@ -151,6 +151,11 @@
         "query": "sections.default"
       }
     ],
+    "onDataQueryProcess": [
+      { 
+        "fn": "onSourceFilter"
+      }
+    ],
     "onDataReceived": [
       {
         "fn": "onSectionsDataReceived",

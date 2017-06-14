@@ -1,6 +1,6 @@
 ﻿import _ from 'underscore';
 
-let findDataSource = (dataSources, dataKey) => {
+function findDataSource(dataSources, dataKey) {
     var dataSource = _.find(dataSources, d => {
         return d.key === dataKey;
     });
@@ -10,9 +10,9 @@ let findDataSource = (dataSources, dataKey) => {
     }
 
     return null;
-};
+}
 
-let onSponsoredDataReceived = (campaignFieldName, data) => {
+function onSponsoredDataReceived(campaignFieldName, data) {
     var itemsDataSource = findDataSource(data, 'items');
 
     if (itemsDataSource && itemsDataSource.data) {
@@ -36,9 +36,9 @@ let onSponsoredDataReceived = (campaignFieldName, data) => {
     }
 
     return data;
-};
+}
 
-let onSectionsDataReceived = (pathFieldName, sectionNameFields, data) => {
+function onSectionsDataReceived(pathFieldName, sectionNameFields, data) {
     var sectionsDataSource = findDataSource(data, 'sections');
 
     if (sectionsDataSource && sectionsDataSource.data) {
@@ -77,9 +77,23 @@ let onSectionsDataReceived = (pathFieldName, sectionNameFields, data) => {
     }
 
     return data;
-};
+}
+
+function onSourceFilter(props, dataSource) {
+    let queryConfig = props.config.get('queries.' + dataSource.query);
+    const sourceFilter = props.queryParams && props.queryParams.source;
+    const site = props.site.toLowerCase();
+    const enableFilterWithSourceName = props.config.sites[site] && props.config.sites[site].enableFilterWithSourceName;
+
+    if (queryConfig && sourceFilter && dataSource.key === 'items' && enableFilterWithSourceName) {
+        queryConfig.q = sourceFilter.toLowerCase() === enableFilterWithSourceName ?
+            `-articleSource_t:* OR -source_t:*` :
+            `articleSource_t:"${sourceFilter}" OR source_t:"${sourceFilter}"`;
+    }
+}
 
 export default {
     onSponsoredDataReceived,
-    onSectionsDataReceived
+    onSectionsDataReceived,
+    onSourceFilter
 };

@@ -42,6 +42,26 @@
     }
   },
 
+  "homes": {
+    "queries": {
+      "item": {
+        "default": {
+          "fq": "nodeTypeAlias_t:(Article OR Gallery OR HomesArticle)"
+        }
+      }
+    }
+  },
+
+  "nzhomes": {
+    "queries": {
+      "item": {
+        "default": {
+          "fq": "nodeTypeAlias_t:(Article OR Gallery OR HomesArticle)"
+        }
+      }
+    }
+  },
+
   "cosmo": {
     "queries": {
       "item": {
@@ -60,7 +80,7 @@
         }
       }
     },
-    "withFilter": true
+    "enableFilterWithSourceName": "now to love" 
   },
 
   "nznow": {
@@ -71,7 +91,7 @@
         }
       }
     },
-    "withFilter": true
+    "enableFilterWithSourceName": "now to love"
   },
 
   "elle": {

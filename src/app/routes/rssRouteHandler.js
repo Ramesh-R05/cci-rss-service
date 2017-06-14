@@ -3,10 +3,10 @@ import configHelper from '../helpers/configHelper';
 import stringHelper from '../helpers/stringHelper';
 import rssHelper from '../helpers/rssHelper';
 
-let getRouteConfiguration = (config, routePath, sourceQuery, site) => {
+function getRouteConfiguration(config, routePath, sourceQuery, site) {
     let routes = config.get('routes');
     const siteConfig = config.sites[site.toLowerCase()];
-    const filterEnable = siteConfig && siteConfig.withFilter;
+    const filterEnable = siteConfig && siteConfig.enableFilterWithSourceName;
 
     if (routes) {
         if (sourceQuery && filterEnable) {
@@ -24,9 +24,9 @@ let getRouteConfiguration = (config, routePath, sourceQuery, site) => {
     }
 
     return null;
-};
+}
 
-let route = (req, res) => {
+function route(req, res) {
     const site = !stringHelper.isEmpty(req.params[0]) ? req.params[0].toLowerCase() : '';
     const routePath = !stringHelper.isEmpty(req.params[1]) ? '/' + req.params[1].toLowerCase() : '/';
     if (site) {
@@ -65,7 +65,7 @@ let route = (req, res) => {
     } else {
         res.sendStatus(404);
     }
-};
+}
 
 export default {
     route

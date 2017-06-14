@@ -1,7 +1,8 @@
 import solr from 'solr-client';
 import Q from 'q';
+import utils from '../utils';
 
-let compileQuery = (queryConfig, queryParams) => {
+function compileQuery(queryConfig, queryParams) {
     let query = [];
 
     for (let i in queryConfig) {
@@ -16,22 +17,24 @@ let compileQuery = (queryConfig, queryParams) => {
         }
     }
     return query.join('&');
-};
+}
 
-let querySolrData = (dataSource, props) => {
+function preProcessQuery(dataSource, props) {
+    if (!props.route.onDataQueryProcess) return;
+
+    props.route.onDataQueryProcess.forEach(func => {
+        utils
+        .compileFunction(func, {}, [props, dataSource])
+        .execute();
+    });
+}
+
+function querySolrData(dataSource, props) {
+    preProcessQuery(dataSource, props);
     let deferred = Q.defer();
     let queryConfig = props.config.get('queries.' + dataSource.query);
-    const reqQuery = props.queryParams;
-    const sourceFilter = reqQuery && reqQuery.source;
-    const site = props.site;
-    const siteConfig = props.config.sites[site.toLowerCase()];
-    const filterEnable = siteConfig && siteConfig.withFilter;
+
     if (queryConfig) {
-        if (sourceFilter && dataSource.key === 'items' && filterEnable) {
-            queryConfig.q = sourceFilter.toLowerCase() === 'now to love' ?
-                `-articleSource_t:*` :
-                `articleSource_t:"${sourceFilter}"`;
-        }
         let compiledQuery = compileQuery(queryConfig, props.queryParams);
         let client = solr.createClient(props.config.get('solr'));
         client.search(compiledQuery, (err, obj) => {
@@ -50,9 +53,9 @@ let querySolrData = (dataSource, props) => {
     }
 
     return deferred.promise;
-};
+}
 
-let getDataSources = props => {
+function getDataSources(props) {
     let dataSources = [];
     let routeData = props.route.data;
     for (let i in routeData) {
@@ -63,7 +66,7 @@ let getDataSources = props => {
     }
 
     return dataSources;
-};
+}
 
 export default {
     loadData: props => {

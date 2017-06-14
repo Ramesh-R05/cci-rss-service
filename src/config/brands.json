@@ -34,5 +34,11 @@
     },
     "hb" : {
         "title": "Harper's Bazaar"
+    },
+    "homes" : {
+        "title": "Homes To Love"
+    },
+    "nzhomes" : {
+        "title": "Homes To Love"
     }
 }

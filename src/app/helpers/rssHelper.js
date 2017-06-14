@@ -4,7 +4,7 @@ import builder from '../builders/rssBuilder';
 import utils from '../utils';
 import Q from 'q';
 
-let onSolrDataReceived = (sourceData, props) => {
+function onSolrDataReceived(sourceData, props) {
     let data = sourceData;
     if (props.route.onDataReceived) {
         props.route.onDataReceived.forEach(func => {
@@ -14,9 +14,9 @@ let onSolrDataReceived = (sourceData, props) => {
     }
 
     return data;
-};
+}
 
-let buildFeed = props => {
+function buildFeed(props) {
     let deferred = Q.defer();
 
     solrHelper.loadData(props)
@@ -34,7 +34,7 @@ let buildFeed = props => {
         });
 
     return deferred.promise;
-};
+}
 
 export default {
     buildFeed
