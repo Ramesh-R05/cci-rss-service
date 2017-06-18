@@ -6,23 +6,20 @@ import rssHelper from '../helpers/rssHelper';
 function getRouteConfiguration(config, routePath, sourceQuery, site) {
     let routes = config.get('routes');
     const siteConfig = config.sites[site.toLowerCase()];
-    const filterEnable = siteConfig && siteConfig.enableFilterWithSourceName;
+    const filterEnable = siteConfig && siteConfig.enableFilterWithSourceName && sourceQuery;
 
-    if (routes) {
-        if (sourceQuery && filterEnable) {
-            return routes.sourceFilter;
-        }
+    if (routePath === '/' && filterEnable ) {
+        return routes.sourcefilter;
+    }
 
-        for (let key in routes) {
-            if (routes.hasOwnProperty(key)) {
-                let r = routes[key];
-                if (r.path.toLowerCase() === routePath.toLowerCase()) {
-                    return r;
-                }
+    for (let key in routes) {
+        if (routes.hasOwnProperty(key)) {
+            let r = routes[key];
+            if (r.path.toLowerCase() === routePath.toLowerCase()) {
+                return routes.hasOwnProperty(`${key}sourcefilter`) && filterEnable ? routes[`${key}sourcefilter`] : r;
             }
         }
     }
-
     return null;
 }
 

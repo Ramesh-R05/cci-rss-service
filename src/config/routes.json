@@ -134,7 +134,7 @@
     ]
   },
 
-  "sourceFilter" : {
+  "sourcefilter" : {
     "path": "/",
     "data": [
       {
@@ -145,6 +145,36 @@
         "key": "items",
         "query": "item.filterSource",
         "mappings": ["item.default", "item.sections", "item.filterSource"]
+      },
+      {
+        "key": "sections",
+        "query": "sections.default"
+      }
+    ],
+    "onDataQueryProcess": [
+      { 
+        "fn": "onSourceFilter"
+      }
+    ],
+    "onDataReceived": [
+      {
+        "fn": "onSectionsDataReceived",
+        "params": [ "path_ss", [ "contentTitle_t", "nodeName_t" ] ]
+      }
+    ]
+  },
+
+  "fullcontentsourcefilter" : {
+    "path": "/full-content",
+    "data": [
+      {
+        "key": "channel",
+        "query": "channel.default"
+      },
+      {
+        "key": "items",
+        "query": "item.filterSource",
+        "mappings": ["item.default", "item.sections", "item.filterSource", "item.fullcontent"]
       },
       {
         "key": "sections",

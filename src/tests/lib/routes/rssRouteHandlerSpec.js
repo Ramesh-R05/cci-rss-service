@@ -224,7 +224,7 @@ describe('rssRouteHandler', function () {
             var req = createMockRequest('now', '', {"source":"NW"}, null);
             var res = createMockResponse();
 
-            it('should return source xml with full content', function (done) {
+            it('should return source xml', function (done) {
                 var promise = rssRouteHandler.route(req, res);
                 promise.finally(function () {
                     expect(res.code).to.equal(200);
