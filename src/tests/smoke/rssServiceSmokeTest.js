@@ -6,7 +6,7 @@ var schemas  = require("./util/schemas.js")
 
 
 describe('Smoke test of rss service', function() {
-    this.retries(2);
+    this.retries(4);
 
     it('respond with APP NAME', function(done) {
         request(app)

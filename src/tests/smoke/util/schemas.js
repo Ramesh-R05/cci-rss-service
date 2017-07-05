@@ -2,7 +2,8 @@ module.exports = {
 
     rssHeaderSchema: function() {
         return '<?xml version="1.0" encoding="UTF-8"?>\n<rss xmlns:dc="http://purl.org/dc/elements/1.1/" ' +
-        'xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">'
+        'xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:media="http://search.yahoo.com/mrss/" xmlns:mi="http://schemas.ingestion.microsoft.com/common/">'
+
     },
 
     rssItemSchema1: function() {
@@ -18,7 +19,10 @@ module.exports = {
        '<item><tit' +
        'le><![CDATA[Emma Markezic: Make love, not war]]></title><description><![CDATA[Comedian Emma Markezic says even the nastiest of fights can have a silver lining]]></description><link>http://cosmo-site-au.sit.bxm.net.au/sex/emma-markezic-make-love-not-war-1198</li' +
        'nk><guid isPermaLink="true">http://cosmo-site-au.sit.bxm.net.au/sex/emma-markezic-make-love-not-war-1198</guid><category><![CDATA[Sex]]></category><dc:creator><![CDATA[Cosmopolitain]]></dc:creator><pubDate>2012-01-03T15:38:00Z</pubDate><dc:modified>2017-06-21T1' +
-       '5:22:09.08Z</dc:modified>'
+       '5:22:09.08Z</dc:modified>',
+       '<item><title><![CDATA[9 things he says during sex vs what he actually means]]></title><description><![CDATA[9 things he says during se' +
+       'x vs what he actually means]]></description><link>http://cosmo-site-au.sit.bxm.net.au/sex/things-he-says-in-sex-15903</link><guid isPermaLink="true">http://cosmo-site-au.sit.bxm.net.au/sex/things-he-says-in-sex-15903</guid><category><![CDATA[Sex]]></category><d' +
+       'c:creator><![CDATA[Cosmopolitain]]></dc:creator><pubDate>2016-07-13T11:51:58Z</pubDate><dc:modified>2017-06-27T11:07:43.96Z</dc:modified>'
 
     },
 
@@ -33,7 +37,7 @@ module.exports = {
         'd tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariat' +
         'ur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>\n<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mi' +
         'nim veniam.</p>\n<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aut' +
-        'e irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>\n]]></content:encoded></item>'
+        'e irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>\n]]></content:encoded>'
     },
 
 
@@ -60,13 +64,11 @@ module.exports = {
         'hion moments both on and off the red carpet.]]></description><link>http://dev.cosmo-site.bauer-media.net.au/fashion/kim-kardashian-style-16085</link><guid isPermaLink="true">http://dev.cosmo-site.bauer-media.net.au/fashion/kim-kardashian-style-16085</guid><cate' +
         'gory><![CDATA[Fashion]]></category><dc:creator><![CDATA[Cosmopolitain]]></dc:creator>',
         '<enclosure url="http://d3lp4xedbqa8a5.cloudfront.net/s3/digital-cougar-assets/Cosmo/201' +
-        '6/05/24/79503/HOLDING.jpg?height=600" length="0" type="image/jpeg"/></item>',
+        '6/05/24/79503/HOLDING.jpg?height=600" length="0" type="image/jpeg"/>',
         '<item><title><![CDATA[9 things he sa' +
         'ys during sex vs what he actually means]]></title><description><![CDATA[9 things he says during sex vs what he actually means]]></description><link>http://cosmo-site-au.sit.bxm.net.au/sex/things-he-says-in-sex-15903</link><guid isPermaLink="true">http://cosmo-s' +
         'ite-au.sit.bxm.net.au/sex/things-he-says-in-sex-15903</guid><category><![CDATA[Sex]]></category><dc:creator><![CDATA[Cosmopolitain]]></dc:creator>',
-        '<enclosure url="http://d3lp4xedbqa8a5.cloudfront.net/s3/digital-cougar-assets/Cosmo/2016/07/13/84675/789.gif?height=600" length="0" type="image/gif"/></item>'
-
-
+        '<enclosure url="http://d3lp4xedbqa8a5.cloudfront.net/s3/digital-cougar-assets/Cosmo/2016/07/13/84675/789.gif?height=600" length="0" type="image/gif"/>'
 
     }
 
