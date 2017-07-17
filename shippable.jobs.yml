@@ -1,0 +1,119 @@
+# This jobs are only used for RSS SErvice
+
+####################################################################
+# Refer to http://docs.shippable.com/reference/jobs-overview/      #
+# Resources are located in shippable.resources.yml file            #
+# Jobs are numbered to visualize sequence                          #
+####################################################################
+
+jobs:
+
+  # 1. Sync pipeline to CI
+  - name: rss-service_runCI
+    type: runCI
+    steps:
+      - OUT: rss-service-img-master
+      - OUT: rss-service-img-branch
+
+  # 2branch. Manifest for a BRANCH image
+  - name: rss-service-man-branch
+    type: manifest
+    steps:
+      - IN: rss-service-img-branch
+      - IN: rss-service-opts-sit
+      - TASK: managed
+    flags:
+      - rss-service
+
+  # 3Branch. SIT deployment for feature BRANCH
+  - name: rss-service-sit-deploy-branch
+    type: deploy
+    always:
+      - NOTIFY: rss-slack-notifications
+    steps:
+      - IN: rss-service-man-branch # for non-master, don't auto deploy.
+        switch: off
+      - IN: rss-service-env-sit-ecs
+      - IN: rss-service-params-sit
+      - IN: rss-service-alb-sit-branch
+        applyTo:
+          - manifest: rss-service-man-branch
+            image: rss-service-img-branch
+            port: 3000
+      - TASK: managed
+        deployMethod: upgrade
+
+  # 2. Manifest for MASTER image
+  - name: rss-service-man-master
+    type: manifest
+    steps:
+      - IN: rss-service-img-master
+      - IN: rss-service-opts-sit
+      - TASK: managed
+
+  # 3. SIT deployment for MASTER
+  - name: rss-service-sit-deploy-master
+    type: deploy
+    always:
+      - NOTIFY: rss-slack-notifications
+    steps:
+      - IN: rss-service-man-master # for master - auto deploy to SIT
+        switch: on
+      - IN: rss-service-env-sit-ecs
+      - IN: rss-service-params-sit
+      - IN: rss-service-alb-sit
+        applyTo:
+          - manifest: rss-service-man-master
+            image: rss-service-img-master
+            port: 3000
+      - TASK: managed
+        deployMethod: replace
+
+  # 4. Run smoke test on SIT environment
+  - name: rsss-validation
+    type: runSh
+    always:
+      - NOTIFY: rss-slack-notifications
+    steps:
+     - IN: rss-service-sit-deploy-master
+     - IN: rss-repo
+       switch: off
+     - TASK:
+       - script: curl http://services.sit.bxm.internal/rss/
+       - script: curl https://raw.githubusercontent.com/creationix/nvm/v0.32.1/install.sh | bash
+       - script: source ~/.nvm/nvm.sh
+       - script: cd ./IN/rss-repo/gitRepo/src
+       - script: nvm install
+       - script: npm set @bxm:registry http://npm.digital.bauer-media.net.au
+       - script: npm set registry https://registry.npmjs.org
+       - script: npm install
+       - script: npm run test:smoke
+
+  # 5. Package release for production release
+  - name: rss-service-release-master
+    type: release
+    steps:
+      - IN: rss-service-man-master
+        switch: off
+      - IN: rsss-validation
+      - IN: rss-service-version
+      - TASK: managed
+        bump: minor
+
+  # 6. PROD deployment for MASTER with Region AU
+  - name: rss-service-prod-deploy-master
+    type: deploy
+    always:
+      - NOTIFY: rss-slack-notifications
+    steps:
+      - IN: rss-service-release-master
+        switch: off
+      - IN: rss-service-env-prod-ecs
+      - IN: rss-service-params-prod
+      - IN: rss-service-alb-prod
+        applyTo:
+        - manifest: rss-service-man-master
+          image: rss-service-img-master
+          port: 3000
+      - TASK: managed
+        deployMethod: upgrade
