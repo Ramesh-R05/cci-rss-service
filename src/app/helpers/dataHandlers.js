@@ -1,19 +1,12 @@
 ﻿import _ from 'underscore';
 
 function findDataSource(dataSources, dataKey) {
-    var dataSource = _.find(dataSources, d => {
-        return d.key === dataKey;
-    });
-
-    if (dataSource && dataSource.data) {
-        return dataSource;
-    }
-
-    return null;
+    const dataSource = _.find(dataSources, d => d.key === dataKey);
+    return dataSource && dataSource.data ? dataSource : null;
 }
 
 function onSponsoredDataReceived(campaignFieldName, data) {
-    var itemsDataSource = findDataSource(data, 'items');
+    const itemsDataSource = findDataSource(data, 'items');
 
     if (itemsDataSource && itemsDataSource.data) {
         let sanitised = [];
@@ -39,13 +32,15 @@ function onSponsoredDataReceived(campaignFieldName, data) {
 }
 
 function onSectionsDataReceived(pathFieldName, sectionNameFields, data) {
-    var sectionsDataSource = findDataSource(data, 'sections');
+    const sectionsDataSource = findDataSource(data, 'sections');
 
     if (sectionsDataSource && sectionsDataSource.data) {
         let sectionHash = {};
         let itemsDataSource = findDataSource(data, 'items');
 
         if (itemsDataSource && itemsDataSource.data) {
+            // Remove items with a canonicalUrl present
+            itemsDataSource.data = itemsDataSource.data.filter(item => typeof item.pageCanonicalUrl_t === 'undefined');
             itemsDataSource.data.forEach(item => {
                 let sections = [];
                 let path = item[pathFieldName];

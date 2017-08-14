@@ -62,10 +62,10 @@ describe('mappingFunctions', function () {
 
                 var idxYear = actual.indexOf(currentYear);
                 var idxText = actual.indexOf(copyrightText);
-                
+
                 expect(idxYear).to.be.at.least(0);
                 expect(idxText).to.be.above(idxYear);
-                
+
             });
 
         });
@@ -235,7 +235,7 @@ describe('mappingFunctions', function () {
                 expectedParagraphText = '<p>' + input[0].content + '</p>';
                 expectedQuoteText = '<p>' + input[1].content + '</p>';
                 expectedHeadingText = '<h2>' + input[2].content + '</h2>';
-                expectedImageText = '<img src="' + input[3].content.url + '?width=800" alt="' + input[3].content.caption + '" />';
+                expectedImageText = '<img src="' + input[3].content.url + '?width=800" alt="' + input[3].content.caption;
                 expectedVideoText = '<a href="' + contentUrl + '" target="_blank">Watch video</a>';
             });
 
@@ -296,7 +296,7 @@ describe('mappingFunctions', function () {
                 };
 
                 before(function () {
-                    expectedImageText = '<img src="' + input[3].content.url + '?width=' + settings.image.width + '&height=' + settings.image.height + '" alt="' + input[3].content.caption + '" />';
+                    expectedImageText = '<img src="' + input[3].content.url + '?width=' + settings.image.width + '&height=' + settings.image.height + '" alt="' + input[3].content.caption;
                 });
 
                 it('should use the image setting values', function () {
@@ -356,7 +356,7 @@ describe('mappingFunctions', function () {
                 before(function () {
                     input = [
                         ['food:Meal:Dessert'  ],
-                        'food:Dish type:Cake', 
+                        'food:Dish type:Cake',
                         ['food:Difficulty:Moderate']
                     ];
                 });

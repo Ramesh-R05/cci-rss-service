@@ -14,23 +14,30 @@ function renderParagraph(content) {
     return '';
 }
 
-function renderImage(content, attributes) {
+function renderImage(content, urlAttributes) {
     if (content && content.url) {
         let url = content.url;
 
-        if (attributes) {
+        if (urlAttributes) {
             let attList = [];
-            for (let i in attributes) {
-                if (attributes.hasOwnProperty(i)) {
-                    attList.push(i + '=' + attributes[i]);
+            for (let i in urlAttributes) {
+                if (urlAttributes.hasOwnProperty(i)) {
+                    attList.push(i + '=' + urlAttributes[i]);
                 }
             }
             url += '?' + attList.join('&');
         }
 
-        let caption = content.caption || '';
+        let htmlTag = '<img src="%s" alt="%s"';
 
-        let html = util.format('<img src="%s" alt="%s" />', url, unmarked(caption));
+        content.attributes && Object.keys(content.attributes).forEach((key) => {
+            htmlTag += ' ' + key + '="' + content.attributes[key] + '"';
+        });
+
+        htmlTag += ' />';
+
+        let caption = content.caption || '';
+        let html = util.format(htmlTag, url, unmarked(caption));
 
         if (caption) {
             html += renderParagraph(caption);

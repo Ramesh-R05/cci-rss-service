@@ -111,6 +111,16 @@ export default {
                             content += '<h2>' + item.content + '</h2>';
                             break;
                         case 'image':
+                            // SyndicationRights is hard coded to 1 for now, unless we can work out
+                            // a good way to determine if this is a url that we own, or a third-party url.
+                            // Having the rights as 1 means that LicensorID & LicensorName fields are optional.
+                            const hasSyndicationRights = '1';
+                            item.content.attributes = {
+                                'data-portal-copyright': 'Provided by Bauer Media Pty Ltd',
+                                'data-has-syndication-rights': hasSyndicationRights
+                                // 'data-license-id': '',
+                                // 'data-licensor-name': ''
+                            };
                             content += markdownHelper.renderImage(item.content, imgSettings);
                             break;
                         case 'video':
