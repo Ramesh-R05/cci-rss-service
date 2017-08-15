@@ -8,7 +8,7 @@ module.exports = {
 
     rssItemSchema1: function() {
        return '<item><title><![CDATA[Smoke Test Article 85 Long Title]]></title><description><![CDATA[Smoke Test Article 85 Short Teaser]]>' +
-       '</description><link>http://cosmo-site-au.sit.bxm.net.au/sex/smoke-test-article-85-17649</link><guid isPermaLink="true">http://cosmo-site-au.sit.bxm.net.au/sex/smoke-test-article-85-17649</guid>' +
+       '</description><link>http://cosmo-site-au.sit.bxm.net.au/sex/smoke-test-article-85-1-17652</link><guid isPermaLink="true">http://cosmo-site-au.sit.bxm.net.au/sex/smoke-test-article-85-1-17652</guid>' +
        '<category><![CDATA[Sex]]></category><dc:creator><![CDATA[Cosmopolitain]]></dc:creator>',
        '<enclosure url="http://d3lp4xedbqa8a5.cloudfront.net/s3/digital-cougar-assets/whichcar/2016/04/28/-1/adjust-seat-height-driving-position.jpg?height=600" length="0" type="image/jpeg"/><content:encoded>' +
        '<![CDATA[<p>Smoke Test Article 85 Body Paragraph</p>\n<h2>Smoke Test Article 85 Body Heading</h2>]]></content:encoded>',
