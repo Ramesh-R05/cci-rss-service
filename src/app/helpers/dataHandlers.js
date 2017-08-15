@@ -1,4 +1,4 @@
-﻿import _ from 'underscore';
+import _ from 'underscore';
 
 function findDataSource(dataSources, dataKey) {
     const dataSource = _.find(dataSources, d => d.key === dataKey);

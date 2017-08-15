@@ -1,4 +1,4 @@
-﻿import mimeTypes from '../../config/mimeTypes';
+import mimeTypes from '../../config/mimeTypes';
 import stringHelper from './stringHelper';
 import path from 'path';
 

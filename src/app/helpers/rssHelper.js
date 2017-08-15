@@ -1,4 +1,4 @@
-﻿import solrHelper from './solrHelper';
+import solrHelper from './solrHelper';
 import mapper from './mappingHelper';
 import builder from '../builders/rssBuilder';
 import utils from '../utils';

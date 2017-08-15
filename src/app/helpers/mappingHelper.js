@@ -1,4 +1,4 @@
-﻿import utils from'../utils';
+import utils from'../utils';
 
 function mapValue(config, mapData, defaultValue) {
     if (typeof config === 'string') {

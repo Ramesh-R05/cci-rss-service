@@ -1,4 +1,4 @@
-﻿import { backendLogger as logger } from '@bxm/winston-logger';
+import { backendLogger as logger } from '@bxm/winston-logger';
 import configHelper from '../helpers/configHelper';
 import stringHelper from '../helpers/stringHelper';
 import rssHelper from '../helpers/rssHelper';

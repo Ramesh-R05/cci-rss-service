@@ -1,4 +1,4 @@
-﻿import mustache from 'mustache';
+import mustache from 'mustache';
 import config from 'config';
 
 let cache = {};

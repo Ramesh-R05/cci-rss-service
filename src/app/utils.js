@@ -1,4 +1,4 @@
-﻿import stringHelper from './helpers/stringHelper';
+import stringHelper from './helpers/stringHelper';
 import functions from './functions';
 
 function isFunction(obj) {

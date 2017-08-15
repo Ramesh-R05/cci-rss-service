@@ -1,4 +1,4 @@
-﻿import marked from 'marked';
+import marked from 'marked';
 import unmarked from 'remove-markdown';
 import util from 'util';
 
@@ -30,7 +30,7 @@ function renderImage(content, urlAttributes) {
 
         let htmlTag = '<img src="%s" alt="%s"';
 
-        content.attributes && Object.keys(content.attributes).forEach((key) => {
+        content.attributes && Object.keys(content.attributes).forEach(key => {
             htmlTag += ' ' + key + '="' + content.attributes[key] + '"';
         });
 

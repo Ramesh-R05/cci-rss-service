@@ -1,4 +1,4 @@
-﻿import striptags from 'striptags';
+import striptags from 'striptags';
 import unmarked from 'remove-markdown';
 
 function isEmpty(str) {
