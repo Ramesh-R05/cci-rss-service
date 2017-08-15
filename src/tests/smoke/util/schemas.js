@@ -6,29 +6,8 @@ module.exports = {
 
     },
 
-    rssItemSchema1: function() {
-       return '<item><title><![CDATA[Smoke Test Article 85 Long Title]]></title><description><![CDATA[Smoke Test Article 85 Short Teaser]]>' +
-       '</description><link>http://cosmo-site-au.sit.bxm.net.au/sex/smoke-test-article-85-1-17652</link><guid isPermaLink="true">http://cosmo-site-au.sit.bxm.net.au/sex/smoke-test-article-85-1-17652</guid>' +
-       '<category><![CDATA[Sex]]></category><dc:creator><![CDATA[Cosmopolitain]]></dc:creator>',
-       '<enclosure url="http://d3lp4xedbqa8a5.cloudfront.net/s3/digital-cougar-assets/whichcar/2016/04/28/-1/adjust-seat-height-driving-position.jpg?height=600" length="0" type="image/jpeg"/><content:encoded>' +
-       '<![CDATA[<p>Smoke Test Article 85 Body Paragraph</p>\n<h2>Smoke Test Article 85 Body Heading</h2>]]></content:encoded>',
-       '<mi:hasSyndicationRights>1</mi:hasSyndicationRights><mi:licensorName>BAUER MEDIA PTY LIMITED</mi:licensorName><media:content url="http://d3lp4xedbqa8a5.cloudfront.net/s3/digital-cougar-assets/whichcar/2016/04/28/-1/adjust-seat-height-driving-position.jpg?height=600" type="image/jpeg">' +
-       '<media:thumbnail url="http://d3lp4xedbqa8a5.cloudfront.net/s3/digital-cougar-assets/whichcar/2016/04/28/-1/adjust-seat-height-driving-position.jpg?height=600" type="image/jpeg"></media:thumbnail>' +
-       '<media:title>Smoke Test Article 85 Long Title</media:title><media:text>Smoke Test Article 85 Short Teaser</media:text><media:credit>Provided by Bauer Media Pty Ltd</media:credit></media:content></item><item><title><![CDATA[Smoke Test Article 83 Long Title]]></title><description>' +
-       '<![CDATA[Smoke Test Article 83 Short Teaser]]></description><link>http://cosmo-site-au.sit.bxm.net.au/sex/smoke-test-article-83-17647</link><guid isPermaLink="true">http://cosmo-site-au.sit.bxm.net.au/sex/smoke-test-article-83-17647</guid><category><![CDATA[Sex]]></category><dc:creator><![CDATA[Cosmopolitain]]>' +
-       '</dc:creator>',
-       '<enclosure url="http://d3lp4xedbqa8a5.cloudfront.net/s3/digital-cougar-assets/whichcar/2016/04/28/-1/adjust-seat-height-driving-position.jpg?height=600" length="0" type="image/jpeg"/><content:encoded>' +
-       '<![CDATA[<p>Smoke Test Article 83 Body Paragraph</p>\n<h2>Smoke Test Article 83 Body Heading</h2>]]></content:encoded>',
-       '<mi:hasSyndicationRights>1</mi:hasSyndicationRights><mi:licensorName>BAUER MEDIA PTY LIMITED</mi:licensorName>' +
-       '<media:content url="http://d3lp4xedbqa8a5.cloudfront.net/s3/digital-cougar-assets/whichcar/2016/04/28/-1/adjust-seat-height-driving-position.jpg?height=600" type="image/jpeg">' +
-       '<media:thumbnail url="http://d3lp4xedbqa8a5.cloudfront.net/s3/digital-cougar-assets/whichcar/2016/04/28/-1/adjust-seat-height-driving-position.jpg?height=600" type="image/jpeg"></media:thumbnail><media:title>Smoke Test Article 83 Long Title</media:title><media:text>Smoke Test Article 83 Short Teaser</media:text>' +
-       '<media:credit>Provided by Bauer Media Pty Ltd</media:credit></media:content></item><item><title><![CDATA[Lili Reinhart shares a HILAR throwback pic to when she found out she landed Betty Cooper\'s role]]></title><description><![CDATA[Lili Reinhart shares a funny throwback tweet to when she found out she was going to play Betty Cooper on \'Riverdale\'.]]>' +
-       '</description><link>http://cosmo-site-au.sit.bxm.net.au/celebrity/lili-reinhart-betty-cooper-throwback-17634</link><guid isPermaLink="true">http://cosmo-site-au.sit.bxm.net.au/celebrity/lili-reinhart-betty-cooper-throwback-17634</guid><category><![CDATA[Celebrity]]></category><dc:creator><![CDATA[Cosmopolitain]]></dc:creator>'
 
-    },
-
-
-    rssItemSchema2: function() {
+    rssItemSchema: function() {
         return '<img src="http://d3lp4xedbqa8a5.cloudfront.net/s3/digital-cougar-assets/cosmo/2017/08/07/1502080186695_lili-reinhart-dylan-sprouse-instagram1.png?width=800" alt="" data-portal-copyright="Provided by Bauer Media Pty Ltd" data-has-syndication-rights="1" />',
         '<mi:hasSyndicationRights>1</mi:hasSyndicationRights><mi:licensorName>BAUER MEDIA PTY LIMITED</mi:licensorName><media:content url="http://d3lp4xedbqa8a5.cloudfront.net/s3/digital-cougar-assets/cosmo/2017/08/07/23550/jughead-(1).jpg?height=600" type="image/jpeg"><media:thumbnail url="http://d3lp4xedbqa8a5.cloudfront.net/s3/digital-cougar-assets/cosmo/2017/08/07/23550/jughead-(1).jpg?height=600" type="image/jpeg">' +
         '</media:thumbnail><media:title>Lili Reinhart&apos;s birthday message to Cole Sprouse is giving us all the feels</media:title><media:text>Bughead ~forever~.</media:text><media:credit>Provided by Bauer Media Pty Ltd</media:credit></media:content></item><item><title><![CDATA[Jordyn Woods spills on being Kylie Jenner\'s bestie]]></title>'
@@ -47,12 +26,12 @@ module.exports = {
 
 
     rssTopSchema: function() {
-        return '><title><![CDATA[Cosmo homepage test title]]></title><description><![CDATA[Cosmo homepage test meta description]]>' +
-        '</description><link>http://dev.cosmo-site.bauer-media.net.au</link><generator>RSS for Node</generator>',
-        '<atom:link href="http://dev.rss.services.bauer-media.net.au/rss/cosmo/full-content" rel="self" type="application/rss+xml"/><copyright><![CDATA[2017 BAUER MEDIA PTY LIMITED]]></copyright><ttl>60</ttl>' +
-        '<item><title><![CDATA[Smoke Test Article 85 Long Title]]></title><description><![CDATA[Smoke Test Article 85 Short Teaser]]></description>' +
-        '<link>http://cosmo-site-au.sit.bxm.net.au/sex/smoke-test-article-85-17649</link><guid isPermaLink="true">http://cosmo-site-au.sit.bxm.net.au/sex/smoke-test-article-85-17649</guid>' +
-        '<category><![CDATA[Sex]]></category><dc:creator><![CDATA[Cosmopolitain]]></dc:creator>'
+        return '<title><![CDATA[Cosmo homepage test title]]></title><description><![CDATA[Cosmo homepage test meta description]]></description><link>http://dev.cosmo-site.bauer-media.net.au</link>' +
+        '<generator>RSS for Node</generator>',
+        '<atom:link href="http://dev.rss.services.bauer-media.net.au/rss/cosmo/full-content" rel="self" type="application/rss+xml"/>' +
+        '<copyright><![CDATA[2017 BAUER MEDIA PTY LIMITED]]></copyright><ttl>60</ttl><item><title><![CDATA[Smoke Test Article 85 Long Title]]></title><description><![CDATA[Smoke Test Article 85 Short Teaser]]>' +
+        '</description><link>http://cosmo-site-au.sit.bxm.net.au/sex/smoke-test-article-85-1-17652</link><guid isPermaLink="true">http://cosmo-site-au.sit.bxm.net.au/sex/smoke-test-article-85-1-17652</guid><category>' +
+        '<![CDATA[Sex]]></category><dc:creator><![CDATA[Cosmopolitain]]></dc:creator>'
     },
 
 
