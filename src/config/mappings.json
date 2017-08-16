@@ -93,6 +93,15 @@
       },
       "custom_elements": {
         "mapObjectArray": {
+          "mi:dateTimeWritten": {
+            "map": [ "pageDateCreated_dt" ]
+          },
+          "mi:hasSyndicationRights": {
+            "value": "1"
+          },
+          "mi:licensorName": {
+            "value": "BAUER MEDIA PTY LIMITED"
+          },
           "media:content": {
             "mapObjectArray": {
               "_attr":{
@@ -148,18 +157,6 @@
                   "fn": "mapMediaCredit",
                   "params": [ "@contentPhotoCredit_t", "Provided by Bauer Media Pty Ltd" ]
                 }
-              },
-              "mi:dateTimeWritten": {
-                "map": [ "pageDateCreated_dt" ]
-              },
-              "mi:hasSyndicationRights": {
-                "value": "1"
-              },
-              "mi:licenseId": {
-                "value": "698525"
-              },
-              "mi:licensorName": {
-                "value": "BAUER MEDIA PTY LIMITED"
               }
             }
           }
@@ -358,18 +355,6 @@
                   "fn": "mapMediaCredit",
                   "params": [ "@contentPhotoCredit_t", "Provided by Bauer Media Pty Ltd" ]
                 }
-              },
-              "mi:dateTimeWritten": {
-                "map": [ "pageDateCreated_dt" ]
-              },
-              "mi:hasSyndicationRights": {
-                "value": "1"
-              },
-              "mi:licenseId": {
-                "value": "698525"
-              },
-              "mi:licensorName": {
-                "value": "BAUER MEDIA PTY LIMITED"
               }
             }
           }

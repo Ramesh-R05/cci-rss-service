@@ -1,12 +1,12 @@
-#RSS Service
+# RSS Service
 
-##Introduction
+## Introduction
 
 The RSS Service generates RSS feeds for our Solr based websites.
 
 The following feeds are currently supported:
 
-###Shortend Teaser
+### Shortend Teaser
 
 ```
 /rss/{site}
@@ -14,7 +14,7 @@ The following feeds are currently supported:
 
 A simple feed of the most recent content.  Returns the content title, url, description and image only.
 
-###Full Content
+### Full Content
 
 ```
 /rss/{site}/full-content
@@ -22,7 +22,7 @@ A simple feed of the most recent content.  Returns the content title, url, descr
 
 The most recent articles with full content body included for each feed item.
 
-###Sponsored Content
+### Sponsored Content
 
 ```
 /rss/{site}/sponsored
@@ -30,7 +30,7 @@ The most recent articles with full content body included for each feed item.
 
 Returns content that has a campaign assigned to it. Includes all content details from the shortened teaser feed with additional campaign specific data.
 
-###Recipes
+### Recipes
 
 ```
 /rss/{site}/recipes
@@ -38,7 +38,7 @@ Returns content that has a campaign assigned to it. Includes all content details
 
 A simple feed of the most recent recipes. Returns the content title, url, description, image and recipe tags only.
 
-###Recipes - Full Content
+### Recipes - Full Content
 
 ```
 /rss/{site}/recipes/full-content
@@ -48,7 +48,7 @@ The most recent recipes with full content details included for each feed item.
 
 **Note:** In the RSS feed paths above ```{site}``` should be replaced with the website's Solr core prefix (e.g. aww, food, wd).
 
-##Running the app
+## Running the app
 
 Install the necessary dependencies:
 
@@ -76,7 +76,7 @@ set PORT=8002 && npm start
 ```
 
 
-##Running tests
+## Running tests
 
 Install the necessary dependencies:
 
@@ -93,11 +93,11 @@ npm test
 This will also generate a code coverage report in the /coverage directory.
 
 
-##Configuring RSS Feeds
+## Configuring RSS Feeds
 
 There are five main configuration files used by the RSS service.
 
-###Solr.json
+### Solr.json
 
 Contains basic Solr settings for the service.
 
@@ -115,7 +115,7 @@ When viewing the feed at: /rss/**aww**/sponsored.
 
 The value of core will be set to: **aww-search**.
 
-###Queries.json
+### Queries.json
 
 Defines the different Solr queries used by the service.
 
@@ -150,9 +150,9 @@ In the code above the default feed items query can be accessed by key ```item.de
 ```
 
 
-###Mappings.json
+### Mappings.json
 
-Contains all mapping configurations for the RSS feeds.  These are used to map Solr field values (or other values) to the specific properties required to generate an RSS reed.  
+Contains all mapping configurations for the RSS feeds.  These are used to map Solr field values (or other values) to the specific properties required to generate an RSS reed.
 
 Consider the mapping configurations below:
 
@@ -202,13 +202,13 @@ Consider the mapping configurations below:
 
     }
   },
-  
+
  }
 ```
 
 This is an example of the mapping configurations that can be used to set the required properties for the channel element of the RSS feed.  There are two mapping groups defined above: ```channel.default``` and ```channel.sponsored```.
 
-```channel.default``` sets the following properties: 
+```channel.default``` sets the following properties:
 
 1. ```title```
 2. ```feed_url```
@@ -226,21 +226,21 @@ For each property to be mapped a configuration object must be specified.  Valid 
 1. ```map```: (mapping directive) Will map to a single value. This is the most common type of mapping directive.  The value of this property can be one of the following:
 
 	- A single Solr field name.
-	
+
 		```
 		"map": "siteUrl_t"
 		```
-	
+
 	- An array of Solr field names.
-	
+
 		```
 		"map": [ "pageTitle_t", "contentTitle_t" ]
 		```
-	
+
 	The actual value mapped will be the first non-empty Solr field value from the array.  You can use this approach to provide fallback mapping properties if there is a chance that the preferred one may be empty.
-	
+
 	- A mapping function configuration object.
-	
+
 		```
 		"map": {
 			"fn": "mapFeedUrl",
@@ -251,7 +251,7 @@ For each property to be mapped a configuration object must be specified.  Valid 
 2. ```mapArray```: (mapping directive) Will map to an array of values.  This must be an array containing any of the valid values for the ```map``` property.
 
 	Example:
-	
+
 	```
 	"mapArray": [
 		"siteUrl_t",
@@ -261,12 +261,12 @@ For each property to be mapped a configuration object must be specified.  Valid 
 		}
 	]
 	```
-	
-	
+
+
 3. ```mapObject```: (mapping directive) Will map to an object.  For each property in the object a valid mapping configuration object must be specified.
 
 	Example:
-	
+
 	```
 	"mapObject": {
 		"url": {
@@ -280,23 +280,23 @@ For each property to be mapped a configuration object must be specified.  Valid 
 		}
 	}
 	```
-	
+
 	Assuming that the value of "contentImageUrl_t" is "http://www.example.com/some-image.jpg" the value returned by the configuration above would be:
-	
+
 	```
 	{
 		"url": "http://www.example.com/some-image.jpg",
 		"type": "image/jpeg"
 	}
 	```
-	
+
 	Note: The "mapMimeType" mapping function takes an asset url as a parameter and returns the mime type.
-	
+
 
 4. ```mapObjectArray```: (mapping directive) Will map to an array of objects.  For each property in the object a valid mapping configuration object must be specified.
 
 	Example:
-	
+
 	```
 	"exampleProperty": {
 		"mapObjectArray": {
@@ -311,7 +311,7 @@ For each property to be mapped a configuration object must be specified.  Valid 
 	```
 
 	Given the mapping configuration above and assuming that the values for "solrField1" and "solrField2" are "1234" and "abcd" respectively, the value mapped to property "exampleProperty" will be:
-	
+
 	```
 	[
 		{ "objProp1": "1234" },
@@ -322,7 +322,7 @@ For each property to be mapped a configuration object must be specified.  Valid 
 5. ```afterMap```:  An array of functions to execute against the result of a mapped value.
 
 	Example:
-	
+
 	```
 	"url": {
 		"map": "contentImageUrl_t",
@@ -334,43 +334,46 @@ For each property to be mapped a configuration object must be specified.  Valid 
 		]
 	}
 	```
-	
+
 	Note: The actual mapped value will be passed as the last parameter of the after map function.
-	
+
 
 6. ```value```: Used to set the value of a property explicitly.
 
 	For example:
-	
+
 	```
 	"ttl": {
 		"value": 60
 	}
 	```
-	
+
 	If ```value``` is set any mapping directive for a property will be ignored.  So in the following example if the value of "contentImageUrl_t" is "http://www.example.com/some-image.jpg", the actual value set for property ```url``` will be "http://www.example.com/another-image.jpg".
-	
+
 	```
 	"url": {
 		"map": "contentImageUrl_t",
 		"value": "http://www.example.com/another-image.jpg"
 	}
 	```
-	
+
 Note: Only one mapping directive setting may be specified in a mapping configuration object.
 
-####Adding a new data item
+#### Adding a new data item
 
 1. Add the required item to the mappings.json config as specified above.
 
 eg. For a date field:
 
+```
 "updatedDate": {
   "map": [ "nodeDateIndexed_dt" ]
 }
+```
 
 OR for a text field:
 
+```
 "author": {
   "map": [ "articleSource_t" ],
   "afterMap": [
@@ -379,26 +382,27 @@ OR for a text field:
     }
   ]
 }
+```
 
 2. Add the new property to the RSS function and generateXML function in the rss-builder repo located here:
 
 https://github.com/bauerxcelmedia/rss-builder/blob/master/lib/index.js
 
-####Mapping functions
+#### Mapping functions
 
-Any mapping functions you wish to use must be exposed via ```/lib/helpers/mappingFunctions.js```.  
+Any mapping functions you wish to use must be exposed via ```/lib/helpers/mappingFunctions.js```.
 
 When configuring mapping function parameters be aware that a string beginning with "@" signifies a property value not a character string.  The value of that parameter will be resolved from the mapping data prior to the execution of the mapping function.
 
 
-###Routes.json
+### Routes.json
 
-Used for RSS feed route configuration.  There will be one entry for each unique feed in the service. 
+Used for RSS feed route configuration.  There will be one entry for each unique feed in the service.
 
 Each entry contains the following settings:
 
 1. ```path```: The route path for the feed.  Paths are relative to ```/rss/{site}/```, meaning that a feed in the routes configuration is available for all sites.
-2. ```data```: An array of data set configuration items for the RSS feed.  
+2. ```data```: An array of data set configuration items for the RSS feed.
 3. ```onDataReceived```: (optional) An array of data handler functions to execute after all feed data has be received.  This allows for any sanitation or modification of the data before the mapping process occurs.  Data handler functions should be exposed via ```/lib/helpers/dataHandlers.js```.  The feed data will be passed as a parameter to your data handler function after any custom parameters defined in your handler function configuration.
 
 Data set configuration items contain the following settings:
@@ -435,13 +439,13 @@ Data set configuration items contain the following settings:
       }
     ]
   },
-  
+
  }
 ```
 
 The example above is the route configuration for the RSS feed at path ```/rss/{site}/```.  It will perform Solr queries to retrieve, ```channel```, ```items``` and ```sections``` data. When all data is recieved it will run the ```onSectionsDataReceived``` handler function to add section information to each result from the ```items``` query.
 
-###Sites.json
+### Sites.json
 
 Used to provide any site specific overrides or extensions for any of the service configuration settings.
 
@@ -475,9 +479,9 @@ The example below will override the ```solr.host``` configuration value for Food
 }
 ```
 
-###Environment overrides
+### Environment overrides
 
-Environment specific configuration files can be used to override any of the service configuration settings.  
+Environment specific configuration files can be used to override any of the service configuration settings.
 
 These files are named using the format: ```{environment}.json```, where ```{environment}``` is the value of the ```$NODE_ENV``` environment variable.
 
