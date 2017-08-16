@@ -25,13 +25,12 @@ module.exports = {
 
 
 
-    rssTopSchema: function() {
-        return '<title><![CDATA[Cosmo homepage test title]]></title><description><![CDATA[Cosmo homepage test meta description]]></description><link>http://dev.cosmo-site.bauer-media.net.au</link>' +
-        '<generator>RSS for Node</generator>',
-        '<atom:link href="http://dev.rss.services.bauer-media.net.au/rss/cosmo/full-content" rel="self" type="application/rss+xml"/>' +
-        '<copyright><![CDATA[2017 BAUER MEDIA PTY LIMITED]]></copyright><ttl>60</ttl><item><title><![CDATA[Smoke Test Article 85 Long Title]]></title><description><![CDATA[Smoke Test Article 85 Short Teaser]]>' +
-        '</description><link>http://cosmo-site-au.sit.bxm.net.au/sex/smoke-test-article-85-1-17652</link><guid isPermaLink="true">http://cosmo-site-au.sit.bxm.net.au/sex/smoke-test-article-85-1-17652</guid><category>' +
-        '<![CDATA[Sex]]></category><dc:creator><![CDATA[Cosmopolitain]]></dc:creator>'
+    rssBodySchema: function() {
+        return '<img src="http://d3lp4xedbqa8a5.cloudfront.net/s3/digital-cougar-assets/cosmo/2017/08/07/1502080186695_lili-reinhart-dylan-sprouse-instagram1.png?width=800" ' +
+        'alt="" data-portal-copyright="Provided by Bauer Media Pty Ltd" data-has-syndication-rights="1" /></div>',
+        '<mi:dateTimeWritten>2017-08-07T04:22:33Z</mi:dateTimeWritten>',
+        '<mi:hasSyndicationRights>1</mi:hasSyndicationRights>',
+        '<mi:licensorName>BAUER MEDIA PTY LIMITED</mi:licensorName>'
     },
 
 

@@ -25,7 +25,7 @@ describe('Smoke test of rss service', function() {
                 const result = res.text;
                 assert.include(result, schemas.rssHeaderSchema());
                 assert.include(result, schemas.rssItemSchema());
-                assert.include(result, schemas.rssTopSchema());
+                assert.include(result, schemas.rssBodySchema());
             })
             .end(done);
     });
