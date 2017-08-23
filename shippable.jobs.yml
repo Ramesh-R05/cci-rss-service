@@ -1,4 +1,4 @@
-# This jobs are only used for RSS SErvice
+# This jobs are only used for RSS service
 
 ####################################################################
 # Refer to http://docs.shippable.com/reference/jobs-overview/      #
@@ -8,112 +8,111 @@
 
 jobs:
 
-  # 1. Sync pipeline to CI
+  #1
   - name: rss-service_runCI
     type: runCI
     steps:
-      - OUT: rss-service-img-master
-      - OUT: rss-service-img-branch
+      - OUT: rss-service-master-docker-registry
+      - OUT: rss-service-branch-docker-registry
 
-  # 2branch. Manifest for a BRANCH image
-  - name: rss-service-man-branch
+  #2BRANCH
+  - name: rss-service-manifest-branch
     type: manifest
     steps:
-      - IN: rss-service-img-branch
-      - IN: rss-service-opts-sit
+      - IN: rss-service-branch-docker-registry
+      - IN: rss-service-docker-opts
       - TASK: managed
     flags:
       - rss-service
 
-  # 3Branch. SIT deployment for feature BRANCH
+  #3BRANCH
   - name: rss-service-sit-deploy-branch
     type: deploy
     always:
       - NOTIFY: rss-slack-notifications
     steps:
-      - IN: rss-service-man-branch # for non-master, don't auto deploy.
+      - IN: rss-service-manifest-branch # for non-master, don't auto deploy.
         switch: off
-      - IN: rss-service-env-sit-ecs
-      - IN: rss-service-params-sit
-      - IN: rss-service-alb-sit-branch
+      - IN: rss-service-sit-ecs
+      - IN: rss-service-sit-params
+      - IN: rss-service-sit-alb-branch
         applyTo:
-          - manifest: rss-service-man-branch
-            image: rss-service-img-branch
+          - manifest: rss-service-manifest-branch
+            image: rss-service-branch-docker-registry
             port: 3000
       - TASK: managed
-        deployMethod: upgrade
+        deployMethod: replace
 
-  # 2. Manifest for MASTER image
-  - name: rss-service-man-master
+
+  #2
+  - name: rss-service-manifest-master
     type: manifest
     steps:
-      - IN: rss-service-img-master
-      - IN: rss-service-opts-sit
+      - IN: rss-service-master-docker-registry
+      - IN: rss-service-docker-opts
       - TASK: managed
 
-  # 3. SIT deployment for MASTER
+  #3
   - name: rss-service-sit-deploy-master
     type: deploy
     always:
       - NOTIFY: rss-slack-notifications
     steps:
-      - IN: rss-service-man-master # for master - auto deploy to SIT
+      - IN: rss-service-manifest-master # for master - auto deploy to SIT
         switch: on
-      - IN: rss-service-env-sit-ecs
-      - IN: rss-service-params-sit
-      - IN: rss-service-alb-sit
+      - IN: rss-service-sit-ecs
+      - IN: rss-service-sit-params
+      - IN: rss-service-sit-alb
         applyTo:
-          - manifest: rss-service-man-master
-            image: rss-service-img-master
+          - manifest: rss-service-manifest-master
+            image: rss-service-master-docker-registry
             port: 3000
       - TASK: managed
         deployMethod: replace
 
-  # 4. Run smoke test on SIT environment
-  - name: rsss-validation
+  #4
+  - name: rss-service-smoketest
     type: runSh
     always:
       - NOTIFY: rss-slack-notifications
     steps:
-     - IN: rss-service-sit-deploy-master
-     - IN: rss-repo
-       switch: off
-     - TASK:
-       - script: curl http://services.sit.bxm.internal/rss/
-       - script: curl https://raw.githubusercontent.com/creationix/nvm/v0.32.1/install.sh | bash
-       - script: source ~/.nvm/nvm.sh
-       - script: cd ./IN/rss-repo/gitRepo/src
-       - script: nvm install
-       - script: npm set @bxm:registry http://npm.digital.bauer-media.net.au
-       - script: npm set registry https://registry.npmjs.org
-       - script: npm install
-       - script: npm run test:smoke
+    - IN: rss-service-sit-deploy-master
+    - IN: rss-service-repo
+    - TASK:
+      - script: curl https://raw.githubusercontent.com/creationix/nvm/v0.32.1/install.sh | bash
+      - script: source ~/.nvm/nvm.sh
+      - script: nvm install "5.5.0"
+      - script: nvm use "5.5.0"
+      - script: cd ./IN/rss-service-repo/gitRepo/src
+      - script: npm set registry http://npm.digital.bauer-media.net.au
+      - script: npm install
+      - script: URL=http://services.sit.bxm.internal/rss/ npm run test:smoke
 
-  # 5. Package release for production release
-  - name: rss-service-release-master
+  #5 PROD
+  - name: rss-service-package-master
     type: release
     steps:
-      - IN: rss-service-man-master
+      - IN: rss-service-manifest-master
         switch: off
-      - IN: rsss-validation
+      - IN: rss-service-smoketest
       - IN: rss-service-version
       - TASK: managed
         bump: minor
 
-  # 6. PROD deployment for MASTER with Region AU
+  #6 PROD
   - name: rss-service-prod-deploy-master
     type: deploy
     always:
       - NOTIFY: rss-slack-notifications
     steps:
-      - IN: rss-service-release-master
+      - IN: rss-service-package-master
         switch: off
       - IN: rss-service-env-prod-ecs
-      - IN: rss-service-params-prod
+      - IN: rss-service-prod-alb
       - IN: rss-service-alb-prod
         applyTo:
-        - manifest: rss-service-man-master
-          image: rss-service-img-master
+        - manifest: rss-service-manifest-master
+          image: rss-service-master-docker-registry
           port: 3000
       - TASK: managed
         deployMethod: upgrade
