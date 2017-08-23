@@ -1,5 +1,9 @@
 # RSS Service
 
+[![Run Status](https://api.shippable.com/projects/583638c07ae6830f00c42dfc/badge?branch=master)](https://app.shippable.com/github/bauerxcelmedia/rss-service)
+
+[![Coverage Badge](https://api.shippable.com/projects/583638c07ae6830f00c42dfc/coverageBadge?branch=master)](https://app.shippable.com/github/bauerxcelmedia/rss-service)
+
 ## Introduction
 
 The RSS Service generates RSS feeds for our Solr based websites.
