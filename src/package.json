@@ -53,6 +53,7 @@
     "proxyquire": "^1.4.0",
     "sinon": "^1.13.0",
     "sinon-chai": "^2.7.0",
-    "supertest": "^1.1.0"
+    "supertest": "^1.1.0",
+    "nconf": "^0.8.4"
   }
 }

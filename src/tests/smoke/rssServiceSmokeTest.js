@@ -1,9 +1,14 @@
 //HACK: supertest doesn't support ES6 yet
+var nconf = require('nconf');
+nconf.argv().env();
+var baseUrl = nconf.get('URL');
 var request = require('supertest');
-const app = "http://dev.rss.services.bauer-media.net.au";
 const assert = require('chai').assert;
 var schemas  = require("./util/schemas.js")
 
+const app = baseUrl;
+
+console.log('running on url :: ' + baseUrl);
 
 describe('Smoke test of rss service', function() {
     this.retries(4);
