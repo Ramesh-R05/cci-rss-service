@@ -34,24 +34,4 @@ module.exports = {
     },
 
 
-    rssParItemSchema: function() {
-        return '><item><title><![CDATA[Kev test short title]]></title><description><![CDATA[Kev test short teaser]]></descrip' +
-        'tion><link>http://cosmo-site-au.sit.bxm.net.au/fashion/kev-test-17593</link><guid isPermaLink="true">http://cosmo-site-au.sit.bxm.net.au/fashion/kev-test-17593</guid><category><![CDATA[Fashion]]></category><dc:creator><![CDATA[Emily Kerr]]></dc:creator>',
-        '<enclosure url="http://dev.assets.cougar.bauer-media.net.au/s3/digital-cougar-assets-dev/Dolly/2017/06/21/17593/Mid-century-style.jpg?height=600" length="0" type="image/jpeg"/></item>',
-        '<img src="http://d3lp4xedbqa8a5.cloudfront.net/s3/digital-cougar-assets/cosmo/2017/08/07/1502069687604_kylietrav.jpg?width=800" alt="" data-portal-copyright="Provided by Bauer Media Pty Ltd" data-has-syndication-rights="1" /></div><p>&quot;I become an extended leg of their relationship,” she told <strong>Erin Lim.</strong>',
-        '<item><title><![CDATA[Joe Test Article]]></title><description><![CDATA[Joe Test Article]]></description><link>http://cosmo-site-au.sit.bxm.net.au/fashion/joe-test-article-17585</link><guid isPermaLink="true">http://cosmo-site-au.sit.bxm.net.au/fashion/joe-te' +
-        'st-article-17585</guid><category><![CDATA[Fashion]]></category><dc:creator><![CDATA[Cosmopolitain]]></dc:creator><pubDate>2017-04-05T12:50:18Z</pubDate><dc:modified>2017-06-22T11:18:44.18Z</dc:modified><enclosure url="http://dev.assets.cougar.bauer-media.net.au' +
-        '/s3/digital-cougar-assets-dev/Dolly/2017/04/05/17585/image2.JPG?height=600" length="0" type="false"/></item>',
-        '<item><title><![CDATA[Emma Stone looked like a glittery ~*GoDdEsS*~ at the Venice 73rd Film Festival]]></title><description><![CDATA[Emma Stone looked li' +
-        'ke a glittery ~GoDdEsS~ at the Venice 73rd Film Festival]]></description><link>http://dev.cosmo-site.bauer-media.net.au/fashion/emma-stone-73-venice-film-festival-16088</link><guid isPermaLink="true">http://dev.cosmo-site.bauer-media.net.au/fashion/emma-stone-7' +
-        '3-venice-film-festival-16088</guid><category><![CDATA[Fashion]]></category><dc:creator><![CDATA[Cosmopolitain]]></dc:creator>',
-        '<enclosure url="http://d3lp4xedbqa8a5.cloudfron' +
-        't.net/s3/digital-cougar-assets/Cosmo/2016/09/01/88154/emma-hs.jpg?height=600" length="0" type="image/jpeg"/></item><item><title><![CDATA[46 times Kim \'s style had our heads spinning]]></title><description><![CDATA[Kim Kardashian has had some major fas' +
-        'hion moments both on and off the red carpet.]]></description><link>http://dev.cosmo-site.bauer-media.net.au/fashion/kim-kardashian-style-16085</link><guid isPermaLink="true">http://dev.cosmo-site.bauer-media.net.au/fashion/kim-kardashian-style-16085</guid><cate' +
-        'gory><![CDATA[Fashion]]></category><dc:creator><![CDATA[Cosmopolitain]]></dc:creator>',
-        '<enclosure url="http://d3lp4xedbqa8a5.cloudfront.net/s3/digital-cougar-assets/Cosmo/201' +
-        '6/05/24/79503/HOLDING.jpg?height=600" length="0" type="image/jpeg"/>'
-
-    }
-
 };

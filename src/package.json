@@ -13,7 +13,7 @@
     "test:ci": "npm run test -- --reporter=xunit --reporter-options output=./../shippable/testresults/result.xml",
     "lint": "node ./node_modules/eslint/bin/eslint.js --ext .js app/",
     "build": "npm run lint",
-    "test:smoke": "node ./node_modules/mocha/bin/_mocha tests/smoke/*.js",
+    "test:smoke": "mocha --ui bdd --compilers js:babel/register --require tests/setup.js smoke_test/ --recursive",
     "test:cd": "node ./node_modules/mocha/bin/_mocha -t 10000 --ui bdd --compilers js:babel/register tests/setup.js tests/smoke/ --reporter xunit --reporter-options output=./reports/TEST-smokeResults.xml",
     "prepush": "npm run lint && npm run test"
   },
