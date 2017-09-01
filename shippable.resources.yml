@@ -103,7 +103,7 @@ resources:
       sourceName : "services_ecs"
       region: "ap-southeast-2"
 
-  - name: rss-service-prod-alb-fix
+  - name: rss-service-prod-alb
     type: loadBalancer
     pointer:
       sourceName: "arn:aws:elasticloadbalancing:ap-southeast-2:622156575630:targetgroup/rss-service-prod/9bf53a0c221d6556"
