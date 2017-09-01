@@ -96,20 +96,20 @@ resources:
   # PROD environment configuration
   ####################################
 
-  - name: rss-service-env-prod-ecs
+  - name: rss-service-prod-ecs
     type: cluster
     integration: AWS-digital-prod
     pointer:
       sourceName : "services_ecs"
       region: "ap-southeast-2"
 
-  - name: rss-service-alb-prod
+  - name: rss-service-prod-alb-fix
     type: loadBalancer
     pointer:
       sourceName: "arn:aws:elasticloadbalancing:ap-southeast-2:622156575630:targetgroup/rss-service-prod/9bf53a0c221d6556"
       method: application
 
-  - name: rss-service-prod-alb
+  - name: rss-service-prod-params
     type: params
     version:
       params:

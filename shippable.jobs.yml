@@ -108,9 +108,9 @@ jobs:
     steps:
       - IN: rss-service-package-master
         switch: off
-      - IN: rss-service-env-prod-ecs
-      - IN: rss-service-prod-alb
-      - IN: rss-service-alb-prod
+      - IN: rss-service-prod-ecs
+      - IN: rss-service-prod-params
+      - IN: rss-service-prod-alb-fix
         applyTo:
         - manifest: rss-service-manifest-master
           image: rss-service-master-docker-registry
