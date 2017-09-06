@@ -87,7 +87,7 @@ jobs:
       - script: cd ./IN/rss-service-repo/gitRepo/src
       - script: npm set registry http://npm.digital.bauer-media.net.au
       - script: npm install
-      - script: URL=http://services.sit.bxm.internal/rss/ npm run test:smoke
+      - script: URL=http://rss-service.sit.bxm.net.au npm run test:smoke
 
   #5 PROD
   - name: rss-service-package-master
