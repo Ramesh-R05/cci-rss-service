@@ -1,5 +1,5 @@
 {
   "solr": {
-    "host": "solr01.digital.live.local"
+    "host": "solr-prod.bauer-media.internal"
   }
 }

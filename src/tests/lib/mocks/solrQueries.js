@@ -50,7 +50,7 @@ var emptySolrResponse = {
 
 var mock = function (site, solrHost) {
 
-    var host = 'http://' + (solrHost ? solrHost : 'solr01.digital.dev.local');
+    var host = 'http://' + (solrHost ? solrHost : 'solr-dev.bauer-media.internal');
 
     //queries.channel.default
     nock(host)

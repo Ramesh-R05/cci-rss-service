@@ -107,7 +107,7 @@ Contains basic Solr settings for the service.
 
 ```json
 {
-  "host": "solr01.digital.dev.local",
+  "host": "solr-dev.bauer-media.internal",
   "port": 80,
   "path": "/solr",
   "core": "{{site}}-search"
@@ -495,7 +495,7 @@ Environment overrides get applied before any site specific environment configura
 ```json
 {
   "solr": {
-    "host": "solr01.digital.live.local"
+    "host": "solr-prod.bauer-media.internal"
   }
 }
 ```

@@ -1,5 +1,5 @@
 ﻿{
-  "host": "solr01.digital.dev.local",
+  "host": "solr-dev.bauer-media.internal",
   "port": 80,
   "path": "/solr",
   "core": "{{site}}-search"

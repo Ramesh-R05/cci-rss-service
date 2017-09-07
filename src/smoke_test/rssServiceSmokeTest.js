@@ -4,7 +4,7 @@ nconf.argv().env();
 var baseUrl = nconf.get('URL');
 var request = require('supertest');
 const assert = require('chai').assert;
-var schemas  = require("./util/schemas.js")
+var schemas  = require("./util/schemas.js");
 
 const app = baseUrl;
 
