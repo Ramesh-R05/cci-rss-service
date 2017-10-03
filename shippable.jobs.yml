@@ -88,6 +88,8 @@ jobs:
       - script: npm set registry http://npm.digital.bauer-media.net.au
       - script: npm install
       - script: URL=http://rss-service.sit.bxm.net.au npm run test:smoke
+    on_failure:
+      - NOTIFY: rss-service-deployment-notifications
 
   #5 PROD
   - name: rss-service-package-master

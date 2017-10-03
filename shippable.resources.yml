@@ -29,12 +29,21 @@ resources:
       sourceName: bauerxcelmedia/rss-service
       branch: master
 
+  # Slack connection
   - name: rss-slack-notifications
     type: notification                          #required
     integration: slack-bauerxcelmedia
     pointer:
       recipients:
         - "#au-shippable"
+        
+  # Slack connection
+  - name: rss-service-deployment-notifications
+    type: notification                          #required
+    integration: slack-bauerxcelmedia
+    pointer:
+      recipients:
+        - "#survivors_outlast_au"
 
   - name: rss-service-master-docker-registry
     type: image
