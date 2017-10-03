@@ -22,8 +22,6 @@ jobs:
       - IN: rss-service-branch-docker-registry
       - IN: rss-service-docker-opts
       - TASK: managed
-    flags:
-      - rss-service
 
   #3BRANCH
   - name: rss-service-sit-deploy-branch
