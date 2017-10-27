@@ -47,7 +47,6 @@ resources:
 
   - name: rss-service-master-docker-registry
     type: image
-    integration: AWS-digital-services-ECR
     pointer:
       sourceName: "317367993082.dkr.ecr.ap-southeast-2.amazonaws.com/rss-service"
     seed:
@@ -55,7 +54,6 @@ resources:
 
   - name: rss-service-branch-docker-registry
     type: image
-    integration: AWS-digital-services-ECR
     pointer:
       sourceName: "317367993082.dkr.ecr.ap-southeast-2.amazonaws.com/rss-service"
     seed:
@@ -75,7 +73,7 @@ resources:
 
   - name: rss-service-sit-ecs
     type: cluster
-    integration: AWS-digital-nonprod
+    integration: digital-nonprod-AWS
     pointer:
       sourceName : "app_ecs"
       region: "ap-southeast-2"
