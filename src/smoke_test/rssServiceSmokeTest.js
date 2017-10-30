@@ -2,6 +2,7 @@
 var nconf = require('nconf');
 nconf.argv().env();
 var baseUrl = nconf.get('URL');
+var parser = require('xml2json');
 var request = require('supertest');
 const assert = require('chai').assert;
 var schemas  = require("./util/schemas.js");
@@ -29,8 +30,12 @@ describe('Smoke test of rss service', function() {
             .expect(function(res) {
                 const result = res.text;
                 assert.include(result, schemas.rssHeaderSchema());
-                assert.include(result, schemas.rssItemSchema());
-                assert.include(result, schemas.rssBodySchema());
+                const data = JSON.parse(parser.toJson(res.text));
+                expect(data.rss["channel"].ttl > 1).to.eq(true); //To ensure more than one item is in the feed
+                expect(data.rss["channel"]["item"][0]["title"] == "").to.eq(false); // To ensure the title of a feed item is not empty
+                expect(data.rss["channel"]["item"][2]["dc:creator"] == "").to.eq(false); // To ensure the creator name is not empty
+                expect(typeof(data.rss["channel"]["item"][0]["content:encoded"]) === "undefined").to.eq(false); // To ensure the content:encoded of a feed item is defined
+                expect(data.rss["channel"]["item"][0]["content:encoded"] == "").to.eq(false); // To ensure the content:encoded of a feed item is not empty
             })
             .end(done);
     });
@@ -41,7 +46,8 @@ describe('Smoke test of rss service', function() {
             .expect(function(res) {
                 const result = res.text;
                 assert.include(result, schemas.rssHeaderSchema());
-                //assert.include(result, schemas.rssParItemSchema());
+                const data = JSON.parse(parser.toJson(res.text));
+                expect(typeof(data.rss["channel"]["item"][0]["content:encoded"]) === "undefined").to.eq(true); // To ensure the content:encoded of a feed item is not defined
             })
             .end(done);
     });
