@@ -105,6 +105,7 @@ jobs:
     type: deploy
     always:
       - NOTIFY: rss-slack-notifications
+      - NOTIFY: rss-service-deployment-notifications
     steps:
       - IN: rss-service-package-master
         switch: off
