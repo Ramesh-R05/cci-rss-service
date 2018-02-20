@@ -102,12 +102,12 @@ resources:
   # PROD environment configuration
   ####################################
 
-  - name: rss-service-prod-ecs
-    type: cluster
-    integration: AWS-digital-prod
-    pointer:
-      sourceName : "app_ecs"
-      region: "ap-southeast-2"
+#  - name: rss-service-prod-ecs
+#    type: cluster
+#    integration: AWS-digital-prod
+#    pointer:
+#      sourceName : "app_ecs"
+#      region: "ap-southeast-2"
 
   - name: rss-service-prod-alb
     type: loadBalancer
