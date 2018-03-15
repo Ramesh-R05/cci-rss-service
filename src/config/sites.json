@@ -80,7 +80,7 @@
         }
       }
     },
-    "enableFilterWithSourceName": "now to love" 
+    "enableFilterWithSourceName": "now to love"
   },
 
   "nznow": {
@@ -105,6 +105,16 @@
   },
 
   "hb": {
+    "queries": {
+      "item": {
+        "default": {
+          "fq": "nodeTypeAlias_t:(Article OR Gallery)"
+        }
+      }
+    }
+  },
+
+  "gt": {
     "queries": {
       "item": {
         "default": {
