@@ -93,7 +93,6 @@ jobs:
                 echo -e "\n ### Yarn Version : $(yarn --version)"
                 echo -e "\n ### Docker Version: $(docker --version)"
 
-
 # AWS ECR Integration: Build and Push Docker Image to ECR
       - aws-ecr/build-and-push-image:
           checkout: false  # Checkout already done in previous step
