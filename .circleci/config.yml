@@ -16,23 +16,23 @@ jobs:
   ecr-buildandpush-dockerimage:
     environment:
       # Settings for APP
-      APP_KEY: homes-site
-      APP_STUBBED: true
+      # APP_KEY: homes-site
+      # APP_STUBBED: true
       # Settings for master
-      SIT_MASTER_SERVICE_NAME: sit-master-homes-site-service
-      SIT_MASTER_TASK_NAME: sit-master-homes-site-task
-      SIT_MASTER_TASKDEF_JSON_FILENAME: sit-master-homes-site-task-def.json
+      SIT_MASTER_SERVICE_NAME: sit-master-rss-service-v1
+      SIT_MASTER_TASK_NAME: sit-master-rss-service-task
+      SIT_MASTER_TASKDEF_JSON_FILENAME: sit-master-rss-service-task-def.json
       # Settings for branch
-      SIT_BRANCH_SERVICE_NAME: sit-branch-homes-site-service
-      SIT_BRANCH_TASK_NAME: sit-branch-homes-site-task
-      SIT_BRANCH_TASKDEF_JSON_FILENAME: sit-branch-homes-site-task-def.json
+      SIT_BRANCH_SERVICE_NAME: sit-branch-rss-service-v1
+      SIT_BRANCH_TASK_NAME: sit-branch-rss-service-task
+      SIT_BRANCH_TASKDEF_JSON_FILENAME: sit-branch-rss-service-task-def.json
       # Settings for commons
       CLUSTER_NAME: cci-app-ecs
-      REPOS_NAME: cci-homes-site
-      CONTAINER_NAME: homes-site-container
+      REPOS_NAME: cci-rss-service
+      CONTAINER_NAME: rss-service-container
     machine:
       image: ubuntu-1604:202010-01
-    working_directory: ~/homes-site
+    working_directory: ~/rss-service
     steps:
 
 # Set ENV Vars to use with ECR/DOCKER - Verify CircleCI Task
@@ -72,27 +72,21 @@ jobs:
 
 # Prepare the VM for NodeJS App Build
       - run:
-          name: "Install | NVM | NPM | NODE_JS"
+          name: "Install | YARN | NPM | NODE_JS"
           command: |
-                echo -e "\n\n\n ### UBUNTU_16.04 | NVM | NPM | NODE_JS "
-                cd src; pwd;
-                echo -e "\n ### Install NVM (Node Version Manager) # Installer for NodeJS + NPM "
-                curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
-                source ~/.profile
-                echo -e "\n ### Install NVM v10.19.0 "
-                nvm install v10.19.0
-                echo -e "\n ### Setting Default NVM v10.19.0 "
-                nvm use v10.19.0;
+                echo -e "\n\n\n ### UBUNTU_16.04 | YARN | NPM | NODE_JS "
                 echo -e "\n ### Setting NPM Registry as BXM "
                 npm set @bxm:registry http://npm.digital.bauer-media.net.au
-                npm install
-                npm rebuild node-sass --force
+                cd src; pwd;
+                yarn
                 npm run test:ci
-                NODE_ENV=production npm run build
                 echo -e "\n ### Version Information "
-                echo -e "\n ### NVM Version  : $(nvm --version)"
                 echo -e "\n ### NPM Version  : $(npm --version)"
                 echo -e "\n ### Node Version : $(node --version)"
+                echo -e "\n ### Yarn Version : $(yarn --version)"
+                echo -e "\n ### Docker Version: $(docker --version)"
+
+
 # AWS ECR Integration: Build and Push Docker Image to ECR
       - aws-ecr/build-and-push-image:
           checkout: false  # Checkout already done in previous step
@@ -129,7 +123,7 @@ jobs:
 
 workflows:
   version: 2
-  homes-site-build:
+  rss-service-build:
     jobs:
       - ecr-buildandpush-dockerimage:
           filters:

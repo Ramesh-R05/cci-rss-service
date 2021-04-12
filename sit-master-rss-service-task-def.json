@@ -1,12 +1,12 @@
 {
-"family": "sit-master-homes-site-task",
+"family": "sit-master-rss-service-task",
 "requiresCompatibilities": [ "EC2" ],
 "executionRoleArn": "arn:aws:iam::014901580825:role/ecsTaskExecutionRole",
 "containerDefinitions":
     [
       {
-            "name": "homes-site-container",
-            "image": "317367993082.dkr.ecr.ap-southeast-2.amazonaws.com/cci-homes-site:latest",
+            "name": "rss-service-container",
+            "image": "317367993082.dkr.ecr.ap-southeast-2.amazonaws.com/cci-rss-service:latest",
             "cpu": 512,
             "memory": 512,
             "memoryReservation": 512,
@@ -44,7 +44,7 @@
                 {
                     "awslogs-group": "/ecs/cci-app-ecs-logs",
                     "awslogs-region": "ap-southeast-2",
-                    "awslogs-stream-prefix": "sit-master-homes-site-logs"
+                    "awslogs-stream-prefix": "sit-master-rss-service-logs"
                 }
             },
             "essential": true
