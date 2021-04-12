@@ -75,10 +75,14 @@ jobs:
           name: "Install | YARN | NPM | NODE_JS"
           command: |
                 echo -e "\n\n\n ### UBUNTU_16.04 | YARN | NPM | NODE_JS "
+                curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+                echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+                sudo apt update
+                sudo apt install yarn
                 echo -e "\n ### Setting NPM Registry as BXM "
                 npm set @bxm:registry http://npm.digital.bauer-media.net.au
                 cd src; pwd;
-                yarn
+                yarn install
                 npm run test:ci
                 echo -e "\n ### Version Information "
                 echo -e "\n ### NPM Version  : $(npm --version)"
