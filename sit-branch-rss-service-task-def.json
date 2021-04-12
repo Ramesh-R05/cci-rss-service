@@ -21,21 +21,17 @@
             "environment":
             [
                 {
-                "name": "NODE_ENV",
-                "value": "production"
+                "name": "APM_KEY",
+                "value": "c777240932e6282ffacc6a42ae6a0709426522bb"
                 },
                 {
                 "name": "APP_ENV",
-                "value": "test"
+                "value": "sit"
                 },
                 {
-                "name": "APP_STUBBED",
-                "value": "true"
+                "name": "NODE_ENV",
+                "value": "dev"
                 },
-                {
-                "name": "APP_DEBUG",
-                "value": "true"
-                }
             ],
             "logConfiguration":
             {
